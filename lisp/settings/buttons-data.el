@@ -339,7 +339,7 @@
  (buttons-make-bindings
   "xml"
   nil
-  ("'" (evl(xml-toggle-line-comment)))
+  ("'" (evl (xml-toggle-line-comment)))
   ("/" (ins "<!--") (rec) (ins "-->") (nli))
 					;("," (ins "<") (ine (store-current-html-tag)) (ins ">") (rec) (ins "</") (ine current-html-tag) (ins ">"))
   ("." (ins "</") (var-ins current-html-tag) (ins ">"))
