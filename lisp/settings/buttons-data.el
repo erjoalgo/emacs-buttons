@@ -149,6 +149,10 @@
 '(eval-buttons-after-load nil
 			  inferior-python-mode pdb-buttons)
 
+(defun describe-function-at-point ()
+  (interactive)
+  (describe-function (function-called-at-point)))
+
 (setf
  emacs-lisp-buttons
  (buttons-make-bindings
