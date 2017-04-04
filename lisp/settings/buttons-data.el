@@ -709,13 +709,12 @@
     (var-ins scanf-var) (var-pop scanf-var)  (ins " );") (nli))
 					;(list "f" (ins "for ( int i = 0") (rec)  (ins "; i < ") (rec) (ins "; i++)")(cbd))
 
-  ( "M"
-    (ins )
-    (nli)
-    (ins "int max(int a,int b){return a>b?a:b;}")
-    )
-  
-
+  ("M"
+   (ins "#include <unordered_map>") (nli)
+   (ins "#include <iostream>") (nli)
+   (ins "#include <string>") (nli)
+   (ins "#include <assert.h>") (nli)
+   (ins "using namespace std;") (nli))
   ))
 
 (eval-buttons-after-load nil
