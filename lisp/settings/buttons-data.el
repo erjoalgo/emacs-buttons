@@ -348,8 +348,8 @@
   )
  )
 
-(eval-buttons-after-load nil
-			 xml-mode-map
+(eval-buttons-after-load "sgml-mode"
+			 sgml-mode-map
 			 xml-buttons)
 
 (setf
