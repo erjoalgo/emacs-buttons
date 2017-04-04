@@ -1,7 +1,8 @@
 
 (setf
  programming-buttons
- (buttons-make-bindings "programming"
+ (buttons-make-bindings
+  "programming"
   nil
   ( "\\" (ins "\\n"))
   ( "%" (ins "%d "))
@@ -32,7 +33,8 @@
 
 (setf
  python-buttons
- (buttons-make-bindings "python"
+ (buttons-make-bindings
+  "python"
   programming-buttons
   ( "f" (ins "for ") (rec) (ins " in ") (rec) (ins ":")
     (nli) (rec) (nli) (py-bck))
@@ -125,7 +127,8 @@
 
 (setf
  pdb-buttons
- (buttons-make-bindings "pdb"
+ (buttons-make-bindings
+  "pdb"
   python-buttons
   ;;(list "f1" (evl (comint-previous-input 1)))
   ;;(list "f2" (evl (comint-next-input 1)))
@@ -148,7 +151,8 @@
 
 (setf
  emacs-lisp-buttons
- (buttons-make-bindings "emacs-lisp"
+ (buttons-make-bindings
+  "emacs-lisp"
   programming-buttons
   ( "d" (ins "(defun ") (rec) (ins " (") (rec) (ins ")")
     (nli) (rec) (ins ")") (nli))
@@ -184,21 +188,22 @@
   ))
 
 (eval-buttons-after-load nil
-			  emacs-lisp-mode-map
+			 emacs-lisp-mode-map
 					;emacs-lisp-mode-map
 			 emacs-lisp-buttons)
 
 (eval-buttons-after-load nil
-			  read-expression-map
+			 read-expression-map
 			 emacs-lisp-buttons)
 
 (eval-buttons-after-load "ielm"
-			  inferior-emacs-lisp-mode-map
+			 inferior-emacs-lisp-mode-map
 			 emacs-lisp-buttons)
 
 (setf
  cl-buttons
- (buttons-make-bindings "cl"
+ (buttons-make-bindings
+  "cl"
   emacs-lisp-buttons
   ;;(list "N" (ins "(format ") (rec) (ins " \"") (rec) (ins "\"") (rec) (ins ")"))
   ( "N" (ins "(format t \"") (rec) (ins "~%\" ") (rec)  (ins ")"))
@@ -213,16 +218,17 @@
  )
 
 (eval-buttons-after-load nil
-			  lisp-mode-map
+			 lisp-mode-map
 			 cl-buttons)
 
 (eval-buttons-after-load nil
-			  slime-mode-map
+			 slime-mode-map
 			 cl-buttons)
 
 (setf
  clj-buttons
- (buttons-make-bindings "clj"
+ (buttons-make-bindings
+  "clj"
   cl-buttons
   ( "5" (ins "%s"))
   ( "%" (ins "%d"))
@@ -240,12 +246,13 @@
   ))
 
 (eval-buttons-after-load nil
-			  clojure-mode-map
+			 clojure-mode-map
 			 clj-buttons)
 
 (setf
  c-buttons
- (buttons-make-bindings "c"
+ (buttons-make-bindings
+  "c"
   programming-buttons
 					;(list "f" (ins "for (") (rec) (ins "; ") (rec) (ins "; ") (rec) (ins ")") (cbd))
 					;(list "f" (ins "for ( int ") (var-ins c-loop-var) (ins " = 0; ") (var-ins c-loop-var) (ins " < ") (rec) (ins "; ") (var-ins c-loop-var) (ins "++ )")  (var-pop c-loop-var) (cbd))
@@ -287,12 +294,13 @@
   ))
 
 (eval-buttons-after-load "cc-mode"
-			   c-mode-map
+			 c-mode-map
 			 c-buttons)
 
 (setf
  java-buttons
- (buttons-make-bindings "java"
+ (buttons-make-bindings
+  "java"
   c-buttons
   ( "N" (ins "System.out.printf( \"") (rec) (ins "\\n\"") (rec) (ins " )")  (scn))
   ;;(list "," (evl (go-next-error t)))
@@ -319,12 +327,13 @@
   ))
 
 (eval-buttons-after-load nil
-			  java-mode-map
+			 java-mode-map
 			 java-buttons)
 
 (setf
  xml-buttons
- (buttons-make-bindings "xml"
+ (buttons-make-bindings
+  "xml"
   nil
   ("'" (evl(xml-toggle-line-comment)))
   ("/" (ins "<!--") (rec) (ins "-->") (nli))
@@ -340,25 +349,27 @@
  )
 
 (eval-buttons-after-load nil
-			  xml-mode-map
+			 xml-mode-map
 			 xml-buttons)
 
 (setf
  html-buttons
- (buttons-make-bindings "html"
+ (buttons-make-bindings
+  "html"
   xml-buttons
   ( "P" (ins "<p>") (rec) (ins "</p>"))
   )
  )
 
 (eval-buttons-after-load nil
-			  html-mode-map
+			 html-mode-map
 			 html-buttons)
 
 
 (setf
  js-buttons
- (buttons-make-bindings "js"
+ (buttons-make-bindings
+  "js"
   c-buttons
   ( "d" (ins "function ") (rec) (ins " ( ") (rec) (ins " )") (cbd))
   ( "a" (ins "function") (ins "(") (rec) (ins "){") (rec) (ins "}"))
@@ -390,12 +401,13 @@
  )
 
 (eval-buttons-after-load nil
-			  js-mode-map
+			 js-mode-map
 			 js-buttons)
 
 (setf
  go-buttons
- (buttons-make-bindings "go"
+ (buttons-make-bindings
+  "go"
   c-buttons
   ( "a" (ins "func") (ins "(") (rec) (ins "){") (rec) (ins "}"))
   ( "s" (ins ".(*") (rec) (ins ")"))
@@ -451,7 +463,7 @@
 '(setq go-types '("struct" "int" "bool" "string" "float"))
 
 (eval-buttons-after-load nil
-			  go-mode-map
+			 go-mode-map
 			 go-buttons)
 
 
@@ -471,7 +483,8 @@
 
 (setf
  bash-buttons
- (buttons-make-bindings "bash"
+ (buttons-make-bindings
+  "bash"
   nil
   ( "1" (ins "! "))
   ( "V" (ins "\"${") (rec) (evl (upcase-last)) (ins "}\""))
@@ -500,12 +513,13 @@
  )
 
 (eval-buttons-after-load nil
-			  sh-mode-map
+			 sh-mode-map
 			 bash-buttons)
 
 (setf
  tex-buttons
- (buttons-make-bindings "tex"
+ (buttons-make-bindings
+  "tex"
   programming-buttons
   ( "m" (ins "$") (rec) (ins "$"))
   ;;(list "M" (ins "$") (rec) (ins "$"))
@@ -587,12 +601,13 @@
  )
 
 (eval-buttons-after-load nil
-			  tex-mode-map
+			 tex-mode-map
 			 tex-buttons)
 
 (setf
  matlab-buttons
- (buttons-make-bindings "matlab"
+ (buttons-make-bindings
+  "matlab"
   python-buttons
   ( "z" (ins "if ") (rec) (ins ";") (nli) (rec) (nli) (ins "end") (idt))
   ( "'" (ins "'"))
@@ -630,12 +645,13 @@
  )
 
 (eval-buttons-after-load nil
-			  matlab-mode-map
+			 matlab-mode-map
 			 matlab-buttons)
 
 (setf
  r-buttons
- (buttons-make-bindings "r"
+ (buttons-make-bindings
+  "r"
   programming-buttons
   ( "h" (ins "help.search(") (inm) (rec) (ins ")"))
   ( "e" (ins " <- "))
@@ -649,12 +665,13 @@
  )
 
 (eval-buttons-after-load nil
-			  ess-mode-map
+			 ess-mode-map
 			 r-buttons)
 
 (setf
  octave-buttons
- (buttons-make-bindings "octave"
+ (buttons-make-bindings
+  "octave"
   matlab-buttons
   ( "d" (ins "function [") (rec) (ins "] = ") (rec) (ins "(")
     (rec) (ins ")") (nli) (rec) (nli) (ins "endfunction"))
@@ -664,7 +681,7 @@
  )
 
 (eval-buttons-after-load nil
-			  octave-mode-map
+			 octave-mode-map
 			 octave-buttons)
 
 (add-hook 'octave-mode-hook 'octave_install_buttons)
@@ -673,7 +690,8 @@
 
 (setf
  cpp-buttons
- (buttons-make-bindings "cpp"
+ (buttons-make-bindings
+  "cpp"
   c-buttons
 					;(list "d" (ins "int ") (rec) (ins " ( ") (rec) (ins " )")   (cbd))
   ( "d"  (ins " ( ") (rec) (ins " )")   (cbd))
@@ -691,22 +709,23 @@
     (var-ins scanf-var) (var-pop scanf-var)  (ins " );") (nli))
 					;(list "f" (ins "for ( int i = 0") (rec)  (ins "; i < ") (rec) (ins "; i++)")(cbd))
 
-  ( "o"
-    (ins "int min(int a,int b){return a<b?a:b;}")
+  ( "M"
+    (ins )
     (nli)
     (ins "int max(int a,int b){return a>b?a:b;}")
     )
-  ( "M" (ins "#include <stdlib.h>\n#include <stdio.h>\n"))
+  
 
   ))
 
 (eval-buttons-after-load nil
-			  c++-mode-map
+			 c++-mode-map
 			 cpp-buttons)
 
 (setf
  yacc-buttons
- (buttons-make-bindings "yacc"
+ (buttons-make-bindings
+  "yacc"
   programming-buttons
   ( "v"  (ins "$") (evl (insertchar)))
   ( "D"  (nli) (ins ":\t"))
@@ -715,29 +734,31 @@
  )
 
 (eval-buttons-after-load nil
-			  yacc-mode-map
+			 yacc-mode-map
 			 yacc-buttons)
 
 (setf
  dot-buttons
- (buttons-make-bindings "dot"
+ (buttons-make-bindings
+  "dot"
   programming-buttons
   ( "l"  (ins " [label=\"") (rec) (ins "\"];"))
   ( "-"  (ins " -> "))))
 
 (eval-buttons-after-load nil
-			  dot-mode-map
+			 dot-mode-map
 			 dot-buttons)
 
 
 (setf
  forum-post-buttons
- (buttons-make-bindings "forum-post"
+ (buttons-make-bindings
+  "forum-post"
   programming-buttons
 					;(list "d" (ins "int ") (rec) (ins " ( ") (rec) (ins " )")   (cbd))
   ( ","  (ins "[code]") (rec) (ins "[/code]") )
   ))
 
 '(eval-buttons-after-load nil
-			   forum-mode-map
+			  forum-mode-map
 			  forum-buttons)
