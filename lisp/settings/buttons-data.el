@@ -109,40 +109,15 @@
 
 (defmacro eval-buttons-after-load (feature
 				   mode-keymap-sym buttons-keymap)
-  (message "mode-keymap-sym is %s" mode-keymap-sym)
   `(with-eval-after-load ,(or feature (symbol-file mode-keymap-sym))
      (unless (boundp ',mode-keymap-sym) (edebug)
 	     (error "%s is not bound" ,mode-keymap-sym))
-     ;(message "(exec) mode-keymap-sym is %s" ,mode-keymap-sym)
-					;(edebug)
-     ;(let ((mode-keymap (symbol-value ,mode-keymap-sym)))
      (let ((mode-keymap ,mode-keymap-sym))
-       ;;this has an infinite loop issue
-       '(derived-mode-merge-keymaps (symbol-value mode-keymap-sym)
-				    buttons-keymap)
-
-       '(let ((new (symbol-value mode-keymap))
-	      (old ,buttons-keymap))
-	  (setcdr (nthcdr (1- (length new)) new) old))
-       '(map-keymap (lambda (k v)
-		      ;(message "k %s v %s" k v)
-		      (condition-case ex
-			  (define-key mode-keymap k v)
-			('error (edebug))
-			)
-		      )
-		    buttons-keymap)
        (mapc (lambda (kv)
 	       ;;(destructuring-bind (k . v) kv
 	       (let ((k (car kv)) (v (cdr kv)))
-		 ;(message "k %s v %s" k v)
-		 (condition-case ex
-		     (define-key mode-keymap k v)
-		   ('error (edebug))
-		   ))
-	       )
-	     ,buttons-keymap))
-     ))
+		 (define-key mode-keymap k v)))
+	     ,buttons-keymap))))
 
 (eval-buttons-after-load nil python-mode-map python-buttons)
 
