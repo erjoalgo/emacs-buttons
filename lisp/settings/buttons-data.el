@@ -109,17 +109,20 @@
  )
 
 
+(defun define-keymap-onto-keymap (from-map to-map)
+  (map-keymap
+   (lambda (key cmd)
+     (message "k %s cmd %s" key cmd)
+     (define-key to-map (vector key) cmd))
+   from-map))
+
 (defmacro eval-buttons-after-load (feature
 				   mode-keymap-sym buttons-keymap)
   `(with-eval-after-load ,(or feature (symbol-file mode-keymap-sym))
      (unless (boundp ',mode-keymap-sym) (edebug)
 	     (error "%s is not bound" ,mode-keymap-sym))
-     (let ((mode-keymap ,mode-keymap-sym))
-       (mapc (lambda (kv)
-	       ;;(destructuring-bind (k . v) kv
-	       (let ((k (car kv)) (v (cdr kv)))
-		 (define-key mode-keymap k v)))
-	     ,buttons-keymap))))
+     (define-keymap-onto-keymap ,buttons-keymap
+       ,mode-keymap-sym)))
 
 (eval-buttons-after-load nil python-mode-map python-buttons)
 
