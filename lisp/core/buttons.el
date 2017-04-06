@@ -6,7 +6,7 @@
 	     "(kbd \"<s-%s>\")")))
       (eval (read (format fmt keyspec))))))
 
-(defun buttons-read-action (action)
+(defun mk-cmd-read-action (action)
   (destructuring-bind (fun . args) action
     (let ((arg1 (car args)))
 					;(edebug)
@@ -14,7 +14,6 @@
 	('ins `(,arg1 (insert ,arg1)))
 	('rec `("REC" (buttons-rec)))
 	('inm `("(insert mode)" (global-erjoalgo-command-mode 0)))
-	;('nli `("<C-j>" (newline-and-indent)))
 	('nli `("\n" (newline-and-indent)))
 	('evl `(,(format "%s" arg1) ,arg1))
 	('cbd `("{\nREC\n}" (cbd)))
@@ -36,34 +35,45 @@
       )))
 
 (defmacro buttons-make-bindings (language-prefix base-map &rest bindings)
-  (loop for (key-spec . actions) in bindings
-	with bindings = nil
+  (loop for (key-spec value . rest) in bindings
+	when rest do (error "more than one sexp in input")
+	with kmap-sym = (gensym (format "buttons-keymap-%s-"
+					language-prefix))
 	as key = (buttons-add-super-modifier key-spec)
-	as descs = nil
-	as forms = (loop for action in actions
-			 as form-desc = (buttons-read-action action)
-			 append (destructuring-bind (desc . forms)
-				    form-desc
-				  (push desc descs)
-				  forms))
 	as name-sym = (gensym (format "buttons-%s-%s-" language-prefix
 				      key-spec))
-	as desc = (s-join "" (reverse descs))
 					;collect `(define-key ,kmap-sym ,key
-	collect `(cons ,key
-		       (defun ,name-sym ()
-			 ,desc (interactive)
-					;(let ()
-			 (let ((undo-len (length buffer-undo-list))
-			       (undo-inhibit-record-point t))
-			   (undo-boundary)
-			   (or (catch 'button-abort
-				 ,@forms t)
-			       (undo)))))
-	into bindings
-	finally (return `(append ,base-map (list ,@bindings)))))
+	collect `(define-key ,kmap-sym ,key ,value)
+	into define-keys
+	finally (return `(let ((,kmap-sym (if ,base-map (copy-keymap ,base-map)
+					    (make-sparse-keymap))))
+			   ,@define-keys
+			   ,kmap-sym))))
 
-					;(defmacro with-temporary-erjoalgo-mode-state (state &body forms)
+(defmacro mk-cmd (&rest actions)
+  (loop
+   with name-sym = (gensym (concat "autogen-cmd-"
+				   (when (boundp 'mk-cmd-prefix)
+				     (concat mk-cmd-prefix "-"))))
+   for action in actions
+   as form-desc = (mk-cmd-read-action action)
+   as descs = nil
+   append (destructuring-bind (desc . forms)
+	      form-desc
+	    (push desc descs)
+	    forms)
+   into forms
+   finally (return
+	    `(defun ,name-sym ()
+	       ,(s-join "" (reverse descs)) (interactive)
+	       (let ((undo-len (length buffer-undo-list)))
+		 (undo-boundary)
+		 (or (catch 'button-abort
+		       ,@forms t)
+		     (message "undoing %d "
+			      (- (length buffer-undo-list) undo-len))
+		     (undo (- (length buffer-undo-list) undo-len))))))))
+
 (defmacro with-temporary-erjoalgo-mode-state (state &rest forms)
   (let ((orig-state (gensym "erjoalgo-mode-orig-state-")))
     `(let ((,orig-state erjoalgo-command-mode))
