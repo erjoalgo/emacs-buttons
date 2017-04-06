@@ -310,8 +310,8 @@
   )
  )
 
-(eval-buttons-after-load "sgml-mode"
-			 sgml-mode-map
+(eval-buttons-after-load "nxml-mode"
+			 nxml-mode-map
 			 xml-buttons)
 
 (setf
