@@ -661,3 +661,27 @@
 '(eval-buttons-after-load nil
 			  forum-mode-map
 			  forum-buttons)
+
+(defun my-comment-out (arg) (interactive "P")
+       (let ((start-end (if mark-active
+			    (cons (save-excursion
+				    (goto-char (region-beginning))
+				    (line-beginning-position))
+				  (region-end))
+			  (cons
+			   (line-beginning-position)
+			   (save-excursion
+			     (when arg (next-line (1- arg)))
+			     (line-end-position))))))
+	 (let* ((start (car start-end))
+		(end (cdr start-end))
+		(comment-regexp (concat
+				 "^[[:space:]]*"
+				 (regexp-quote comment-start)))
+		(sample-text (buffer-substring-no-properties start end))
+		(is-commented (string-match comment-regexp sample-text)))
+	   (funcall (if is-commented 'uncomment-region 'comment-region)
+		    start end nil))))
+
+(global-set-key (kbd "M-/") 'my-comment-out)
+
