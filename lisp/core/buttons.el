@@ -6,6 +6,12 @@
 	     "(kbd \"<s-%s>\")")))
       (eval (read (format fmt keyspec))))))
 
+(unless (functionp 'string-join)
+  (defun string-join (strings separator)
+    (reduce (lambda (cum a)
+	      (concat a separator cum))
+	    strings)))
+
 (defun mk-cmd-read-action (action)
   (destructuring-bind (fun . args) action
     (let ((arg1 (car args)))
