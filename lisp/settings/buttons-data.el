@@ -153,7 +153,10 @@
   ( "i" (mk-cmd (ins "(interactive)") ))
   ( "7" (mk-cmd (ins "&optional ")))
   ( "g" (mk-cmd (ins "nil") ))
-  ( "t" (mk-cmd (ins "(list ") (rec) (ins ")")))
+  ( "t" (buttons-make-bindings nil nil
+			       ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
+			       ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
+			       ))
   ( "N" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
   ( "s" (mk-cmd (evl (call-interactively 'insert-emacs-sym))))
