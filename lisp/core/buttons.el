@@ -31,6 +31,7 @@
 	('var-rec `(,(upcase (symbol-name arg1)) (buttons-recedit-record-text ',arg1)))
 	('var-pop `("" (buttons-pop-text ',arg1)))
 	('var-ins `(,(upcase (symbol-name arg1)) (insert (car ,arg1))))
+	('chs `(,(s-join args "|") (insert (select-option args "select: " ))))
 	(t (error "unknown action %s" action) ))
       )))
 
