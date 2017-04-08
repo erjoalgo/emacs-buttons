@@ -687,17 +687,19 @@
 
 (defun my-comment-out (arg) (interactive "P")
        (let ((start-end (if mark-active
-			    (cons (save-excursion
-				    (goto-char (region-beginning))
-				    (line-beginning-position))
+			    (cons (region-beginning)
 				  (region-end))
 			  (cons
 			   (line-beginning-position)
 			   (save-excursion
 			     (when arg (next-line (1- arg)))
-			     (line-end-position))))))
-	 (let* ((start (car start-end))
-		(end (cdr start-end))
+			     (point))))))
+	 (let* ((start (save-excursion
+			 (goto-char (car start-end))
+			 (line-beginning-position)))
+		(end (save-excursion
+		       (goto-char (cdr start-end))
+		       (line-end-position)))
 		(comment-regexp (concat
 				 "\\`[[:space:]]*"
 				 (regexp-quote comment-start)))
