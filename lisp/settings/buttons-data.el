@@ -292,7 +292,7 @@
   ( "$" (mk-cmd (ins "new ") (rec) (ins "[]{") (rec) (ins "}") ))
   ( "-" (mk-cmd (ins " -> ") ))
   ( "m" (mk-cmd (ins "import ") (rec) (ins ";")))
-
+  ( "m" 'java-imports-add-import-dwim)
   ))
 
 (eval-buttons-after-load nil
