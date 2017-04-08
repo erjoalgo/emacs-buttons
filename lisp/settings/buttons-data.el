@@ -703,8 +703,9 @@
 		(comment-regexp (concat
 				 "\\`[[:space:]]*"
 				 (regexp-quote comment-start)))
-		(sample-text (buffer-substring-no-properties start end))
-		(is-commented (string-match comment-regexp sample-text)))
+		(text (buffer-substring-no-properties start end))
+		(is-commented (string-match comment-regexp text))
+		)
 	   (funcall (if is-commented 'uncomment-region 'comment-region)
 		    start end nil))))
 
