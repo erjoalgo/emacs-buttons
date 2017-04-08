@@ -685,7 +685,7 @@
 			  forum-mode-map
 			  forum-buttons)
 
-(defun my-comment-out (arg) (interactive "P")
+(defun my-comment-out (arg &optional duplicate) (interactive "P")
        (let ((start-end (if mark-active
 			    (cons (region-beginning)
 				  (region-end))
@@ -707,7 +707,13 @@
 		(is-commented (string-match comment-regexp text))
 		)
 	   (funcall (if is-commented 'uncomment-region 'comment-region)
-		    start end nil))))
+		    start end nil)
+	   (when duplicate
+	     (goto-char end)
+	     (end-of-line)
+	     (open-line 1)
+	     (next-line 1)
+	     (insert text)))))
 
 (global-set-key (kbd "M-/") 'my-comment-out)
 
