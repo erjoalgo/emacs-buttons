@@ -717,3 +717,9 @@
 
 (global-set-key (kbd "M-/") 'my-comment-out)
 
+
+(defun my-comment-out-and-duplicate (arg)
+  (interactive "P")
+  (my-comment-out arg t))
+
+(global-set-key (kbd "M-?") 'my-comment-out-and-duplicate)
