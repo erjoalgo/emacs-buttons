@@ -112,5 +112,4 @@
   (insert "}")
   (if (member major-mode '(c-mode js-mode))
       (c-indent-line-or-region)
-    (indent-for-tab-command))
-  )
+    (indent-for-tab-command)))
