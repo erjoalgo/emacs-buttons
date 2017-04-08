@@ -723,3 +723,15 @@
   (my-comment-out arg t))
 
 (global-set-key (kbd "M-?") 'my-comment-out-and-duplicate)
+
+
+(setf
+ org-buttons
+ (buttons-make-bindings
+  "org"
+  nil
+  ( "[" (mk-cmd (ins "#+BEGIN_SRC ")
+		;; (chs "java" "bash" "clojure")
+		(rec)
+		(nli) (rec) (ins "#+END_SRC") (nli)))
+  ))
