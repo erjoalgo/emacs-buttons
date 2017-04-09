@@ -264,10 +264,10 @@
   ( "<" (mk-cmd (py-shift left)))
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( ";" (mk-cmd (evl (move-end-of-line nil)) (ins ";") (nli)))
-  ( "B" (mk-cmd (ins "break")))
-  ( "b" (mk-cmd (ins "continue")))
-
   ( "d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
+  ( "B" (mk-cmd (ins "break;")))
+  ( "b" (mk-cmd (ins "continue;")))
+
   ( "i" (mk-cmd (ins "int")))
   ( "-" (mk-cmd (ins "->")))
   ))
