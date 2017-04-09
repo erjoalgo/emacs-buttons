@@ -747,3 +747,15 @@
 		(rec)
 		(nli) (rec) (ins "#+END_SRC") (nli)))
   ))
+
+(setf
+ message-buttons
+ (buttons-make-bindings
+  "message"
+  nil
+  ( "=" (mk-cmd (ins " => ")))
+  ( "<" (mk-cmd (re-sub "^[ \t]*>?[ \t]*" ""))))
+  )
+
+(eval-buttons-after-load nil
+			  message-mode-map message-buttons)
