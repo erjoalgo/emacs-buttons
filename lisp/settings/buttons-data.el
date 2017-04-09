@@ -276,6 +276,13 @@
   ( "i" (mk-cmd (ins "int")))
   ( "s" (mk-cmd (ins "sizeof(") (rec) (ins ")")))
   ( "-" (mk-cmd (ins "->")))
+  ( "m" (mk-cmd (ins "#include <stdlib.h>") (nli)
+		(ins "#include <stdio.h>") (nli)
+		(ins "#include <string.h>") (nli)
+		(ins "#include <assert.h>") (nli)
+		(ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
+		(ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
+		))
   ))
 
 (eval-buttons-after-load "cc-mode"
