@@ -264,10 +264,15 @@
   ( "<" (mk-cmd (py-shift left)))
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( ";" (mk-cmd (evl (move-end-of-line nil)) (ins ";") (nli)))
-  ( "d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
   ( "B" (mk-cmd (ins "break;")))
   ( "b" (mk-cmd (ins "continue;")))
 
+  ( "d" (buttons-make-bindings
+	 nil nil
+	 ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
+	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
+	 ("m" (mk-cmd (ins "int main ( )") (cbd)))
+	 ))
   ( "i" (mk-cmd (ins "int")))
   ( "-" (mk-cmd (ins "->")))
   ))
