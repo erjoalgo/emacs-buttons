@@ -274,6 +274,7 @@
 	 ("m" (mk-cmd (ins "int main ( )") (cbd)))
 	 ))
   ( "i" (mk-cmd (ins "int")))
+  ( "s" (mk-cmd (ins "sizeof(") (rec) (ins ")")))
   ( "-" (mk-cmd (ins "->")))
   ))
 
