@@ -239,8 +239,8 @@
   "c"
   programming-buttons
 
-  ( "f" (mk-cmd (ins "int ") (var-rec c-loop-var) (ins ";") (nli) (ins "for ( ")
-		(var-ins c-loop-var)
+  ( "f" (mk-cmd (ins "for ( int ")
+		(var-rec c-loop-var)
 		(ins " = 0; ") (var-ins c-loop-var) (ins " < ") (rec) (ins "; ")
 		(var-ins c-loop-var) (ins "++ )")  (var-pop c-loop-var)
 		(cbd)))
