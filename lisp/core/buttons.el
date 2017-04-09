@@ -38,6 +38,8 @@
 	('var-pop `("" (buttons-pop-text ',arg1)))
 	('var-ins `(,(upcase (symbol-name arg1)) (insert (car ,arg1))))
 	('chs `(,(s-join args "|") (insert (select-option args "select: " ))))
+	('re-sub (let ((form `(replace-regexp ,(first args) ,(second args))))
+		   `(,(format "%s" form) ,form)))
 	(t (error "unknown action %s" action) ))
       )))
 
