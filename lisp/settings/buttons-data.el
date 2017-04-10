@@ -241,11 +241,18 @@
   "c"
   programming-buttons
 
-  ( "f" (mk-cmd (ins "for ( int ")
+  ( "f"
+    (buttons-make-bindings
+     nil nil
+     ("f" (mk-cmd (ins "for ( int ")
 		(var-rec c-loop-var)
 		(ins " = 0; ") (var-ins c-loop-var) (ins " < ") (rec) (ins "; ")
 		(var-ins c-loop-var) (ins "++ )")  (var-pop c-loop-var)
 		(cbd)))
+     ("F" (mk-cmd (ins "for ( int ") (var-rec c-loop-var) (ins " = ") (rec)
+		  (ins "; ") (var-ins c-loop-var) (ins " >= 0; ")
+		  (var-ins c-loop-var) (ins "-- )")  (var-pop c-loop-var)
+		  (cbd)))))
   ( "w" (mk-cmd (ins "while (") (rec) (ins ")") (cbd)))
   ( "z" (mk-cmd (ins "if (") (rec) (ins ")") (cbd)))
   ( "x" (mk-cmd (ins "else if (") (rec) (ins ")") (cbd)))
@@ -425,7 +432,6 @@
   ( "{" (mk-cmd (ins "&") (rec) (ins "{") (rec) (ins "}")))
   ( "O" (mk-cmd (ins "verbose(func(){fmt.Printf(\"VERBOSE: ")
 		(rec) (ins "\"") (rec) (ins ")})")))
-
   )
  )
 '(setq go-types '("struct" "int" "bool" "string" "float"))
