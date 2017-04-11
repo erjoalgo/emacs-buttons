@@ -66,7 +66,7 @@
 				     (concat mk-cmd-prefix "-"))))
    for action in actions
    as form-desc = (mk-cmd-read-action action)
-   as descs = nil
+   with descs = nil
    append (destructuring-bind (desc . forms)
 	      form-desc
 	    (push desc descs)
