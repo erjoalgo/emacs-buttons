@@ -5,7 +5,7 @@
   "programming"
   nil
   ( "\\" (mk-cmd (ins "\\n")))
-  ( "%" (mk-cmd (ins "%d ")))
+  ( "%" (mk-cmd (ins "%d")))
   ( "3" (mk-cmd (ins "(") (rec) (ins ")")))
   ( "#" (mk-cmd (ins ")") (rec) (ins "(")))
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
