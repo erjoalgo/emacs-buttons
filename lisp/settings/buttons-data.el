@@ -495,6 +495,7 @@
   ( "b" (mk-cmd (ins "\\begin{") (var-rec tex-sexp) (ins "}")
 		(rec) (ins "\\end{") (var-ins tex-sexp)
 		(ins "}") (var-pop tex-sexp)))
+  ( "B" (mk-cmd (ins "\\textbf{") (rec) (ins "}")))
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( "i" (mk-cmd (ins "\\in ")))
   ( "I" (mk-cmd (ins "\\item ") (idt) (rec) (nli) ))
