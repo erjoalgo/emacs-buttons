@@ -492,8 +492,9 @@
   "tex"
   programming-buttons
   ( "m" (mk-cmd (ins "$") (rec) (ins "$")))
-  ( "b" (mk-cmd (ins "\\begin{") (rec) (ins "}")))
-  ( "B" (mk-cmd (ins "\\end{") (rec) (ins "}")))
+  ( "b" (mk-cmd (ins "\\begin{") (var-rec tex-sexp) (ins "}")
+		(rec) (ins "\\end{") (var-ins tex-sexp)
+		(ins "}") (var-pop tex-sexp)))
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( "i" (mk-cmd (ins "\\in ")))
   ( "I" (mk-cmd (ins "\\item ") (idt) (rec) (nli) ))
