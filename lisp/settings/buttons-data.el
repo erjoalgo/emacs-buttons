@@ -159,7 +159,7 @@
 			       ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
 			       ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
 			       ))
-  ( "N" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
+  ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
   ( "s" (mk-cmd (evl (call-interactively 'insert-emacs-sym))))
 
@@ -190,7 +190,7 @@
  (buttons-make-bindings
   "cl"
   emacs-lisp-buttons
-  ( "N" (mk-cmd (ins "(format t \"") (rec) (ins "~%\" ") (rec)  (ins ")")))
+  ( "n" (mk-cmd (ins "(format t \"") (rec) (ins "~%\" ") (rec)  (ins ")")))
   ( "5" (mk-cmd (ins "~A")))
   ( "%" (mk-cmd (ins "~D")))
   ( "|" (mk-cmd (ins "#\\Newline")))
@@ -220,7 +220,7 @@
   ( "l" (mk-cmd (ins "(let [") (rec) (ins "]") (nli) (rec) (ins ")") (nli)))
   ( "d" (mk-cmd (ins "(defn ") (rec) (ins " [") (rec) (ins "]")
 		(nli) (rec) (ins ")") (nli)))
-  ( "N" (mk-cmd (ins "(printf \"") (rec) (ins "\\n\"") (rec) (ins ")")))
+  ( "n" (mk-cmd (ins "(printf \"") (rec) (ins "\\n\"") (rec) (ins ")")))
   ( ";" (mk-cmd (ins ": ")))
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( "c" (mk-cmd (ins "(when-not  ") (rec) (ins ")")))
@@ -303,7 +303,7 @@
  (buttons-make-bindings
   "java"
   c-buttons
-  ( "N" (mk-cmd (ins "System.out.printf( \"") (rec)
+  ( "n" (mk-cmd (ins "System.out.printf( \"") (rec)
 		(ins "\\n\"") (rec) (ins " )")  (scn)))
   ( "l" (mk-cmd (ins ".length") ))
   ( "G" (mk-cmd (ins "null")))
