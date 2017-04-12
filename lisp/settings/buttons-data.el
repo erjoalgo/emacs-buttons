@@ -731,6 +731,7 @@
 				 (regexp-quote comment-start)))
 		(text (buffer-substring-no-properties start end))
 		(is-commented (string-match comment-regexp text))
+		(comment-end "")
 		)
 	   (funcall (if is-commented 'uncomment-region 'comment-region)
 		    start end nil)
