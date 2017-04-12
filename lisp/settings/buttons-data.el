@@ -335,7 +335,6 @@
   ( "e" (mk-cmd (ins "=")))
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   ( "u" (mk-cmd (ins "<u>") (rec) (ins "</u>")))
-  ( "N" (mk-cmd (ins "<br/>") ))
   ( "," (mk-cmd (ins "<") (var-rec curr-html-tag) (ins ">") (rec) (ins "</")
 		(var-ins curr-html-tag) (ins ">") (var-pop curr-html-tag)))
   )
@@ -350,6 +349,7 @@
  (buttons-make-bindings
   "html"
   xml-buttons
+  ( "\\" (mk-cmd (ins "<br/>") ))
   ( "P" (mk-cmd (ins "<p>") (rec) (ins "</p>")))
   )
  )
