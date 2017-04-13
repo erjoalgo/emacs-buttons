@@ -486,7 +486,7 @@
   ( "\\" (mk-cmd (ins " | ")))
   ( "N" (mk-cmd (ins "echo ")))
   ( "d" (mk-cmd (ins "function ") (rec) (cbd)))
-  ( "L" (mk-cmd (ins "${LINENO}") ))
+  ( "L" (mk-cmd (ins " || exit ${LINENO}") ))
   )
  )
 
