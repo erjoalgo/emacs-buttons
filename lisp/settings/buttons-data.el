@@ -480,7 +480,7 @@
   ( "4" (mk-cmd (ins "[ ") (rec) (ins " ]")))
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   ( "z" (mk-cmd (ins "if ") (rec) (ins "; then") (nli)
-		(rec) (nli) (py-bck) (ins "fi")))
+		(rec) (nli) (ins "fi") (nli))))
   ( "x" (mk-cmd (ins "elif ") (rec) (ins "; then") (nli) (rec) (nli) (py-bck)))
   ( "c" (mk-cmd (ins "else ") (rec) (ins "; then") (nli) (rec) (nli) (py-bck) ))
   ( "3" (mk-cmd (ins "(") (rec) (ins ")")))
