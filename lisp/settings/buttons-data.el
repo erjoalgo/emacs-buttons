@@ -160,6 +160,7 @@
 			       ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
 			       ( "g" (mk-cmd (ins "(null ") (rec) (ins ")")))
 			       ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
+			       ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
 			       ))
   ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
