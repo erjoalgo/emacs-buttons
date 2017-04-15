@@ -485,7 +485,7 @@
   ( "c" (mk-cmd (ins "else ") (rec) (ins "; then") (nli) (rec) (nli) (py-bck) ))
   ( "3" (mk-cmd (ins "(") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins " | ")))
-  ( "N" (mk-cmd (ins "echo ")))
+  ( "n" (mk-cmd (ins "echo ")))
   ( "d" (mk-cmd (ins "function ") (rec) (cbd)))
   ( "L" (mk-cmd (ins " || exit ${LINENO}") ))
   )
