@@ -287,6 +287,8 @@
 	 ))
   ( "i" (mk-cmd (ins "int")))
   ( "s" (mk-cmd (ins "sizeof(") (rec) (ins ")")))
+  ( "S" (mk-cmd (ins "sizeof(") (var-rec sizeof-arg) (ins ")/sizeof(*")
+		(var-ins sizeof-arg) (ins ")")))
   ( "-" (mk-cmd (ins "->")))
   ( "m" (mk-cmd (ins "#include <stdlib.h>") (nli)
 		(ins "#include <stdio.h>") (nli)
