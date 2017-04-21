@@ -312,7 +312,12 @@
 		(ins "\\n\"") (rec) (ins " )")  (scn)))
   ( "l" (mk-cmd (ins ".length") ))
   ( "G" (mk-cmd (ins "null")))
-  ( "d" (mk-cmd (ins "public ") (rec) (ins " ( ") (rec) (ins " )") (cbd)))
+  ( "d" (buttons-make-bindings
+	 nil nil
+	 ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
+	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
+	 ("m" (mk-cmd (ins "public static void main ( String[] argv)") (cbd)))
+	 ))
   ( "s" (mk-cmd (ins "this.") (inm)))
   ( "S" (mk-cmd (evl (java-new))))
   ( "F" (mk-cmd (ins "for ( ") (rec) (ins ": ") (rec) (ins " )") (cbd) ))
