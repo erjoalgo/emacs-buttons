@@ -318,6 +318,13 @@
 	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
 	 ("m" (mk-cmd (ins "public static void main ( String[] argv)") (cbd)))
 	 ))
+  ( "p" (buttons-make-bindings
+	 nil nil
+	 ("p" (mk-cmd (ins "public ")))
+	 ("v" (mk-cmd (ins "private ")))
+	 ("k" (mk-cmd (ins "package ")))
+	 ("s" (mk-cmd (ins "static ")))
+	 ))
   ( "s" (mk-cmd (ins "this.") (inm)))
   ( "S" (mk-cmd (evl (java-new))))
   ( "F" (mk-cmd (ins "for ( ") (rec) (ins ": ") (rec) (ins " )") (cbd) ))
