@@ -335,6 +335,7 @@
   ( "-" (mk-cmd (ins " -> ") ))
   ( "m" (mk-cmd (ins "import ") (rec) (ins ";")))
   ( "m" 'java-imports-add-import-dwim)
+  ( "t" (mk-cmd (ins "try ") (cbd) (ins "catch (") (rec) (ins ")") (cbd)))
   ))
 
 (eval-buttons-after-load nil
