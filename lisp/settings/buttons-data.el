@@ -504,6 +504,8 @@
   ( "n" (mk-cmd (ins "echo ")))
   ( "d" (mk-cmd (ins "function ") (rec) (cbd)))
   ( "L" (mk-cmd (ins " || exit ${LINENO}") ))
+  ( "f" (mk-cmd (ins "for ") (rec) (ins " in ") (rec) (ins "; do")
+		(nli) (rec) (nli) (ins "done")))
   )
  )
 
