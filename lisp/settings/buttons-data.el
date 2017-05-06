@@ -201,6 +201,15 @@
   ( "L" (mk-cmd (ins "(let (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))
   ( ";" (mk-cmd (ins ":")))
   ( ":" (mk-cmd (ins "::")))
+  ( "h" (buttons-make-bindings
+	 nil nil
+	 ( "d" (mk-cmd (evl (move-beginning-of-line nil))
+		       (ins "(describe '")
+		       (evl (move-end-of-line nil))
+		       (ins ")")
+		       (evl (slime-repl-return))))
+	 ( "a" (mk-cmd (ins "(apropos \"") (rec) (ins "\")") (nli)))
+	 ))
   )
  )
 
