@@ -441,7 +441,7 @@
   ( "Z" (mk-cmd (ins "if ; DEBUG") (cbd)))
   ( "F" (mk-cmd (ins "for i := 0; i < ") (rec) (ins "; i++") (cbd)))
   ( "W" (mk-cmd (ins "switch ") (cbd) ))
-  ( "w" (mk-cmd (ins "case ") (rec) (ins ":") (nli) ))
+  ( "w" (mk-cmd (ins "case ") (rec) (evl (upcase-last)) (ins ":") (nli) ))
   ( ";" (mk-cmd (ins ":") (nli) ))
   ( "T" (mk-cmd (ins "type ") (rec) (ins " struct ") (cbd) ))
   ( "G" (mk-cmd (ins "nil")))
