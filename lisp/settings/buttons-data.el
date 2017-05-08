@@ -517,7 +517,7 @@
   ( "n" (mk-cmd (ins "echo ")))
   ( "d" (mk-cmd (ins "function ") (rec) (cbd)))
   ( "l" (mk-cmd (ins " || exit ${LINENO}") ))
-  ( "L" (mk-cmd (ins " && exit ${LINENO}") ))
+  ( "L" (mk-cmd (ins "echo \"") (rec) (ins "\" && exit ${LINENO}") ))
   ( "f" (mk-cmd (ins "for ") (rec) (ins " in ") (rec) (ins "; do")
 		(nli) (rec) (nli) (ins "done")))
   )
