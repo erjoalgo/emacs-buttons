@@ -247,6 +247,10 @@
 			 clojure-mode-map
 			 clj-buttons)
 
+(eval-buttons-after-load nil
+			 cider-repl-mode-map
+			 clj-buttons)
+
 (setf
  c-buttons
  (buttons-make-bindings
