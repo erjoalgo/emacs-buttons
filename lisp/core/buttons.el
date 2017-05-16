@@ -48,7 +48,9 @@
 	when rest do (error "more than one sexp in input")
 	with kmap-sym = (gensym (format "buttons-keymap-%s-"
 					language-prefix))
-	as key = (buttons-add-super-modifier key-spec)
+	as key = (if (stringp key-spec)
+		     (buttons-add-super-modifier key-spec)
+		   key-spec)
 	as name-sym = (gensym (format "buttons-%s-%s-" language-prefix
 				      key-spec))
 					;collect `(define-key ,kmap-sym ,key
