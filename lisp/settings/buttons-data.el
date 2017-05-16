@@ -21,7 +21,8 @@
   ( "+" (mk-cmd (ins " != ")))
   ( "]" (mk-cmd (ins "[]")))
   ( "6" (mk-cmd (ins "[^") (rec) (ins "]")))
-  ( "?" (mk-cmd (evl (comment-out-and-duplicate))))
+  ( (kbd "M-/") 'my-comment-out)
+  ( (kbd "M-?") 'my-comment-out-and-duplicate)
   )
  )
 
@@ -779,10 +780,6 @@
 (defun my-comment-out-and-duplicate (arg)
   (interactive "P")
   (my-comment-out arg t))
-
-(global-set-key (kbd "M-/") 'my-comment-out)
-(global-set-key (kbd "M-?") 'my-comment-out-and-duplicate)
-
 
 (setf
  org-buttons
