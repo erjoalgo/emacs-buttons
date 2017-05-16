@@ -795,6 +795,8 @@
 		(nli) (rec) (ins "#+END_SRC") (nli)))
   ))
 
+(eval-buttons-after-load nil
+			 org-mode-map org-buttons)
 (setf
  message-buttons
  (buttons-make-bindings
