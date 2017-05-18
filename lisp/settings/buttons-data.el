@@ -753,7 +753,7 @@
 			  (cons
 			   (line-beginning-position)
 			   (save-excursion
-			     (when arg (next-line (1- arg)))
+			     (when arg (next-logical-line (1- arg)))
 			     (point))))))
 	 (let* ((start (save-excursion
 			 (goto-char (car start-end))
