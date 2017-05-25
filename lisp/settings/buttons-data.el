@@ -522,6 +522,7 @@
   ( "f" (mk-cmd (ins "for ") (rec) (evl (upcase-last))
 		(ins " in ") (rec) (ins "; do")
 		(nli) (rec) (nli) (ins "done")))
+  ( "x" 'shell-command-of-region)
   )
  )
 
