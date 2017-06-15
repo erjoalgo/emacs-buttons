@@ -56,7 +56,7 @@
   ( "U" (mk-cmd (ins "from ernestoutils import *") (nli)))
   ( "M" (mk-cmd (ins "from ") (rec) (ins " import *") (cmt) (nli)))
   ( "N" (mk-cmd (ins "print ( ") (rec) (ins " )") (nli)))
-  ( "n" (mk-cmd (ins "print (") (rec) (ins " )") (nli)))
+  ( "n" (mk-cmd (ins "print (") (rec) (ins ")") (nli)))
   ( "r" (mk-cmd (ins "return ") (rec) (nli) (py-bck)))
   ( "L" (mk-cmd (ins "class ") (rec) (ins "(object)") (py-scn)))
   ( "l" (mk-cmd (ins "len(") (rec) (ins ")")))
