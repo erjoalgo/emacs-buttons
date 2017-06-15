@@ -489,7 +489,7 @@
  bash-buttons
  (buttons-make-bindings
   "bash"
-  nil
+  programming-buttons
   ( "1" (mk-cmd (ins "! ")))
   ( "V" (mk-cmd (ins "\"${") (rec) (evl (upcase-last)) (ins "}\"")))
   ( "v" (mk-cmd (ins "${") (rec) (evl (upcase-last)) (ins "}")))
@@ -507,12 +507,10 @@
   ( "s" (mk-cmd (idt) (ins ")") (nli) (rec) (nli) (ins ";;") (nli)))
   ( "o" (mk-cmd (ins "${OPTARG}")))
   ( "4" (mk-cmd (ins "[ ") (rec) (ins " ]")))
-  ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   ( "z" (mk-cmd (ins "if ") (rec) (ins "; then") (nli)
 		(rec) (nli) (ins "fi") (idt) (nli)))
   ( "x" (mk-cmd (ins "elif ") (rec) (ins "; then") (nli) (rec) (nli) (py-bck)))
   ( "c" (mk-cmd (ins "else ") (rec) (ins "; then") (nli) (rec) (nli) (py-bck) ))
-  ( "3" (mk-cmd (ins "(") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins " \\") (nli)))
   ( "|" (mk-cmd (ins " | ")))
   ( "n" (mk-cmd (ins "echo ")))
