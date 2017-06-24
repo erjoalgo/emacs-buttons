@@ -105,7 +105,7 @@
 
 (eval-buttons-after-load nil python-mode-map python-buttons)
 
-'(eval-buttons-after-load nil inferior-python-mode-map python-buttons)
+(eval-buttons-after-load nil inferior-python-mode-map python-buttons)
 
 (setf
  pdb-buttons
