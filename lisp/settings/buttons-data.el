@@ -747,6 +747,14 @@
 			  forum-buttons)
 
 (defun my-comment-out (arg &optional duplicate) (interactive "P")
+       (let* ((mode-map-keymap-sym
+	       (intern (concat (symbol-name major-mode) "-map")))
+	      (comment-cmd (when (boundp mode-map-keymap-sym)
+			     (lookup-key (symbol-value mode-map-keymap-sym)
+					 (kbd "s-/")))))
+	 (when comment-cmd
+	   (call-interactively comment-cmd)
+	   (return)))
        (let ((start-end (if mark-active
 			    (cons (region-beginning)
 				  (region-end))
