@@ -671,9 +671,9 @@
 			 octave-mode-map
 			 octave-buttons)
 
-(add-hook 'octave-mode-hook 'octave_install_buttons)
-(add-hook 'inferior-octave-mode-hook 'octave_install_buttons)
-
+(eval-buttons-after-load nil
+			 inferior-octave-mode-map
+			 octave-buttons)
 
 (setf
  cpp-buttons
