@@ -415,6 +415,7 @@
   ( ":" (mk-cmd (ins ": ")))
   ( "_" (mk-cmd (ins ",") (nli) (inm)))
   ( "L" (mk-cmd (ins "let { ") (rec) (ins " } = ") ))
+  ( "G" (mk-cmd (ins "null") ))
   )
  )
 
