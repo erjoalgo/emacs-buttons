@@ -32,6 +32,7 @@
  (buttons-make-bindings
   "python"
   programming-buttons
+  ( "e" (mk-cmd (ins "=")))
   ( "f" (mk-cmd (ins "for ") (rec) (ins " in ") (rec) (ins ":")
 		(nli) (rec) (nli) (py-bck)))
   ( "F" (mk-cmd (ins "[ ") (rec) (ins " for ") (rec)
@@ -46,7 +47,7 @@
   ( "B" (mk-cmd (ins "break")))
   ( "b" (mk-cmd (ins "continue")))
   ( "1" (mk-cmd (ins "not ") ))
-  ( "d" (mk-cmd (ins "def ") (rec) (ins " ( ") (inm) (rec) (ins " )") (py-scn)))
+  ( "d" (mk-cmd (ins "def ") (rec) (ins "(") (inm) (rec) (ins ")") (py-scn)))
   ( "a" (mk-cmd (ins "lambda ") (rec) (ins ": ") (inm)))
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   ( "@" (mk-cmd (ins "'") (rec) (ins "'")))
