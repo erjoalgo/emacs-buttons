@@ -51,7 +51,10 @@
   ( "a" (mk-cmd (ins "lambda ") (rec) (ins ": ") (inm)))
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   ( "@" (mk-cmd (ins "'") (rec) (ins "'")))
-  ( "q" (mk-cmd (ins " % (") (rec) (ins ")")))
+  ( "q" (buttons-make-bindings
+	 nil nil
+	 ( "x" (mk-cmd (ins "xrange(") (rec) (ins ")")))
+	 ))
   ( "m" (mk-cmd (ins "import ") (evl (pshell_import_completion)) (cmt) (nli)))
   ( "u" (mk-cmd (ins "#!/usr/bin/python") (nli)))
   ( "U" (mk-cmd (ins "from ernestoutils import *") (nli)))
