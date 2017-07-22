@@ -303,7 +303,15 @@
 	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
 	 ("m" (mk-cmd (ins "int main ( )") (cbd)))
 	 ))
-  ( "i" (mk-cmd (ins "int")))
+  ( "i" (buttons-make-bindings
+	 nil nil
+	 ("u" (mk-cmd (ins "unsigned ")))
+	 ("i" (mk-cmd (ins "int")))
+	 ("l" (mk-cmd (ins "long ")))
+	 ("c" (mk-cmd (ins "char ")))
+	 ("I" (mk-cmd (ins "char* ")))
+	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
+	 ))
   ( "s" (mk-cmd (ins "sizeof(") (rec) (ins ")")))
   ( "S" (mk-cmd (ins "sizeof(") (var-rec sizeof-arg) (ins ")/sizeof(*")
 		(var-ins sizeof-arg) (ins ")")))
