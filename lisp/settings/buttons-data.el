@@ -368,13 +368,26 @@
 			 java-mode-map
 			 java-buttons)
 
+(defun xml-toggle-line-comment ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (if (re-search-forward
+	 "^[[:space:]]*\\(<!--\\(.*\\)-->\\)[[:space:]]*"
+	 (line-end-position) t)
+	(replace-match (match-string 2) nil t nil 1)
+      (progn
+	(re-search-forward "^[[:space:]]*\\(.*\\)[[:space:]]*"
+			   (line-end-position) t)
+	(replace-match (format "<!--%s-->" (match-string 1)) nil t nil 1)))))
+
 (setf
  xml-buttons
  (buttons-make-bindings
   "xml"
   nil
-  ( "'" (mk-cmd (evl (xml-toggle-line-comment))))
   ( "/" (mk-cmd (ins "<!--") (rec) (ins "-->") (nli)))
+  ( (kbd "M-/") 'xml-toggle-line-comment)
   ( "." (mk-cmd (ins "</") (var-ins current-html-tag) (ins ">")))
   ( "e" (mk-cmd (ins "=")))
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
