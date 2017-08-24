@@ -547,6 +547,7 @@
 		(ins " in ") (rec) (ins "; do")
 		(nli) (rec) (nli) (ins "done")))
   ( "x" 'shell-command-of-region)
+  ( "H" (mk-cmd (ins " && shift") (nli)))
   )
  )
 
