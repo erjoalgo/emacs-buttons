@@ -616,6 +616,7 @@
   ( "7" (mk-cmd (ins " & ")))
 
   ( ";" (mk-cmd (ins "\\;")))
+  ( "/" 'my-comment-out)
   )
  )
 
