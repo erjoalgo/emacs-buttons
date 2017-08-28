@@ -779,7 +779,7 @@
 	      (comment-cmd (when (boundp mode-map-keymap-sym)
 			     (lookup-key (symbol-value mode-map-keymap-sym)
 					 (kbd "s-/")))))
-	 (when comment-cmd
+	 (when (and comment-cmd (not (eq comment-cmd (function my-comment-out))))
 	   (call-interactively comment-cmd)
 	   (return)))
        (let ((start-end (if mark-active
