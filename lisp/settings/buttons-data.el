@@ -548,6 +548,8 @@
 		(nli) (rec) (nli) (ins "done")))
   ( "x" 'shell-command-of-region)
   ( "H" (mk-cmd (ins " && shift") (nli)))
+  ( "g" (mk-cmd (ins "true")))
+  ( "G" (mk-cmd (ins "false")))
   )
  )
 
