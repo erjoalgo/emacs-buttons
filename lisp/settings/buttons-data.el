@@ -25,7 +25,7 @@
   ( (kbd "M-?") 'my-comment-out-and-duplicate)
   )
  )
-
+(global-set-key (kbd "M-/") 'my-comment-out)
 
 (setf
  python-buttons
