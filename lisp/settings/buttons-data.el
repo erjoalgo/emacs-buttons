@@ -284,7 +284,7 @@
   ( "N" (mk-cmd (ins "scanf( \"") (rec) (ins "\"") (rec) (ins " );")))
   ( "l" (mk-cmd (ins "strlen( ") (rec) (ins " )")))
   ( "'" (mk-cmd (ins "/*") (rec) (ins "*/") (nli)))
-  ( "/" (mk-cmd (ins "/*") (rec) (ins "*/") (nli)))
+  ( "/" nil)
   ( "t" (mk-cmd (ins "true")))
   ( "g" (mk-cmd (ins "false")))
   ( "G" (mk-cmd (ins "NULL")))
