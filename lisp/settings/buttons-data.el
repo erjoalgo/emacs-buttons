@@ -827,7 +827,7 @@
  (buttons-make-bindings
   "org"
   nil
-  ( "[" (mk-cmd (ins "#+BEGIN_SRC ")
+  ( "q" (mk-cmd (ins "#+BEGIN_SRC ")
 		;; (chs "java" "bash" "clojure")
 		(rec)
 		(nli) (rec) (ins "#+END_SRC") (nli)))
