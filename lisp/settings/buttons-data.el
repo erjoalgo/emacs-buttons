@@ -832,6 +832,10 @@
 		(rec)
 		(nli) (rec) (ins "#+END_SRC") (nli)))
   ( "`" (mk-cmd (ins "~") (rec) (ins "~")))
+  ( "Q" (mk-cmd (ins "#+begin_quote ")
+		;; (chs "java" "bash" "clojure")
+		(rec)
+		(nli) (rec) (ins "#+end_quote") (nli)))
   ))
 
 (eval-buttons-after-load nil
