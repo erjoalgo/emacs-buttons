@@ -464,7 +464,7 @@
   ( "r" (mk-cmd (ins "return ") (inm)))
   ( "M" (mk-cmd (ins "package main") (nli)))
   ( "m" (mk-cmd (ins "fmt.Sprintf( \"") (rec) (ins "\\n\"") (rec) (ins " )")))
-  ( "N" (mk-cmd (ins "fmt.Printf( \"") (rec) (ins "\\n\"") (rec) (ins " )")))
+  ( "n" (mk-cmd (ins "fmt.Printf( \"") (rec) (ins "\\n\"") (rec) (ins " )")))
   ( "x" (mk-cmd (ins "else if ") (rec) (ins "; ") (rec) (cbd)))
   ( "z" (mk-cmd (ins "if ") (rec) (ins "; ") (rec) (cbd)))
   ( ":" (mk-cmd (ins ": ") ))
