@@ -838,6 +838,10 @@
 		(nli) (rec) (ins "#+end_quote") (nli)))
   ((kbd "<s-tab>") 'org-indent-block)
   ("return" 'org-toggle-list-heading)
+  ("i" (lambda () (interactive)
+	 (if org-inline-image-overlays
+	     (org-remove-inline-images)
+	   (org-display-inline-images))))
   ))
 
 (eval-buttons-after-load nil
