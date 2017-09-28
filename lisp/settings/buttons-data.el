@@ -837,9 +837,7 @@
 		(rec)
 		(nli) (rec) (ins "#+end_quote") (nli)))
   ((kbd "<s-tab>") 'org-indent-block)
-  ("<s-return>" (lambda () (interactive)
-		  (org-insert-heading)
-		  (call-interactively 'org-listify-region)))
+  ("return" 'org-toggle-list-heading)
   ))
 
 (eval-buttons-after-load nil
