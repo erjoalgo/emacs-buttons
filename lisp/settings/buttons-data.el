@@ -511,6 +511,12 @@
   (setq gofmt-ignore-p t)
   )
 
+(defun insert-unique-line (comment-start description)
+  (interactive (list (read-string "enter comment start: " "# ")
+		     (read-string "enter short description: ")))
+  (insert (format "insert-text-block '%s%s-%s'" comment-start
+		  (uuid) description)))
+
 (setf
  bash-buttons
  (buttons-make-bindings
@@ -550,6 +556,7 @@
   ( "H" (mk-cmd (ins " && shift") (nli)))
   ( "g" (mk-cmd (ins "true")))
   ( "G" (mk-cmd (ins "false")))
+  ( "u" 'insert-unique-line)
   )
  )
 
