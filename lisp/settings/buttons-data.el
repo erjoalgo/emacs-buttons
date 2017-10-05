@@ -511,11 +511,13 @@
   (setq gofmt-ignore-p t)
   )
 
-(defun insert-unique-line (comment-start description)
-  (interactive (list (read-string "enter comment start: " "# ")
-		     (read-string "enter short description: ")))
-  (insert (format "insert-text-block '%s%s-%s'" comment-start
-		  (uuid) description)))
+(defun insert-unique-line ()
+  (interactive)
+  (let* ((initial (concat "# " (uuid) "-"))
+	 (line (read-string "enter unique line: " initial))
+	 (final (format "insert-text-block '%s' " line)))
+    (insert final)))
+
 
 (setf
  bash-buttons
