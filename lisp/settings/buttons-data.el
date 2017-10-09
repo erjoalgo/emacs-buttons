@@ -107,11 +107,12 @@
 	 buttons-after-load-alist))
 
 (defun after-load-button (file-loaded)
-  (loop for (sym . buttons-keymap) in buttons-after-load-alist
-	do (when (boundp sym)
-	     (message "loading %s" sym)
-	     (define-keymap-onto-keymap buttons-keymap
-	       (symbol-value sym)))))
+  (setf buttons-after-load-alist
+	(loop for (sym . buttons-keymap) in buttons-after-load-alist
+	      if (boundp sym) do
+	      (define-keymap-onto-keymap buttons-keymap
+		(symbol-value sym))
+	      else collect (cons sym buttons-keymap))))
 
 (add-hook 'after-load-functions 'after-load-button)
 
