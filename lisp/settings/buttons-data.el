@@ -433,7 +433,7 @@
   ( "d" (mk-cmd (ins "function ") (rec) (ins " ( ") (rec) (ins " )") (cbd)))
   ( "a" (mk-cmd (ins "function") (ins "(") (rec) (ins "){") (rec) (ins "}")))
   ( "." (mk-cmd (ins "debugger;") (nli)))
-  ( "N" (mk-cmd (ins "console.log( \"") (rec) (ins "\"") (rec) (ins " );")))
+  ( "n" (mk-cmd (ins "console.log( \"") (rec) (ins "\"") (rec) (ins " );")))
   ( "T" (mk-cmd (ins "try") (cbd) (ins "catch(err)") (cbd)))
   ( "f" (mk-cmd (ins "for (var i = 0; i<") (rec) (ins ".length; i++)") (cbd)))
   ( "F" (mk-cmd (ins "for (var ") (rec) (ins " in ") (rec) (ins ")") (cbd)))
