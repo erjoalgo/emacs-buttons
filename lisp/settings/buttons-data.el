@@ -99,7 +99,7 @@
    from-map))
 
 
-(defvar buttons-after-load-alist nil)
+(setf buttons-after-load-alist nil)
 
 (defmacro eval-buttons-after-load (feature
 				   mode-keymap-sym buttons-keymap)
