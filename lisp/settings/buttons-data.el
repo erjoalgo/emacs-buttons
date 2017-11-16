@@ -404,6 +404,12 @@
   ( "u" (mk-cmd (ins "<u>") (rec) (ins "</u>")))
   ( "," (mk-cmd (ins "<") (var-rec curr-html-tag) (ins ">") (rec) (ins "</")
 		(var-ins curr-html-tag) (ins ">") (var-pop curr-html-tag)))
+  ( "n" (lambda (mix-expr) (interactive "senter mix expression: ")
+	  (insert
+	   (format (concat "<mix:message log-level=\"INFO\">"
+			   "%s is <mix:copy-of select=\"%s\"/>"
+			   "</mix:message>")
+		   mix-expr mix-expr))))
   )
  )
 
