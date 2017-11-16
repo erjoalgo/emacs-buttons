@@ -331,6 +331,7 @@
 		(ins "#include <assert.h>") (nli)
 		(ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
 		(ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
+		(ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
 		))
   ))
 
