@@ -885,3 +885,5 @@
 
 (eval-buttons-after-load nil
 			  message-mode-map message-buttons)
+
+(after-load-button nil)
