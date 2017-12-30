@@ -574,7 +574,7 @@
 		(ins " in ") (rec) (ins "; do")
 		(nli) (rec) (nli) (ins "done")))
   ( "x" 'shell-command-of-region)
-  ( "H" (mk-cmd (ins " && shift") (nli)))
+  ( "H" (mk-cmd (ins "${1} && shift") (nli)))
   ( "g" (mk-cmd (ins "true")))
   ( "G" (mk-cmd (ins "false")))
   ( "u" 'insert-unique-line)
