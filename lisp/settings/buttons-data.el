@@ -322,6 +322,7 @@
 	 ("l" (mk-cmd (ins "long ")))
 	 ("c" (mk-cmd (ins "char ")))
 	 ("I" (mk-cmd (ins "char* ")))
+	 ("v" (mk-cmd (ins "void")))
 	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
 	 ))
   ( "s" (mk-cmd (ins "sizeof(") (rec) (ins ")")))
