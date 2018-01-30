@@ -114,7 +114,7 @@
   (with-temporary-erjoalgo-mode-state 0 (recursive-edit)))
 
 (defun cbd (&optional content)
-  (insert "\t{")
+  (insert "    {")
   (newline-and-indent)
   (indent-for-tab-command)
   (buttons-rec)
