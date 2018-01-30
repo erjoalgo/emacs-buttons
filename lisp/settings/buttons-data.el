@@ -87,7 +87,8 @@
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( "[" (mk-cmd (ins "{}")))
   ( "]" (mk-cmd (ins ".format(") (rec) (ins ")")))
-  ( "N" (mk-cmd (ins "print(getattr(Solution(), dir(Solution)[-1])(*a))")))
+  ( "N" (mk-cmd (ins "a=[") (rec) (ins "]") (nli)
+		(ins "print(getattr(Solution(), dir(Solution)[-1])(*a))")))
   )
  )
 
