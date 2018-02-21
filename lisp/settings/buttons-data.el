@@ -881,6 +881,14 @@
 	 (if org-inline-image-overlays
 	     (org-remove-inline-images)
 	   (org-display-inline-images))))
+
+  ("m"
+   (mk-cmd
+    (ins "#+OPTIONS: ^:nil") (nli)
+    (ins "#+OPTIONS: toc:nil") (nli)
+    (ins "#+OPTIONS: html-postamble:nil") (nli)
+    (ins "#+OPTIONS: num:nil") (nli)
+    (ins "#+TITLE: ") (rec) (nli)))
   ))
 
 (eval-buttons-after-load nil
