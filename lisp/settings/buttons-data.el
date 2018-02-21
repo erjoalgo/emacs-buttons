@@ -905,4 +905,19 @@
 (eval-buttons-after-load nil
 			  message-mode-map message-buttons)
 
+(setf
+ term-buttons
+ (buttons-make-bindings
+  "ansi-term"
+  nil
+  ( "c" (lambda () (interactive)
+          "send ^C^C"
+          (term-send-raw-string "")
+          (term-send-raw-string ""))
+    )))
+
+
+(eval-buttons-after-load nil
+                         term-raw-map term-buttons)
+
 (after-load-button nil)
