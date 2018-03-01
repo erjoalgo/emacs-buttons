@@ -920,4 +920,17 @@
 (eval-buttons-after-load nil
                          term-raw-map term-buttons)
 
+(setf
+ conf-buttons
+ (buttons-make-bindings
+  "conf"
+  programming-buttons
+  ( "e" (mk-cmd (ins "="))
+    )
+  ))
+
+
+(eval-buttons-after-load nil
+                         conf-mode-map conf-buttons)
+
 (after-load-button nil)
