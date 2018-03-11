@@ -580,6 +580,10 @@
   ( "g" (mk-cmd (ins "true")))
   ( "G" (mk-cmd (ins "false")))
   ( "u" 'insert-unique-line)
+  ( "C" (mk-cmd (ins "cat <<EOF")
+                (nli)
+                (rec)
+                (ins "EOF")))
   )
  )
 
