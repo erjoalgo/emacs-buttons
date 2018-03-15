@@ -368,7 +368,7 @@
 	 ))
   ( "s" (mk-cmd (ins "this.") (inm)))
   ( "S" (mk-cmd (evl (java-new))))
-  ( "F" (mk-cmd (ins "for ( ") (rec) (ins ": ") (rec) (ins " )") (cbd) ))
+  ( "F" (mk-cmd (ins "for (") (rec) (ins ": ") (rec) (ins ")") (cbd) ))
   ( "L" (mk-cmd (ins "class ") (rec)  (cbd) ))
   ( "i" (mk-cmd (ins "int ") (inm) ))
   ( "I" (mk-cmd (ins "String ") (inm) ))
