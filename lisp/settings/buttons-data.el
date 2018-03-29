@@ -462,6 +462,9 @@
   ( "_" (mk-cmd (ins ",") (nli) (inm)))
   ( "L" (mk-cmd (ins "let { ") (rec) (ins " } = ") ))
   ( "G" (mk-cmd (ins "null") ))
+  ( "N" (mk-cmd (ins "logger.silly( \"")
+                (evl (insert (format "%s-%d" (f-filename (buffer-file-name)) (random))))
+                (ins "\");")))
   )
  )
 
