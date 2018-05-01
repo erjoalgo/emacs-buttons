@@ -947,8 +947,15 @@
 (eval-buttons-after-load nil
                          conf-mode-map conf-buttons)
 
+(setf
+ magit-buttons
+ (buttons-make-bindings
+  "magit"
+  nil
+  ( "p" 'magit-go-backward)
+  ( "n" 'magit-go-forward)))
 
 (eval-buttons-after-load nil
-                         conf-mode-map conf-buttons)
+                         magit-mode-map magit-buttons)
 
 (after-load-button nil)
