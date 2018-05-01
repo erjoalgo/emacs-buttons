@@ -160,6 +160,8 @@
 					     (rec) (ins ")") (nli) (rec) (ins ")")))
                                ( "r" (mk-cmd (ins "(defparameter ") (rec) (ins " (")
 					     (rec) (ins ")") (nli) (rec) (ins ")")))
+                               ;; TODO recursive merge
+                               ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
                                ))
   ( "w" (mk-cmd (ins "(while ") (rec) (ins ")") (nli)))
   ( "a" (mk-cmd (ins "(lambda (") (rec) (ins ") ") (rec) (ins ")")))
