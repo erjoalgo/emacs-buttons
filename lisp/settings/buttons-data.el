@@ -944,6 +944,8 @@
   ( "e" (mk-cmd (ins "="))
     )
   ))
+(eval-buttons-after-load nil
+                         conf-mode-map conf-buttons)
 
 
 (eval-buttons-after-load nil
