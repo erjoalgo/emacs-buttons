@@ -154,7 +154,7 @@
   programming-buttons
   ( "d" (buttons-make-bindings "emacs-lisp-def*" nil
 			       ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
-			       ( "d" (mk-cmd (ins "(defun ") (rec) (ins " (")
+			       ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
 					     (rec) (ins ")") (nli) (rec) (ins ")")))
 			       ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
 					     (rec) (ins ")") (nli) (rec) (ins ")")))))
