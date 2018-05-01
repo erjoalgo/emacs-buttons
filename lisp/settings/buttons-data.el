@@ -215,6 +215,7 @@
   emacs-lisp-buttons
   ( "n" (mk-cmd (ins "(format t \"") (rec) (ins "~%\" ") (rec)  (ins ")")))
   ( "N" (mk-cmd (ins "(format nil \"") (rec) (ins "~%\" ") (rec)  (ins ")")))
+  ( "#" (mk-cmd (ins "#:")))
   ( "5" (mk-cmd (ins "~A")))
   ( "%" (mk-cmd (ins "~D")))
   ( "|" (mk-cmd (ins "#\\Newline")))
