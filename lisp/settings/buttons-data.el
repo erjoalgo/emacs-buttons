@@ -474,6 +474,7 @@
   ( "N" (mk-cmd (ins "logger.silly( \"")
                 (evl (insert (format "%s-%d" (f-filename (buffer-file-name)) (random))))
                 (ins "\");")))
+  ( "s" (mk-cmd (ins "this.") ))
   )
  )
 
