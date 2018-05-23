@@ -159,6 +159,8 @@
 			       ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
 					     (rec) (ins ")") (nli) (rec) (ins ")")))
                                ( "p" (mk-cmd (ins "(defparameter ") (rec) (ins ")")))
+                               ( "s" (mk-cmd (ins "(defstruct ") (rec)
+                                             (nli) (rec) (ins ")")))
                                ;; TODO recursive merge
                                ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
                                ))
