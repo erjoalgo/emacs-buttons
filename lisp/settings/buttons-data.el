@@ -195,6 +195,7 @@
   ( "h" (mk-cmd (evl (describe-function-at-point))))
   ( "-" (mk-cmd (ins "(-> ") (rec) (ins ")")))
   ( "_" (mk-cmd (ins "(->> ") (rec) (ins ")")))
+  ( "`" (mk-cmd (ins "`") (rec) (ins "'")))
   ))
 
 (eval-buttons-after-load nil
