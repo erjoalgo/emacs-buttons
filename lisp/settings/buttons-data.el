@@ -479,6 +479,7 @@
   ( "s" (mk-cmd (ins "this.") ))
   ( "R" (mk-cmd (ins "***REMOVED***")))
   ( "i" (mk-cmd (ins "in") ))
+  ( "p" (mk-cmd (ins ".prototype.")))
   )
  )
 
