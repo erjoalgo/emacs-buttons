@@ -163,6 +163,7 @@
                                              (nli) (rec) (ins ")")))
                                ;; TODO recursive merge
                                ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
+                               ( "k" (mk-cmd (ins "(defpackage ") (rec) (ins ")")))
                                ))
   ( "w" (mk-cmd (ins "(while ") (rec) (ins ")") (nli)))
   ( "a" (mk-cmd (ins "(lambda (") (rec) (ins ") ") (rec) (ins ")")))
