@@ -224,6 +224,18 @@
   ( "|" (mk-cmd (ins "#\\Newline")))
   ( "\\" (mk-cmd (ins "~%")))
   ( "L" (mk-cmd (ins "(let (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))
+  ( "p"
+    (buttons-make-bindings
+     nil nil
+     ("l" (mk-cmd (ins "(loop for ") (rec) (ins ")") (nli)))
+     ("b" (mk-cmd (ins "below ")))
+     ("w" (mk-cmd (ins "while ")))
+     ("d" (mk-cmd (ins "do ")))
+     ("c" (mk-cmd (ins "collect ")))
+     ("a" (mk-cmd (ins "append ")))
+     )
+
+    )
   ( ";" (mk-cmd (ins ":")))
   ( ":" (mk-cmd (ins "::")))
   ( "h" (buttons-make-bindings
