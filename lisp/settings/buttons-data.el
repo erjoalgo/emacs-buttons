@@ -602,6 +602,7 @@
                 (nli)
                 (rec)
                 (ins "EOF")))
+  ( "0" (mk-cmd (evl (insert sh-getopt-template))))
   )
  )
 
