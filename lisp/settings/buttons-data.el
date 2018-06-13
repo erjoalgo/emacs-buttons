@@ -190,7 +190,14 @@
   ( "t" (buttons-make-bindings nil nil
 			       ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
 			       ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
-			       ( "g" (mk-cmd (ins "(null ") (rec) (ins ")")))
+			       ( "g" (mk-cmd
+                                      (ins "(")
+                                      (var-rec scanf-var)
+                                      (ins "-sym (gensym \"")
+                                      (var-ins scanf-var)
+                                      (ins "\"))")
+                                      (nli)
+                                      (var-pop scanf-var)))
 			       ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
 			       ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
 			       ))
