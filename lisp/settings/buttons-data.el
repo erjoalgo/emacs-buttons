@@ -164,8 +164,17 @@
                                              (nli) (rec) (ins ")")))
                                ;; TODO recursive merge
                                ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
-                               ( "k" (mk-cmd (ins "(defpackage ") (rec) (ins ")")))
                                ))
+
+  ( "u" (buttons-make-bindings "defpackage-constructs" nil
+                               ( "k" (mk-cmd (ins "(defpackage ")
+                                             (nli) (ins "(:use :cl)")
+                                             (rec) (ins ")")))
+                               ( "i" (mk-cmd (ins "(:import-from #:") (rec)))
+                               ( "e" (mk-cmd (ins "(:export #:")))
+                               ( "u" (mk-cmd (ins "(:export #:")))
+                               ))
+
   ( "w" (mk-cmd (ins "(while ") (rec) (ins ")") (nli)))
   ( "a" (mk-cmd (ins "(lambda (") (rec) (ins ") ") (rec) (ins ")")))
   ( "z" (mk-cmd (ins "(if ") (rec) (ins ")")))
