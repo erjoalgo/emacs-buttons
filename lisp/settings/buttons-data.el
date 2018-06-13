@@ -252,6 +252,8 @@
      ("d" (mk-cmd (ins "do ")))
      ("c" (mk-cmd (ins "collect ")))
      ("a" (mk-cmd (ins "append ")))
+     ("f" (mk-cmd (ins "finally ")))
+     ("r" (mk-cmd (ins "(return ") (rec) (ins ")")))
      )
 
     )
