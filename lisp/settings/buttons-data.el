@@ -200,6 +200,8 @@
                                       (var-pop scanf-var)))
 			       ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
 			       ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
+			       ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
+			       ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
 			       ))
   ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
