@@ -945,6 +945,7 @@
     (ins "#+OPTIONS: html-postamble:nil") (nli)
     (ins "#+OPTIONS: num:nil") (nli)
     (ins "#+TITLE: ") (rec) (nli)))
+  ( "R" (mk-cmd (ins "***REMOVED***")))
   ))
 
 (eval-buttons-after-load nil
