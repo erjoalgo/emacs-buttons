@@ -157,6 +157,8 @@
 			       ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
 			       ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
 					     (rec) (ins ")") (nli) (rec) (ins ")")))
+                               ( "k" (mk-cmd (ins "&key ")))
+                               ( "o" (mk-cmd (ins "&optional ")))
 			       ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
 					     (rec) (ins ")") (nli) (rec) (ins ")")))
                                ( "p" (mk-cmd (ins "(defparameter ") (rec) (ins ")")))
