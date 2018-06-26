@@ -155,6 +155,7 @@
 			       ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
 			       ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
 					     (rec) (ins ")") (nli) (rec) (ins ")")))
+                               ( "r" (mk-cmd (ins "&rest ")))
                                ( "k" (mk-cmd (ins "&key ")))
                                ( "o" (mk-cmd (ins "&optional ")))
 			       ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
