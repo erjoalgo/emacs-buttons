@@ -57,8 +57,6 @@
 	 ( "x" (mk-cmd (ins "xrange(") (rec) (ins ")")))
 	 ))
   ( "m" (mk-cmd (ins "import ") (evl (pshell_import_completion)) (cmt) (nli)))
-  ( "u" (mk-cmd (ins "#!/usr/bin/python") (nli)))
-  ( "U" (mk-cmd (ins "from ernestoutils import *") (nli)))
   ( "M" (mk-cmd (ins "from ") (rec) (ins " import *") (cmt) (nli)))
   ( "N" (mk-cmd (ins "print ( ") (rec) (ins " )") (nli)))
   ( "n" (mk-cmd (ins "print (") (rec) (ins ")") (nli)))
@@ -90,8 +88,8 @@
   ( "]" (mk-cmd (ins ".format(") (rec) (ins ")")))
   ( "N" (mk-cmd (ins "a=[") (rec) (ins "]") (nli)
 		(ins "print(getattr(Solution(), dir(Solution)[-1])(*a))")))
-  )
- )
+  ( "u" (buttons-make-bindings "python-util" nil
+                               ( "a" (mk-cmd (ins "assert(") (rec) (ins ")")))))))
 
 
 (defun define-keymap-onto-keymap (from-map to-map)
