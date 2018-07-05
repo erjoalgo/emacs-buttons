@@ -88,6 +88,7 @@
   ( "]" (mk-cmd (ins ".format(") (rec) (ins ")")))
   ( "N" (mk-cmd (ins "a=[") (rec) (ins "]") (nli)
 		(ins "print(getattr(Solution(), dir(Solution)[-1])(*a))")))
+  ( "E" (mk-cmd (ins "raise Exception(") (rec) (ins ")")))
   ( "u" (buttons-make-bindings "python-util" nil
                                ( "a" (mk-cmd (ins "assert(") (rec) (ins ")")))))))
 
