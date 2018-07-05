@@ -74,7 +74,7 @@
   ( "G" (mk-cmd (ins "None")))
   ( "." (mk-cmd (ins "import pdb;pdb.set_trace()") (nli)))
   ( "_" (mk-cmd (ins "if __name__ == \"__main__\":") (nli)))
-  ( "=" (mk-cmd (ins "==")))
+  ( "=" (mk-cmd (ins " == ")))
   ( "j" (mk-cmd (ins " or ") (inm)))
   ( "k" (mk-cmd (ins " and ") (inm)))
   ( ">" 'python-indent-shift-right)
