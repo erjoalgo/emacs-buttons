@@ -166,6 +166,10 @@
                                              (nli) (rec) (ins ")")))
                                ;; TODO recursive merge
                                ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
+                               ( "c" (mk-cmd (ins "(defcommand ") (rec)
+                                             (ins " (") (rec) (ins ")")
+                                             (ins " (") (rec) (ins ")")
+                                             (nli) (rec) (ins ")")))
                                ))
 
   ( "u" (buttons-make-bindings "defpackage-constructs" nil
