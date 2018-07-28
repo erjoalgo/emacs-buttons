@@ -35,12 +35,12 @@
   programming-buttons
   ( "e" (mk-cmd (ins "=")))
   ( "f" (mk-cmd (ins "for ") (rec) (ins " in ") (rec) (ins ":")
-		(nli) (rec) (nli) (py-bck)))
+                (nli) (rec) (nli) (py-bck)))
   ( "F" (mk-cmd (ins "[ ") (rec) (ins " for ") (rec)
-		(ins " in ") (rec) (ins " ]")))
+                (ins " in ") (rec) (ins " ]")))
   ( "w" (mk-cmd (ins "while ") (rec) (py-scn) (rec) (nli) (py-bck)))
   ( "T" (mk-cmd (ins "try") (py-scn) (rec) (nli)
-		(py-bck) (ins "except") (py-scn)))
+                (py-bck) (ins "except") (py-scn)))
   ( "z" (mk-cmd (ins "if ") (rec) (py-scn)))
   ( "x" (mk-cmd (ins "elif ") (rec) (py-scn)))
   ( "c" (mk-cmd (ins "else") (py-scn)))
@@ -53,9 +53,9 @@
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   ( "@" (mk-cmd (ins "'") (rec) (ins "'")))
   ( "q" (buttons-make-bindings
-	 nil nil
-	 ( "x" (mk-cmd (ins "xrange(") (rec) (ins ")")))
-	 ))
+         nil nil
+         ( "x" (mk-cmd (ins "xrange(") (rec) (ins ")")))
+         ))
   ( "m" (mk-cmd (ins "import ") (evl (pshell_import_completion)) (cmt) (nli)))
   ( "M" (mk-cmd (ins "from ") (rec) (ins " import *") (cmt) (nli)))
   ( "N" (mk-cmd (ins "print ( ") (rec) (ins " )") (nli)))
@@ -65,7 +65,7 @@
   ( "l" (mk-cmd (ins "len(") (rec) (ins ")")))
   ( "'" (mk-cmd (ins "\"\"\"") (rec) (ins "\"\"\"") (nli)))
   ( "W" (mk-cmd (ins "with open(") (rec) (ins ", \"") (rec)
-		(ins "\") as fh:") (nli) (rec) (nli)))
+                (ins "\") as fh:") (nli) (rec) (nli)))
   ( "SPC" (mk-cmd (ins ", ")))
   ( "I" (mk-cmd (ins "def __init__( self") (ins " )") (py-scn)))
   ( "0" (mk-cmd (evl (insert python-argparse-template))))
@@ -87,7 +87,7 @@
   ( "[" (mk-cmd (ins "{}")))
   ( "]" (mk-cmd (ins ".format(") (rec) (ins ")")))
   ( "N" (mk-cmd (ins "a=[") (rec) (ins "]") (nli)
-		(ins "print(getattr(Solution(), dir(Solution)[-1])(*a))")))
+                (ins "print(getattr(Solution(), dir(Solution)[-1])(*a))")))
   ( "E" (mk-cmd (ins "raise Exception(") (rec) (ins ")")))
   ( "u" (buttons-make-bindings "python-util" nil
                                ( "a" (mk-cmd (ins "assert(") (rec) (ins ")")))))))
@@ -103,17 +103,17 @@
 (setf buttons-after-load-alist nil)
 
 (defmacro eval-buttons-after-load (feature
-				   mode-keymap-sym buttons-keymap)
+                                   mode-keymap-sym buttons-keymap)
   `(push (cons ',mode-keymap-sym ,buttons-keymap)
-	 buttons-after-load-alist))
+         buttons-after-load-alist))
 
 (defun after-load-button (file-loaded)
   (setf buttons-after-load-alist
-	(loop for (sym . buttons-keymap) in buttons-after-load-alist
-	      if (boundp sym) do
-	      (define-keymap-onto-keymap buttons-keymap
-		(symbol-value sym))
-	      else collect (cons sym buttons-keymap))))
+        (loop for (sym . buttons-keymap) in buttons-after-load-alist
+              if (boundp sym) do
+              (define-keymap-onto-keymap buttons-keymap
+                (symbol-value sym))
+              else collect (cons sym buttons-keymap))))
 
 (add-hook 'after-load-functions 'after-load-button)
 
@@ -137,7 +137,7 @@
   ))
 
 '(eval-buttons-after-load nil
-			  inferior-python-mode pdb-buttons)
+                          inferior-python-mode pdb-buttons)
 
 (defun describe-function-at-point ()
   (interactive)
@@ -153,14 +153,14 @@
   "emacs-lisp"
   programming-buttons
   ( "d" (buttons-make-bindings "emacs-lisp-def*" nil
-			       ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
-			       ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
-					     (rec) (ins ")") (nli) (rec) (ins ")")))
+                               ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
+                               ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
+                                             (rec) (ins ")") (nli) (rec) (ins ")")))
                                ( "r" (mk-cmd (ins "&rest ")))
                                ( "k" (mk-cmd (ins "&key ")))
                                ( "o" (mk-cmd (ins "&optional ")))
-			       ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
-					     (rec) (ins ")") (nli) (rec) (ins ")")))
+                               ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
+                                             (rec) (ins ")") (nli) (rec) (ins ")")))
                                ( "p" (mk-cmd (ins "(defparameter ") (rec) (ins ")")))
                                ( "s" (mk-cmd (ins "(defstruct ") (rec)
                                              (nli) (rec) (ins ")")))
@@ -194,9 +194,9 @@
   ( "7" (mk-cmd (ins "&optional ")))
   ( "g" (mk-cmd (ins "nil") ))
   ( "t" (buttons-make-bindings nil nil
-			       ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
-			       ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
-			       ( "g" (mk-cmd
+                               ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
+                               ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
+                               ( "g" (mk-cmd
                                       (ins "(")
                                       (var-rec scanf-var)
                                       (ins "-sym (gensym \"")
@@ -204,11 +204,11 @@
                                       (ins "\"))")
                                       (nli)
                                       (var-pop scanf-var)))
-			       ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
-			       ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
-			       ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
-			       ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
-			       ))
+                               ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
+                               ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
+                               ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
+                               ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
+                               ))
   ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
   ( "s" (mk-cmd (evl (call-interactively 'insert-emacs-sym))))
@@ -225,16 +225,16 @@
   ))
 
 (eval-buttons-after-load nil
-			 emacs-lisp-mode-map
-			 emacs-lisp-buttons)
+                         emacs-lisp-mode-map
+                         emacs-lisp-buttons)
 
 (eval-buttons-after-load nil
-			 read-expression-map
-			 emacs-lisp-buttons)
+                         read-expression-map
+                         emacs-lisp-buttons)
 
 (eval-buttons-after-load "ielm"
-			 inferior-emacs-lisp-mode-map
-			 emacs-lisp-buttons)
+                         inferior-emacs-lisp-mode-map
+                         emacs-lisp-buttons)
 
 (setf
  cl-buttons
@@ -266,25 +266,25 @@
   ( ";" (mk-cmd (ins ":")))
   ( ":" (mk-cmd (ins "::")))
   ( "h" (buttons-make-bindings
-	 nil nil
-	 ( "d" (mk-cmd (evl (move-beginning-of-line nil))
-		       (ins "(describe '")
-		       (evl (move-end-of-line nil))
-		       (ins ")")
-		       (evl (slime-repl-return))))
-	 ( "a" (mk-cmd (ins "(apropos \"") (rec) (ins "\")") (nli)))
+         nil nil
+         ( "d" (mk-cmd (evl (move-beginning-of-line nil))
+                       (ins "(describe '")
+                       (evl (move-end-of-line nil))
+                       (ins ")")
+                       (evl (slime-repl-return))))
+         ( "a" (mk-cmd (ins "(apropos \"") (rec) (ins "\")") (nli)))
          ( "D" (mk-cmd (ins "(declaim (optimize (debug 3) (speed 0)))")))
-	 ))
+         ))
   )
  )
 
 (eval-buttons-after-load nil
-			 lisp-mode-map
-			 cl-buttons)
+                         lisp-mode-map
+                         cl-buttons)
 
 (eval-buttons-after-load nil
-			 slime-mode-map
-			 cl-buttons)
+                         slime-mode-map
+                         cl-buttons)
 
 (setf
  clj-buttons
@@ -296,25 +296,25 @@
   ( "\\" (mk-cmd (ins "\\n")))
   ( "l" (mk-cmd (ins "(let [") (rec) (ins "]") (nli) (rec) (ins ")") (nli)))
   ( "d" (mk-cmd (ins "(defn ") (rec) (ins " [") (rec) (ins "]")
-		(nli) (rec) (ins ")") (nli)))
+                (nli) (rec) (ins ")") (nli)))
   ( "n" (mk-cmd (ins "(printf \"") (rec) (ins "\\n\"") (rec) (ins ")")))
   ( ";" (mk-cmd (ins ": ")))
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( "c" (mk-cmd (ins "(when-not  ") (rec) (ins ")")))
   ( "h" (mk-cmd (ins "(doc  ") (rec) (ins ")")))
   ( "{" (mk-cmd (ins "{:keys [") (rec) (ins "]")
-		(nli) (ins ":or {") (rec) (ins "}}")))
+                (nli) (ins ":or {") (rec) (ins "}}")))
   ( "a" (mk-cmd (ins "(fn [") (rec) (ins "]") (nli) (rec) (ins ")")))
   ( "e" (mk-cmd (ins "(def ") (rec) (ins ")")))
   ))
 
 (eval-buttons-after-load nil
-			 clojure-mode-map
-			 clj-buttons)
+                         clojure-mode-map
+                         clj-buttons)
 
 (eval-buttons-after-load nil
-			 cider-repl-mode-map
-			 clj-buttons)
+                         cider-repl-mode-map
+                         clj-buttons)
 
 (setf
  c-buttons
@@ -326,22 +326,22 @@
     (buttons-make-bindings
      nil nil
      ("f" (mk-cmd (ins "for ( int ")
-		(var-rec c-loop-var)
-		(ins " = 0; ") (var-ins c-loop-var) (ins " < ") (rec) (ins "; ")
-		(var-ins c-loop-var) (ins "++ )")  (var-pop c-loop-var)
-		(cbd)))
+                  (var-rec c-loop-var)
+                  (ins " = 0; ") (var-ins c-loop-var) (ins " < ") (rec) (ins "; ")
+                  (var-ins c-loop-var) (ins "++ )")  (var-pop c-loop-var)
+                  (cbd)))
      ("F" (mk-cmd (ins "for ( int ") (var-rec c-loop-var) (ins " = ") (rec)
-		  (ins "; ") (var-ins c-loop-var) (ins " >= 0; ")
-		  (var-ins c-loop-var) (ins "-- )")  (var-pop c-loop-var)
-		  (cbd)))))
+                  (ins "; ") (var-ins c-loop-var) (ins " >= 0; ")
+                  (var-ins c-loop-var) (ins "-- )")  (var-pop c-loop-var)
+                  (cbd)))))
   ( "w" (mk-cmd (ins "while (") (rec) (ins ")") (cbd)))
   ( "z" (mk-cmd (ins "if (") (rec) (ins ")") (cbd)))
   ( "x" (mk-cmd (ins " else if (") (rec) (ins ")") (cbd)))
   ( "c" (mk-cmd (ins " else ") (cbd)))
   ( "v" (mk-cmd (ins "?") (rec) (ins ": ") (rec) ))
   ( "V" (mk-cmd (evl (kill-surrounding-sexp nil))
-		(evl (end-of-line)) (nli)
-		(ins "(void)")  (evl (yank-or-pop)) (ins ";") (inm)))
+                (evl (end-of-line)) (nli)
+                (ins "(void)")  (evl (yank-or-pop)) (ins ";") (inm)))
   ( "1" (mk-cmd (ins "!") ))
   ( "n" (mk-cmd (ins "printf( ") (rec) (ins " );")))
   ( "N" (mk-cmd (ins "scanf( \"") (rec) (ins "\"") (rec) (ins " );")))
@@ -361,38 +361,38 @@
   ( "b" (mk-cmd (ins "continue;")))
 
   ( "d" (buttons-make-bindings
-	 nil nil
-	 ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
-	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
-	 ("m" (mk-cmd (ins "int main ( )") (cbd)))
-	 ))
+         nil nil
+         ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
+         ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
+         ("m" (mk-cmd (ins "int main ( )") (cbd)))
+         ))
   ( "i" (buttons-make-bindings
-	 nil nil
-	 ("u" (mk-cmd (ins "unsigned ")))
-	 ("i" (mk-cmd (ins "int")))
-	 ("l" (mk-cmd (ins "long ")))
-	 ("c" (mk-cmd (ins "char ")))
-	 ("I" (mk-cmd (ins "char* ")))
-	 ("v" (mk-cmd (ins "void")))
-	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
-	 ))
+         nil nil
+         ("u" (mk-cmd (ins "unsigned ")))
+         ("i" (mk-cmd (ins "int")))
+         ("l" (mk-cmd (ins "long ")))
+         ("c" (mk-cmd (ins "char ")))
+         ("I" (mk-cmd (ins "char* ")))
+         ("v" (mk-cmd (ins "void")))
+         ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
+         ))
   ( "s" (mk-cmd (ins "sizeof(") (rec) (ins ")")))
   ( "S" (mk-cmd (ins "sizeof(") (var-rec sizeof-arg) (ins ")/sizeof(*")
-		(var-ins sizeof-arg) (ins ")")))
+                (var-ins sizeof-arg) (ins ")")))
   ( "-" (mk-cmd (ins "->")))
   ( "m" (mk-cmd (ins "#include <stdlib.h>") (nli)
-		(ins "#include <stdio.h>") (nli)
-		(ins "#include <string.h>") (nli)
-		(ins "#include <assert.h>") (nli)
-		(ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
-		(ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
-		(ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
-		))
+                (ins "#include <stdio.h>") (nli)
+                (ins "#include <string.h>") (nli)
+                (ins "#include <assert.h>") (nli)
+                (ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
+                (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
+                (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
+                ))
   ))
 
 (eval-buttons-after-load "cc-mode"
-			 c-mode-map
-			 c-buttons)
+                         c-mode-map
+                         c-buttons)
 
 (setf
  java-buttons
@@ -400,22 +400,22 @@
   "java"
   c-buttons
   ( "n" (mk-cmd (ins "System.out.printf( \"") (rec)
-		(ins "\\n\"") (rec) (ins " )")  (scn)))
+                (ins "\\n\"") (rec) (ins " )")  (scn)))
   ( "l" (mk-cmd (ins ".length") ))
   ( "G" (mk-cmd (ins "null")))
   ( "d" (buttons-make-bindings
-	 nil nil
-	 ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
-	 ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
-	 ("m" (mk-cmd (ins "public static void main ( String[] argv)") (cbd)))
-	 ))
+         nil nil
+         ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
+         ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
+         ("m" (mk-cmd (ins "public static void main ( String[] argv)") (cbd)))
+         ))
   ( "p" (buttons-make-bindings
-	 nil nil
-	 ("p" (mk-cmd (ins "public ")))
-	 ("v" (mk-cmd (ins "private ")))
-	 ("k" (mk-cmd (ins "package ")))
-	 ("s" (mk-cmd (ins "static ")))
-	 ))
+         nil nil
+         ("p" (mk-cmd (ins "public ")))
+         ("v" (mk-cmd (ins "private ")))
+         ("k" (mk-cmd (ins "package ")))
+         ("s" (mk-cmd (ins "static ")))
+         ))
   ( "s" (mk-cmd (ins "this.") (inm)))
   ( "S" (mk-cmd (evl (java-new))))
   ( "F" (mk-cmd (ins "for (") (rec) (ins ": ") (rec) (ins ")") (cbd) ))
@@ -430,21 +430,21 @@
   ))
 
 (eval-buttons-after-load nil
-			 java-mode-map
-			 java-buttons)
+                         java-mode-map
+                         java-buttons)
 
 (defun xml-toggle-line-comment ()
   (interactive)
   (save-excursion
     (beginning-of-line)
     (if (re-search-forward
-	 "^[[:space:]]*\\(<!--\\(.*\\)-->\\)[[:space:]]*"
-	 (line-end-position) t)
-	(replace-match (match-string 2) nil t nil 1)
+         "^[[:space:]]*\\(<!--\\(.*\\)-->\\)[[:space:]]*"
+         (line-end-position) t)
+        (replace-match (match-string 2) nil t nil 1)
       (progn
-	(re-search-forward "^[[:space:]]*\\(.*\\)[[:space:]]*"
-			   (line-end-position) t)
-	(replace-match (format "<!--%s-->" (match-string 1)) nil t nil 1)))))
+        (re-search-forward "^[[:space:]]*\\(.*\\)[[:space:]]*"
+                           (line-end-position) t)
+        (replace-match (format "<!--%s-->" (match-string 1)) nil t nil 1)))))
 
 (setf
  xml-buttons
@@ -458,19 +458,19 @@
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   ( "u" (mk-cmd (ins "<u>") (rec) (ins "</u>")))
   ( "," (mk-cmd (ins "<") (var-rec curr-html-tag) (ins ">") (rec) (ins "</")
-		(var-ins curr-html-tag) (ins ">") (var-pop curr-html-tag)))
+                (var-ins curr-html-tag) (ins ">") (var-pop curr-html-tag)))
   ( "n" (lambda (mix-expr) (interactive "senter mix expression: ")
-	  (insert
-	   (format (concat "<mix:message log-level=\"INFO\">"
-			   "%s is <mix:copy-of select=\"%s\"/>"
-			   "</mix:message>")
-		   mix-expr mix-expr))))
+          (insert
+           (format (concat "<mix:message log-level=\"INFO\">"
+                           "%s is <mix:copy-of select=\"%s\"/>"
+                           "</mix:message>")
+                   mix-expr mix-expr))))
   )
  )
 
 (eval-buttons-after-load "nxml-mode"
-			 nxml-mode-map
-			 xml-buttons)
+                         nxml-mode-map
+                         xml-buttons)
 
 (setf
  html-buttons
@@ -483,8 +483,8 @@
  )
 
 (eval-buttons-after-load nil
-			 html-mode-map
-			 html-buttons)
+                         html-mode-map
+                         html-buttons)
 
 
 (setf
@@ -524,8 +524,8 @@
  )
 
 (eval-buttons-after-load nil
-			 js-mode-map
-			 js-buttons)
+                         js-mode-map
+                         js-buttons)
 
 (setf
  go-buttons
@@ -568,24 +568,24 @@
   ( "_" (mk-cmd (ins "_, ")))
   ( "{" (mk-cmd (ins "&") (rec) (ins "{") (rec) (ins "}")))
   ( "O" (mk-cmd (ins "verbose(func(){fmt.Printf(\"VERBOSE: ")
-		(rec) (ins "\"") (rec) (ins ")})")))
+                (rec) (ins "\"") (rec) (ins ")})")))
   )
  )
 '(setq go-types '("struct" "int" "bool" "string" "float"))
 
 (eval-buttons-after-load nil
-			 go-mode-map
-			 go-buttons)
+                         go-mode-map
+                         go-buttons)
 
 
 '(;;(edebug)
   (setq peg-buttons
-	(
-	 ( "a" (mk-cmd (ins " <- ") ))
-	 ( "A" (mk-cmd (evl (peg-insert-alternatives)) ))
-	 ( "|" (mk-cmd (ins " /") (nli)))
-	 ( "S" (mk-cmd (ins "{return string(c.text), nil}")))
-	 ))
+        (
+         ( "a" (mk-cmd (ins " <- ") ))
+         ( "A" (mk-cmd (evl (peg-insert-alternatives)) ))
+         ( "|" (mk-cmd (ins " /") (nli)))
+         ( "S" (mk-cmd (ins "{return string(c.text), nil}")))
+         ))
   (go-mode)
   (setq gofmt-ignore-p t)
   )
@@ -593,8 +593,8 @@
 (defun insert-unique-line ()
   (interactive)
   (let* ((initial (concat "# " (uuid) "-"))
-	 (line (read-string "enter unique line: " initial))
-	 (final (format "insert-text-block '%s' " line)))
+         (line (read-string "enter unique line: " initial))
+         (final (format "insert-text-block '%s' " line)))
     (insert final)))
 
 
@@ -607,21 +607,21 @@
   ( "V" (mk-cmd (ins "\"${") (rec) (evl (upcase-last)) (ins "}\"")))
   ( "v" (mk-cmd (ins "${") (rec) (evl (upcase-last)) (ins "}")))
   ( "w" (mk-cmd (ins "while ") (rec) (ins "; do") (nli)
-		(rec) (nli) (ins "done")))
+                (rec) (nli) (ins "done")))
   ( "e" (mk-cmd (evl (upcase-last)) (ins "=")))
   ( "E" (mk-cmd (evl (upcase-last)) (ins "=${")
-		(evl (insert (bash-identifier-current-line)))
-		(rec) (ins ":-") (rec) (ins "}") (nli)))
+                (evl (insert (bash-identifier-current-line)))
+                (rec) (ins ":-") (rec) (ins "}") (nli)))
   ( "$" (mk-cmd (ins "$(") (rec) (ins ")")))
   ( "j" (mk-cmd (ins " || ")))
   ( "k" (mk-cmd (ins " && ")))
   ( "S" (mk-cmd (idt) (ins "case ${") (rec) (evl (upcase-last)) (ins "} in")
-		(nli) (rec) (nli) (ins "esac") (nli)))
+                (nli) (rec) (nli) (ins "esac") (nli)))
   ( "s" (mk-cmd (idt) (ins ")") (nli) (rec) (nli) (ins ";;") (nli)))
   ( "o" (mk-cmd (ins "${OPTARG}")))
   ( "4" (mk-cmd (ins "[ ") (rec) (ins " ]")))
   ( "z" (mk-cmd (ins "if ") (rec) (ins "; then") (nli)
-		(rec) (nli) (ins "fi") (idt) (nli)))
+                (rec) (nli) (ins "fi") (idt) (nli)))
   ( "x" (mk-cmd (ins "elif ") (rec) (ins "; then") (nli) (rec) (nli) (py-bck)))
   ( "c" (mk-cmd (ins "else ") (rec) (ins "; then") (nli) (rec) (nli) (py-bck) ))
   ( "\\" (mk-cmd (ins " \\") (nli)))
@@ -631,8 +631,8 @@
   ( "l" (mk-cmd (ins " || exit ${LINENO}") ))
   ( "L" (mk-cmd (ins "echo \"") (rec) (ins "\" && exit ${LINENO}") ))
   ( "f" (mk-cmd (ins "for ") (rec) (evl (upcase-last))
-		(ins " in ") (rec) (ins "; do")
-		(nli) (rec) (nli) (ins "done")))
+                (ins " in ") (rec) (ins "; do")
+                (nli) (rec) (nli) (ins "done")))
   ( "x" 'shell-command-of-region)
   ( "H" (mk-cmd (ins "${1} && shift") (nli)))
   ( "g" (mk-cmd (ins "true")))
@@ -647,8 +647,8 @@
  )
 
 (eval-buttons-after-load nil
-			 sh-mode-map
-			 bash-buttons)
+                         sh-mode-map
+                         bash-buttons)
 
 (setf
  tex-buttons
@@ -657,23 +657,23 @@
   programming-buttons
   ( "m" (mk-cmd (ins "$") (rec) (ins "$")))
   ( "b" (mk-cmd (ins "\\begin{") (var-rec tex-sexp) (ins "}")
-		(rec) (ins "\\end{") (var-ins tex-sexp)
-		(ins "}") (var-pop tex-sexp)))
+                (rec) (ins "\\end{") (var-ins tex-sexp)
+                (ins "}") (var-pop tex-sexp)))
   ( "B" (mk-cmd (ins "\\textbf{") (rec) (ins "}")))
   ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
   ( "i" (mk-cmd (ins "\\in ")))
   ( "I" (mk-cmd (ins "\\item ") (idt) (rec) (nli) ))
   ( "I" (mk-cmd (ins "\\item ") (idt) (rec) (nli) ))
   ( "l" (mk-cmd (ins "\\begin{align*}") (nli) (rec)
-		(nli) (ins "\\end{align*}")))
+                (nli) (ins "\\end{align*}")))
   ( "L" (mk-cmd (ins "\\begin{tabular}{lr}") (nli)
-		(rec) (ins "\\end{tabular}")))
+                (rec) (ins "\\end{tabular}")))
   ( "_" (mk-cmd (ins ".$") (rec) (ins "$.")))
   ( "x" (mk-cmd (ins "(.x.)")))
   ( "q" (mk-cmd (ins "\\begin{numedquestion}") (ins "% q#") (rec) (nli)
-		(rec) (nli)  (ins "\\end{numedquestion}") (idt) (nli)))
+                (rec) (nli)  (ins "\\end{numedquestion}") (idt) (nli)))
   ( "P" (mk-cmd (ins "\\begin{part}") (ins "% (") (rec) (ins ")") (nli)
-		(rec) (nli)  (ins "\\end{part}") (idt) (nli)))
+                (rec) (nli)  (ins "\\end{part}") (idt) (nli)))
 
 
   ( "j" (mk-cmd (ins " \\vee ")))
@@ -694,7 +694,7 @@
   ( "." (mk-cmd (ins "\\cdot ")))
   ( "|" (mk-cmd (ins "P(") (rec)  (ins "|") (rec) (ins ")") ))
   ( "_" (mk-cmd (evl (backward-char)) (evl (upcase-last))
-		(ins "_") (evl (forward-char))  ))
+                (ins "_") (evl (forward-char))  ))
   ( "t" (mk-cmd (ins "\\text{") (rec) (ins "}")  ))
   ( "{" (mk-cmd (ins "\\{") (rec) (ins "\\}")  ))
   ( "-" (mk-cmd (ins "(1-p)^") (inm)))
@@ -716,8 +716,8 @@
  )
 
 (eval-buttons-after-load nil
-			 tex-mode-map
-			 tex-buttons)
+                         tex-mode-map
+                         tex-buttons)
 
 (setf
  matlab-buttons
@@ -725,10 +725,10 @@
   "matlab"
   python-buttons
   ( "z" (mk-cmd (ins "if ") (rec) (ins ";") (nli) (rec) (nli)
-		(ins "end") (idt)))
+                (ins "end") (idt)))
   ( "'" (mk-cmd (ins "'")))
   ( "f" (mk-cmd (ins "for ") (rec) (ins "=1") (rec) (ins ":")
-		(rec) (nli) (rec) (ins "end") ))
+                (rec) (nli) (rec) (ins "end") ))
   ( "j" (mk-cmd (ins " ||  ")))
   ( "k" (mk-cmd (ins " &&  ")))
   ( "2" (mk-cmd (ins "'") (rec) (ins "'")))
@@ -753,8 +753,8 @@
  )
 
 (eval-buttons-after-load nil
-			 matlab-mode-map
-			 matlab-buttons)
+                         matlab-mode-map
+                         matlab-buttons)
 
 (setf
  r-buttons
@@ -767,15 +767,15 @@
   ( "8" (mk-cmd (ins "%*%")))
   ( "'" (mk-cmd (ins "t(") (rec) (ins ")")))
   ( "f" (mk-cmd (ins "for(") (rec) (ins " in as.single(")
-		(rec) (ins ":") (rec) (ins "))") (cbd)))
+                (rec) (ins ":") (rec) (ins "))") (cbd)))
   ( "-" (mk-cmd (ins "attr(") (rec) (ins ", \"") (rec) (ins "\" )")))
   ( "N" (mk-cmd (ins "print(") (rec) (ins ")")))
   )
  )
 
 (eval-buttons-after-load nil
-			 ess-mode-map
-			 r-buttons)
+                         ess-mode-map
+                         r-buttons)
 
 (setf
  octave-buttons
@@ -783,19 +783,19 @@
   "octave"
   matlab-buttons
   ( "d" (mk-cmd (ins "function [") (rec) (ins "] = ") (rec) (ins "(")
-		(rec) (ins ")") (nli) (rec) (nli) (ins "endfunction")))
+                (rec) (ins ")") (nli) (rec) (nli) (ins "endfunction")))
   ( "'" (mk-cmd (ins "#{") (rec) (ins "#}")))
   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
   )
  )
 
 (eval-buttons-after-load nil
-			 octave-mode-map
-			 octave-buttons)
+                         octave-mode-map
+                         octave-buttons)
 
 (eval-buttons-after-load nil
-			 inferior-octave-mode-map
-			 octave-buttons)
+                         inferior-octave-mode-map
+                         octave-buttons)
 
 (setf
  cpp-buttons
@@ -804,15 +804,15 @@
   c-buttons
   ( "d" (mk-cmd (ins " ( ") (rec) (ins " )")   (cbd)))
   ( "m" (mk-cmd
-	 ;; (ins "#include <cstdlib.h>") (nli)
-	 (ins "using namespace std;") (nli)
-	 (ins "#include <vector>") (nli)
-	 (ins "#include <unordered_map>") (nli)
-	 (ins "#include<iostream>") (nli)
-	 (ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
-	 (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
-	 (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
-	 ))
+         ;; (ins "#include <cstdlib.h>") (nli)
+         (ins "using namespace std;") (nli)
+         (ins "#include <vector>") (nli)
+         (ins "#include <unordered_map>") (nli)
+         (ins "#include<iostream>") (nli)
+         (ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
+         (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
+         (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
+         ))
   ( "V" (mk-cmd (ins "int ")  ))
   ( "n" (mk-cmd (ins "cout << ") (rec) (scn)))
   ( "," (mk-cmd (ins " << ")))
@@ -822,20 +822,20 @@
   ( "s" (mk-cmd (ins "scanf( \"") (inm) (rec) (ins "\", ") (rec) (ins " )")))
   ( "s" (mk-cmd (ins "scanf( \"%d\", &") (inm) (rec) (ins " );") ))
   ( "S" (mk-cmd (ins "int ") (var-rec scanf-var) (ins "; ")
-		(ins "scanf( \"%d\", &")
-		(var-ins scanf-var) (var-pop scanf-var) (ins " );") (nli)))
+                (ins "scanf( \"%d\", &")
+                (var-ins scanf-var) (var-pop scanf-var) (ins " );") (nli)))
 
   ("M"
    (mk-cmd (ins "#include <unordered_map>") (nli)
-	   (ins "#include <iostream>") (nli)
-	   (ins "#include <string>") (nli)
-	   (ins "#include <assert.h>") (nli)
-	   (ins "using namespace std;") (nli)))
+           (ins "#include <iostream>") (nli)
+           (ins "#include <string>") (nli)
+           (ins "#include <assert.h>") (nli)
+           (ins "using namespace std;") (nli)))
   ))
 
 (eval-buttons-after-load nil
-			 c++-mode-map
-			 cpp-buttons)
+                         c++-mode-map
+                         cpp-buttons)
 
 (setf
  yacc-buttons
@@ -849,8 +849,8 @@
  )
 
 (eval-buttons-after-load nil
-			 yacc-mode-map
-			 yacc-buttons)
+                         yacc-mode-map
+                         yacc-buttons)
 
 (setf
  dot-buttons
@@ -861,8 +861,8 @@
   ( "-" (mk-cmd (ins " -> ")))))
 
 (eval-buttons-after-load nil
-			 dot-mode-map
-			 dot-buttons)
+                         dot-mode-map
+                         dot-buttons)
 
 
 (setf
@@ -874,51 +874,51 @@
   ))
 
 '(eval-buttons-after-load nil
-			  forum-mode-map
-			  forum-buttons)
+                          forum-mode-map
+                          forum-buttons)
 
 (defun my-comment-out (arg &optional duplicate) (interactive "P")
        (let* ((mode-map-keymap-sym
-	       (intern (concat (symbol-name major-mode) "-map")))
-	      (comment-cmd (when (boundp mode-map-keymap-sym)
-			     (lookup-key (symbol-value mode-map-keymap-sym)
-					 (kbd "s-/")))))
-	 (when (and comment-cmd (not (eq comment-cmd (function my-comment-out))))
-	   (call-interactively comment-cmd)
-	   (return)))
+               (intern (concat (symbol-name major-mode) "-map")))
+              (comment-cmd (when (boundp mode-map-keymap-sym)
+                             (lookup-key (symbol-value mode-map-keymap-sym)
+                                         (kbd "s-/")))))
+         (when (and comment-cmd (not (eq comment-cmd (function my-comment-out))))
+           (call-interactively comment-cmd)
+           (return)))
        (let ((start-end (if mark-active
-			    (cons (region-beginning)
-				  (region-end))
-			  (cons
-			   (line-beginning-position)
-			   (save-excursion
-			     (when arg (next-logical-line (1- arg)))
-			     (point))))))
-	 (let* ((start (save-excursion
-			 (goto-char (car start-end))
-			 (line-beginning-position)))
-		(end (save-excursion
-		       (goto-char (cdr start-end))
-		       (line-end-position)))
-		(comment-regexp (concat
-				 "\\`[[:space:]]*"
-				 (regexp-quote comment-start)))
-		(text (buffer-substring-no-properties start end))
-		(is-commented (string-match comment-regexp text))
-		(comment-end "")
-		)
-	   (if (zerop (length text))
-	       (insert (concat comment-start
-			       (when comment-add comment-start)
-			       " "))
-	     (funcall (if is-commented 'uncomment-region 'comment-region)
-		      start end nil))
-	   (when duplicate
-	     (goto-char end)
-	     (end-of-line)
-	     (open-line 1)
-	     (next-line 1)
-	     (insert text)))))
+                            (cons (region-beginning)
+                                  (region-end))
+                          (cons
+                           (line-beginning-position)
+                           (save-excursion
+                             (when arg (next-logical-line (1- arg)))
+                             (point))))))
+         (let* ((start (save-excursion
+                         (goto-char (car start-end))
+                         (line-beginning-position)))
+                (end (save-excursion
+                       (goto-char (cdr start-end))
+                       (line-end-position)))
+                (comment-regexp (concat
+                                 "\\`[[:space:]]*"
+                                 (regexp-quote comment-start)))
+                (text (buffer-substring-no-properties start end))
+                (is-commented (string-match comment-regexp text))
+                (comment-end "")
+                )
+           (if (zerop (length text))
+               (insert (concat comment-start
+                               (when comment-add comment-start)
+                               " "))
+             (funcall (if is-commented 'uncomment-region 'comment-region)
+                      start end nil))
+           (when duplicate
+             (goto-char end)
+             (end-of-line)
+             (open-line 1)
+             (next-line 1)
+             (insert text)))))
 
 (defun my-comment-out-and-duplicate (arg)
   (interactive "P")
@@ -930,20 +930,20 @@
   "org"
   nil
   ( "q" (mk-cmd (ins "#+BEGIN_SRC ")
-		;; (chs "java" "bash" "clojure")
-		(rec)
-		(nli) (rec) (ins "#+END_SRC") (nli)))
+                ;; (chs "java" "bash" "clojure")
+                (rec)
+                (nli) (rec) (ins "#+END_SRC") (nli)))
   ( "`" (mk-cmd (ins "~") (rec) (ins "~")))
   ( "Q" (mk-cmd (ins "#+begin_quote ")
-		;; (chs "java" "bash" "clojure")
-		(rec)
-		(nli) (rec) (ins "#+end_quote") (nli)))
+                ;; (chs "java" "bash" "clojure")
+                (rec)
+                (nli) (rec) (ins "#+end_quote") (nli)))
   ((kbd "<s-tab>") 'org-indent-block)
   ("return" 'org-toggle-list-heading)
   ("i" (lambda () (interactive)
-	 (if org-inline-image-overlays
-	     (org-remove-inline-images)
-	   (org-display-inline-images))))
+         (if org-inline-image-overlays
+             (org-remove-inline-images)
+           (org-display-inline-images))))
 
   ("m"
    (mk-cmd
@@ -956,7 +956,7 @@
   ))
 
 (eval-buttons-after-load nil
-			 org-mode-map org-buttons)
+                         org-mode-map org-buttons)
 (setf
  message-buttons
  (buttons-make-bindings
@@ -964,10 +964,10 @@
   nil
   ( "=" (mk-cmd (ins " => ")))
   ( "<" (mk-cmd (re-sub "^[ \t]*>?[ \t]*" ""))))
-  )
+ )
 
 (eval-buttons-after-load nil
-			  message-mode-map message-buttons)
+                         message-mode-map message-buttons)
 
 (setf
  term-buttons
