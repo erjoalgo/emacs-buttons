@@ -64,7 +64,7 @@
   ( "L" (mk-cmd (ins "class ") (rec) (ins "(object)") (py-scn)))
   ( "l" (mk-cmd (ins "len(") (rec) (ins ")")))
   ( "'" (mk-cmd (ins "\"\"\"") (rec) (ins "\"\"\"") (nli)))
-  ( "W" (mk-cmd (ins "with open( ") (rec) (ins ", \"") (rec)
+  ( "W" (mk-cmd (ins "with open(") (rec) (ins ", \"") (rec)
 		(ins "\") as fh:") (nli) (rec) (nli)))
   ( "SPC" (mk-cmd (ins ", ")))
   ( "I" (mk-cmd (ins "def __init__( self") (ins " )") (py-scn)))
