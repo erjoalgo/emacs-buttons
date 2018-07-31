@@ -953,6 +953,7 @@
     (ins "#+OPTIONS: num:nil") (nli)
     (ins "#+TITLE: ") (rec) (nli)))
   ( "R" (mk-cmd (ins "***REMOVED***")))
+  ( "w" 'org-refile)
   ))
 
 (eval-buttons-after-load nil
