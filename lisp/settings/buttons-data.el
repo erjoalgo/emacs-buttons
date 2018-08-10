@@ -209,6 +209,7 @@
                                ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
                                ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
                                ))
+  ( "{" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
   ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
   ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
   ( "s" (mk-cmd (evl (call-interactively 'insert-emacs-sym))))
@@ -242,7 +243,7 @@
   "cl"
   emacs-lisp-buttons
   ( "n" (mk-cmd (ins "(format t \"") (rec) (ins "~%\" ") (rec)  (ins ")")))
-  ( "N" (mk-cmd (ins "(format nil \"") (rec) (ins "~%\" ") (rec)  (ins ")")))
+  ( "N" (mk-cmd (ins "(format nil ") (rec) (ins ")")))
   ( "#" (mk-cmd (ins "#:")))
   ( "5" (mk-cmd (ins "~A")))
   ( "%" (mk-cmd (ins "~D")))
@@ -260,8 +261,9 @@
      ("a" (mk-cmd (ins "append ")))
      ("f" (mk-cmd (ins "finally ")))
      ("r" (mk-cmd (ins "(return ") (rec) (ins ")")))
-     )
 
+     ("3" (mk-cmd (ins "#P")))
+     )
     )
   ( ";" (mk-cmd (ins ":")))
   ( ":" (mk-cmd (ins "::")))
