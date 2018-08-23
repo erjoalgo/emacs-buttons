@@ -36,7 +36,7 @@
   ( "e" (lambda () (interactive)
           ;; pylint-compatible
           (insert (if (looking-back "^[ 	]*[a-zA-Z_]+ *")
-              " =  " "="))))
+              " = " "="))))
   ( "f" (mk-cmd (ins "for ") (rec) (ins " in ") (rec) (ins ":")
                 (nli) (rec) (nli) (py-bck)))
   ( "F" (mk-cmd (ins "[ ") (rec) (ins " for ") (rec)
