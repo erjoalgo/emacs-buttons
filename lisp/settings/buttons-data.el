@@ -1012,4 +1012,29 @@
 (eval-buttons-after-load nil
                          magit-mode-map magit-buttons)
 
+
+(defun git-hunk-toggle-cmd (dest-indicator)
+  `(lambda (a b)
+     ,(format "make region hunk lines start with '%s'" dest-indicator)
+     (interactive (if (region-active-p)
+                      (list (region-beginning) (region-end))
+                    (list (line-beginning-position) (line-end-position))))
+     (save-excursion
+       (goto-char a)
+       (while (re-search-forward "^[-+ ]" b t nil)
+         (replace-match ,dest-indicator t)))))
+
+
+(setf
+ diff-buttons
+ (buttons-make-bindings
+  "diff"
+  nil
+  ( "-" (git-hunk-toggle-cmd "-"))
+  ( "=" (git-hunk-toggle-cmd "+"))
+  ( "0" (git-hunk-toggle-cmd " "))))
+
+(eval-buttons-after-load nil
+                         diff-mode-map diff-buttons)
+
 (after-load-button nil)
