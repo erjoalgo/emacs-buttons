@@ -819,7 +819,7 @@
          (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
          ))
   ( "V" (mk-cmd (ins "int ")  ))
-  ( "n" (mk-cmd (ins "cout << ") (rec) (ins " << endl") (scn)))
+  ( "N" (mk-cmd (ins "cout << ") (rec) (ins " << endl") (scn)))
   ( "," (mk-cmd (ins " << ")))
   ( "l" (mk-cmd (ins ".size()") ))
   ( "D" (mk-cmd (ins "int main ( ") (rec) (ins " )") (cbd)))
