@@ -275,7 +275,7 @@
      ("f" (mk-cmd (ins "finally ")))
      ("r" (mk-cmd (ins "(return ") (rec) (ins ")")))
 
-     ("3" (mk-cmd (ins "#P")))
+     ("3" (mk-cmd (ins "#P\"") (rec) (ins "\"")))
      )
     )
   ( ";" (mk-cmd (ins ":")))
