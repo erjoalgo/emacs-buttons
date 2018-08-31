@@ -246,8 +246,17 @@
  (buttons-make-bindings
   "cl"
   emacs-lisp-buttons
-  ( "n" (mk-cmd (ins "(format t \"") (rec) (ins "~%\" ") (rec)  (ins ")")))
-  ( "N" (mk-cmd (ins "(format nil ") (rec) (ins ")")))
+  ( "n" (buttons-make-bindings
+         nil nil
+         ;; ("g" (mk-cmd (ins-sexp "format nil " (rec))))
+         ;; ("t" (mk-cmd (ins-sexp "format t " (rec))))
+         ;; ("f" (mk-cmd (ins-sexp "format fh " (rec))))
+         ;; ("n" (mk-cmd (ins-sexp "format " (rec)))))
+
+         ("g"(mk-cmd (ins "(format nil ") (rec) (ins ")")))
+         ("t"(mk-cmd (ins "(format t ") (rec) (ins ")")))
+         ("f"(mk-cmd (ins "(format fh ") (rec) (ins ")")))
+         ("n"(mk-cmd (ins "(format ") (rec) (ins ")")))))
   ( "#" (mk-cmd (ins "#:")))
   ( "5" (mk-cmd (ins "~A")))
   ( "%" (mk-cmd (ins "~D")))
