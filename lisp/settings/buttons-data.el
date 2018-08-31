@@ -208,7 +208,13 @@
                                       (ins "\"))")
                                       (nli)
                                       (var-pop scanf-var)))
-                               ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
+                               ( "e"
+                                 (buttons-make-bindings
+                                  nil nil
+                                  ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
+                                  ( "q" (mk-cmd (ins "(eq ") (rec) (ins ")")))
+                                  ( "l" (mk-cmd (ins "(eql ") (rec) (ins ")")))))
+
                                ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
                                ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
                                ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
