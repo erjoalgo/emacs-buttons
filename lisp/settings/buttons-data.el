@@ -159,9 +159,6 @@
                                ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
                                ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
                                              (rec) (ins ")") (nli) (rec) (ins ")")))
-                               ( "r" (mk-cmd (ins "&rest ")))
-                               ( "k" (mk-cmd (ins "&key ")))
-                               ( "o" (mk-cmd (ins "&optional ")))
                                ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
                                              (rec) (ins ")") (nli) (rec) (ins ")")))
                                ( "p" (mk-cmd (ins "(defparameter ") (rec) (ins ")")))
@@ -194,7 +191,11 @@
   ( "L" (mk-cmd (ins "(let (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))
   ( "e" (mk-cmd (ins "(setf ") (rec) (ins ")")))
   ( "i" (mk-cmd (ins "(interactive)") ))
-  ( "7" (mk-cmd (ins "&optional ")))
+  ( "7" (buttons-make-bindings nil nil
+                               ( "r" (mk-cmd (ins "&rest ")))
+                               ( "k" (mk-cmd (ins "&key ")))
+                               ( "o" (mk-cmd (ins "&optional ")))
+                               ))
   ( "g" (mk-cmd (ins "nil") ))
   ( "t" (buttons-make-bindings nil nil
                                ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
