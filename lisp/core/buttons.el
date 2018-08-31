@@ -40,7 +40,7 @@
 	('chs `(,(s-join args "|") (insert (select-option args "select: " ))))
 	('re-sub (let ((form `(replace-regexp ,(first args) ,(second args))))
 		   `(,(format "%s" form) ,form)))
-	(t (error "unknown action %s" action) ))
+	(t (error "unknown action %s %s" action fun)))
       )))
 
 (defmacro buttons-make-bindings (language-prefix base-map &rest bindings)
