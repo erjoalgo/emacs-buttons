@@ -215,6 +215,12 @@
                                   ( "q" (mk-cmd (ins "(eq ") (rec) (ins ")")))
                                   ( "l" (mk-cmd (ins "(eql ") (rec) (ins ")")))))
 
+                               ( "f" ;; filter
+                                 (buttons-make-bindings
+                                  nil nil
+                                  ( "r" (mk-cmd (ins "(remove-if ") (rec) (ins ")")))
+                                  ( "R" (mk-cmd (ins "(remove-if-not ") (rec) (ins ")")))))
+
                                ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
                                ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
                                ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
