@@ -447,8 +447,11 @@
   ( "S" (mk-cmd (evl (java-new))))
   ( "F" (mk-cmd (ins "for (") (rec) (ins ": ") (rec) (ins ")") (cbd) ))
   ( "L" (mk-cmd (ins "class ") (rec)  (cbd) ))
-  ( "i" (mk-cmd (ins "int ") (inm) ))
-  ( "I" (mk-cmd (ins "String ") (inm) ))
+  ( "i" (buttons-make-bindings
+         nil nil
+         ("i" (mk-cmd (ins "int ") (inm) ))
+         ("I" (mk-cmd (ins "Integer ") (inm) ))
+         ("s" (mk-cmd (ins "String ")))))
   ( "$" (mk-cmd (ins "new ") (rec) (ins "[]{") (rec) (ins "}") ))
   ( "-" (mk-cmd (ins " -> ") ))
   ( "m" (mk-cmd (ins "import ") (rec) (ins ";")))
