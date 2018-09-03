@@ -105,8 +105,7 @@
 
 (setf buttons-after-load-alist nil)
 
-(defmacro eval-buttons-after-load (feature
-                                   mode-keymap-sym buttons-keymap)
+(defmacro eval-buttons-after-load (mode-keymap-sym buttons-keymap)
   `(push (cons ',mode-keymap-sym ,buttons-keymap)
          buttons-after-load-alist))
 
@@ -120,9 +119,9 @@
 
 (add-hook 'after-load-functions 'after-load-button)
 
-(eval-buttons-after-load nil python-mode-map python-buttons)
+(eval-buttons-after-load python-mode-map python-buttons)
 
-(eval-buttons-after-load nil inferior-python-mode-map python-buttons)
+(eval-buttons-after-load inferior-python-mode-map python-buttons)
 
 (setf
  pdb-buttons
@@ -139,8 +138,7 @@
   ( "X" (mk-cmd (cmt "exit")))
   ))
 
-'(eval-buttons-after-load nil
-                          inferior-python-mode pdb-buttons)
+'(eval-buttons-after-load inferior-python-mode pdb-buttons)
 
 (defun describe-function-at-point ()
   (interactive)
@@ -241,17 +239,11 @@
   ( "`" (mk-cmd (ins "`") (rec) (ins "'")))
   ))
 
-(eval-buttons-after-load nil
-                         emacs-lisp-mode-map
-                         emacs-lisp-buttons)
+(eval-buttons-after-load emacs-lisp-mode-map emacs-lisp-buttons)
 
-(eval-buttons-after-load nil
-                         read-expression-map
-                         emacs-lisp-buttons)
+(eval-buttons-after-load read-expression-map emacs-lisp-buttons)
 
-(eval-buttons-after-load "ielm"
-                         inferior-emacs-lisp-mode-map
-                         emacs-lisp-buttons)
+(eval-buttons-after-load inferior-emacs-lisp-mode-map emacs-lisp-buttons)
 
 (setf
  cl-buttons
@@ -305,13 +297,9 @@
   )
  )
 
-(eval-buttons-after-load nil
-                         lisp-mode-map
-                         cl-buttons)
+(eval-buttons-after-load lisp-mode-map cl-buttons)
 
-(eval-buttons-after-load nil
-                         slime-mode-map
-                         cl-buttons)
+(eval-buttons-after-load slime-mode-map cl-buttons)
 
 (setf
  clj-buttons
@@ -335,13 +323,9 @@
   ( "e" (mk-cmd (ins "(def ") (rec) (ins ")")))
   ))
 
-(eval-buttons-after-load nil
-                         clojure-mode-map
-                         clj-buttons)
+(eval-buttons-after-load clojure-mode-map clj-buttons)
 
-(eval-buttons-after-load nil
-                         cider-repl-mode-map
-                         clj-buttons)
+(eval-buttons-after-load cider-repl-mode-map clj-buttons)
 
 (setf
  c-buttons
@@ -417,9 +401,7 @@
                 ))
   ))
 
-(eval-buttons-after-load "cc-mode"
-                         c-mode-map
-                         c-buttons)
+(eval-buttons-after-load c-mode-map c-buttons)
 
 (setf
  java-buttons
@@ -459,9 +441,7 @@
   ( "t" (mk-cmd (ins "try ") (cbd) (ins "catch (") (rec) (ins ")") (cbd)))
   ))
 
-(eval-buttons-after-load nil
-                         java-mode-map
-                         java-buttons)
+(eval-buttons-after-load java-mode-map java-buttons)
 
 (defun xml-toggle-line-comment ()
   (interactive)
@@ -498,9 +478,7 @@
   )
  )
 
-(eval-buttons-after-load "nxml-mode"
-                         nxml-mode-map
-                         xml-buttons)
+(eval-buttons-after-load nxml-mode-map xml-buttons)
 
 (setf
  html-buttons
@@ -512,9 +490,7 @@
   )
  )
 
-(eval-buttons-after-load nil
-                         html-mode-map
-                         html-buttons)
+(eval-buttons-after-load html-mode-map html-buttons)
 
 
 (setf
@@ -553,7 +529,7 @@
   )
  )
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          js-mode-map
                          js-buttons)
 
@@ -603,9 +579,7 @@
  )
 '(setq go-types '("struct" "int" "bool" "string" "float"))
 
-(eval-buttons-after-load nil
-                         go-mode-map
-                         go-buttons)
+(eval-buttons-after-load go-mode-map go-buttons)
 
 
 '(;;(edebug)
@@ -676,7 +650,7 @@
   )
  )
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          sh-mode-map
                          bash-buttons)
 
@@ -745,9 +719,7 @@
   )
  )
 
-(eval-buttons-after-load nil
-                         tex-mode-map
-                         tex-buttons)
+(eval-buttons-after-load tex-mode-map tex-buttons)
 
 (setf
  matlab-buttons
@@ -782,7 +754,7 @@
   )
  )
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          matlab-mode-map
                          matlab-buttons)
 
@@ -803,9 +775,7 @@
   )
  )
 
-(eval-buttons-after-load nil
-                         ess-mode-map
-                         r-buttons)
+(eval-buttons-after-load ess-mode-map r-buttons)
 
 (setf
  octave-buttons
@@ -819,13 +789,11 @@
   )
  )
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          octave-mode-map
                          octave-buttons)
 
-(eval-buttons-after-load nil
-                         inferior-octave-mode-map
-                         octave-buttons)
+(eval-buttons-after-load inferior-octave-mode-map octave-buttons)
 
 (setf
  cpp-buttons
@@ -861,7 +829,7 @@
            (ins "using namespace std;") (nli)))
   ))
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          c++-mode-map
                          cpp-buttons)
 
@@ -876,9 +844,7 @@
   )
  )
 
-(eval-buttons-after-load nil
-                         yacc-mode-map
-                         yacc-buttons)
+(eval-buttons-after-load yacc-mode-map yacc-buttons)
 
 (setf
  dot-buttons
@@ -888,7 +854,7 @@
   ( "l" (mk-cmd (ins " [label=\"") (rec) (ins "\"];")))
   ( "-" (mk-cmd (ins " -> ")))))
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          dot-mode-map
                          dot-buttons)
 
@@ -901,9 +867,7 @@
   ( "," (mk-cmd (ins "[code]") (rec) (ins "[/code]") ))
   ))
 
-'(eval-buttons-after-load nil
-                          forum-mode-map
-                          forum-buttons)
+'(eval-buttons-after-load forum-mode-map forum-buttons)
 
 (defun my-comment-out (arg &optional duplicate) (interactive "P")
        (let* ((mode-map-keymap-sym
@@ -984,7 +948,7 @@
   ( "w" 'org-refile)
   ))
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          org-mode-map org-buttons)
 (setf
  message-buttons
@@ -995,9 +959,7 @@
   ( "<" (mk-cmd (re-sub "^[ \t]*>?[ \t]*" ""))))
  )
 
-(eval-buttons-after-load nil
-                         message-mode-map message-buttons)
-
+(eval-buttons-after-load message-mode-map message-buttons)
 (setf
  term-buttons
  (buttons-make-bindings
@@ -1010,7 +972,7 @@
     )))
 
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          term-raw-map term-buttons)
 
 (setf
@@ -1021,7 +983,7 @@
   ( "e" (mk-cmd (ins "="))
     )
   ))
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          conf-mode-map conf-buttons)
 
 (setf
@@ -1032,7 +994,7 @@
   ( "p" 'magit-go-backward)
   ( "n" 'magit-go-forward)))
 
-(eval-buttons-after-load nil
+(eval-buttons-after-load
                          magit-mode-map magit-buttons)
 
 
@@ -1058,7 +1020,6 @@
   ( "=" (git-hunk-toggle-cmd "+"))
   ( "0" (git-hunk-toggle-cmd " "))))
 
-(eval-buttons-after-load nil
-                         diff-mode-map diff-buttons)
+(eval-buttons-after-load diff-mode-map diff-buttons)
 
 (after-load-button nil)
