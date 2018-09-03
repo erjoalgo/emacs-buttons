@@ -43,23 +43,32 @@
 	(t (error "unknown action %s %s" action fun)))
       )))
 
-(defmacro buttons-make-bindings (language-prefix base-map &rest bindings)
-  (loop for (key-spec value . rest) in bindings
-	when rest do (error "more than one sexp in input")
-	with kmap-sym = (gensym (format "buttons-keymap-%s-"
-					language-prefix))
-	as key = (if (stringp key-spec)
-		     (buttons-add-super-modifier key-spec)
-		   key-spec)
-	as name-sym = (gensym (format "buttons-%s-%s-" language-prefix
-				      key-spec))
-					;collect `(define-key ,kmap-sym ,key
-	collect `(define-key ,kmap-sym ,key ,value)
-	into define-keys
-	finally (return `(let ((,kmap-sym (if ,base-map (copy-keymap ,base-map)
-					    (make-sparse-keymap))))
-			   ,@define-keys
-			   ,kmap-sym))))
+(defmacro buttons-make (&rest bindings)
+  (let ((kmap-sym (gensym "kmap")))
+    `(let ((,kmap-sym (make-sparse-keymap)))
+       ,@(loop with map = (make-sparse-keymap)
+               for (key-spec value . rest) in bindings
+               when rest do (error "malformed key definition")
+               as key = (if (stringp key-spec)
+                            ;; TODO use dynamically defined modifier
+                            (buttons-add-super-modifier key-spec)
+                          key-spec)
+               collect `(define-key ,kmap-sym ,key ,value))
+       ,kmap-sym)))
+
+(defmacro defbuttons (kmap-sym load-after-keymap-syms ancestor-kmap keymap)
+  (let* ((sym-name (symbol-name kmap-sym)))
+    `(progn
+       (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
+       (setf ,kmap-sym ,(if ancestor-kmap
+                            ;; also try: derived-mode-merge-keymaps
+                            `(keymap--merge-bindings ,ancestor-kmap ,keymap)
+                          keymap))
+       ,@(loop for orig in (if (and load-after-keymap-syms
+                                    (atom load-after-keymap-syms))
+                               (list load-after-keymap-syms)
+                             load-after-keymap-syms)
+               collect `(eval-buttons-after-load ,orig ,kmap-sym)))))
 
 (defmacro mk-cmd (&rest actions)
   (loop
@@ -123,3 +132,25 @@
   (if (member major-mode '(c-mode js-mode))
       (c-indent-line-or-region)
     (indent-for-tab-command)))
+
+(defun define-keymap-onto-keymap (from-map to-map)
+  (map-keymap
+   (lambda (key cmd)
+     (define-key to-map (vector key) cmd))
+   from-map))
+
+(setf buttons-after-load-alist nil)
+
+(defmacro eval-buttons-after-load (mode-keymap-sym buttons-keymap)
+  `(push (cons ',mode-keymap-sym ,buttons-keymap)
+         buttons-after-load-alist))
+
+(defun after-load-button (file-loaded)
+  (setf buttons-after-load-alist
+        (loop for (sym . buttons-keymap) in buttons-after-load-alist
+              if (boundp sym) do
+              (define-keymap-onto-keymap buttons-keymap
+                (symbol-value sym))
+              else collect (cons sym buttons-keymap))))
+
+(add-hook 'after-load-functions 'after-load-button)
