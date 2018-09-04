@@ -168,6 +168,7 @@
                          (buttons-make
                           ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
                           ( "q" (mk-cmd (ins "(eq ") (rec) (ins ")")))
+                          ( "=" (mk-cmd (ins "(= ") (rec) (ins ")")))
                           ( "l" (mk-cmd (ins "(eql ") (rec) (ins ")")))))
 
                        ( "f" ;; filter
