@@ -139,6 +139,8 @@
      (define-key to-map (vector key) cmd))
    from-map))
 
+(defvar buttons-after-load-alist nil)
+
 (defmacro eval-buttons-after-load (mode-keymap-sym buttons-keymap)
   `(push (cons ',mode-keymap-sym ,buttons-keymap)
          buttons-after-load-alist))
