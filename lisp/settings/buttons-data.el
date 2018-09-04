@@ -1,3 +1,5 @@
+(setf buttons-after-load-alist nil)
+
 (defbuttons
   programming-buttons
   nil nil
