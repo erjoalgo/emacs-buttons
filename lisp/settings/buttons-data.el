@@ -250,8 +250,7 @@
                         (ins ")")
                         (evl (slime-repl-return))))
           ( "a" (mk-cmd (ins "(apropos \"") (rec) (ins "\")") (nli)))
-          ( "D" (mk-cmd (ins "(declaim (optimize (debug 3) (speed 0)))")))
-          ))))
+          ( "D" (mk-cmd (ins "(declaim (optimize (debug 3) (speed 0)))")))))))
 
 (defbuttons
   clojure-buttons
