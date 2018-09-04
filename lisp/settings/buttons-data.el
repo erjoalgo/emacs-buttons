@@ -122,9 +122,6 @@
                                      (rec) (ins ")") (nli) (rec) (ins ")")))
                        ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
                                      (rec) (ins ")") (nli) (rec) (ins ")")))
-                       ( "p" (mk-cmd (ins "(defparameter ") (rec) (ins ")")))
-                       ( "s" (mk-cmd (ins "(defstruct ") (rec)
-                                     (nli) (rec) (ins ")")))
                        ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
                        ( "c" (mk-cmd (ins "(defcommand ") (rec)
                                      (ins " (") (rec) (ins ")")
@@ -203,6 +200,14 @@
   (lisp-mode-map  slime-mode-map)
   emacs-lisp-buttons
   (buttons-make
+   ( "d" (buttons-make
+          ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
+          ( "c" (mk-cmd (ins "(defcommand ") (rec)
+                        (ins " (") (rec) (ins ")")
+                        (ins " (") (rec) (ins ")")
+                        (nli) (rec) (ins ")")))
+          ( "s" (mk-cmd (ins "(defstruct ") (rec)
+                        (nli) (rec) (ins ")")))))
    ( "n" (buttons-make
           ;; ("g" (mk-cmd (ins-sexp "format nil " (rec))))
           ;; ("t" (mk-cmd (ins-sexp "format t " (rec))))
