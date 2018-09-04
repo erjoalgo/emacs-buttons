@@ -757,8 +757,6 @@
    ( "," (mk-cmd (ins "[code]") (rec) (ins "[/code]") ))
    ))
 
-'
-
 (defun my-comment-out (arg &optional duplicate) (interactive "P")
        (let* ((mode-map-keymap-sym
                (intern (concat (symbol-name major-mode) "-map")))
