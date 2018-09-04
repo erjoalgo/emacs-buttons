@@ -115,7 +115,7 @@
   `((ins ,(concat "(" string)) ,@forms (ins ")")))
 
 (defbuttons emacs-lisp-buttons
-  (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
+  (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map lisp-mode-map)
   programming-buttons
   (buttons-make
    ( "d" (buttons-make
