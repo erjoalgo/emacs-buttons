@@ -68,7 +68,7 @@
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
                              load-after-keymap-syms)
-               collect `(eval-buttons-after-load ,orig ,kmap-sym)))))
+               collect `(eval-buttons-after-load ,orig ',kmap-sym)))))
 
 (defmacro mk-cmd (&rest actions)
   (loop
@@ -149,8 +149,10 @@
   (setf buttons-after-load-alist
         (loop for (sym . buttons-keymap) in buttons-after-load-alist
               if (boundp sym) do
-              (define-keymap-onto-keymap buttons-keymap
-                (symbol-value sym))
+              (progn
+                ;; (message "loading %s into %s" (symbol-name buttons-keymap) (symbol-name sym))
+                (define-keymap-onto-keymap (symbol-value buttons-keymap)
+                  (symbol-value sym)))
               else collect (cons sym buttons-keymap))))
 
 (add-hook 'after-load-functions 'after-load-button)
