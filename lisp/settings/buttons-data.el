@@ -317,7 +317,7 @@
           ))
    ( "i" (buttons-make
           ("u" (mk-cmd (ins "unsigned ")))
-          ("i" (mk-cmd (ins "int")))
+          ("i" (mk-cmd (ins "int ")))
           ("l" (mk-cmd (ins "long ")))
           ("c" (mk-cmd (ins "char ")))
           ("I" (mk-cmd (ins "char* ")))
