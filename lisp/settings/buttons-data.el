@@ -47,8 +47,6 @@
    ( "x" (mk-cmd (ins "elif ") (rec) (py-scn)))
    ( "c" (mk-cmd (ins "else") (py-scn)))
    ( "v" (mk-cmd (ins " if ") (rec) (ins " else ") (rec) ))
-   ( "B" (mk-cmd (ins "break")))
-   ( "b" (mk-cmd (ins "continue")))
    ( "1" (mk-cmd (ins "not ") ))
    ( "d" (mk-cmd (ins "def ") (rec) (ins "(") (inm) (rec) (ins ")") (py-scn)))
    ( "a" (mk-cmd (ins "lambda ") (rec) (ins ": ") (inm)))
@@ -314,8 +312,6 @@
    ( "<" (mk-cmd (py-shift left)))
    ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
    ( ";" (mk-cmd (evl (move-end-of-line nil)) (ins ";") (nli)))
-   ( "B" (mk-cmd (ins "break;")))
-   ( "b" (mk-cmd (ins "continue;")))
 
    ( "d" (buttons-make
           ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
@@ -343,7 +339,9 @@
                  (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
                  (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
                  ))
-   ))
+   ( "b" (buttons-make
+          ("c" (mk-cmd (ins "continue;")))
+          ("b" (mk-cmd (ins "break;")))))))
 
 (defbuttons
   java-buttons
