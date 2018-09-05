@@ -698,7 +698,6 @@
   (c++-mode-map)
   c-buttons
   (buttons-make
-   ( "d" (mk-cmd (ins " ( ") (rec) (ins " )")   (cbd)))
    ( "m" (mk-cmd
           ;; (ins "#include <cstdlib.h>") (nli)
           (ins "using namespace std;") (nli)
@@ -712,7 +711,6 @@
    ( "N" (mk-cmd (ins "cout << ") (rec) (ins " << endl") (scn)))
    ( "," (mk-cmd (ins " << ")))
    ( "l" (mk-cmd (ins ".size()") ))
-   ( "D" (mk-cmd (ins "int main ( ") (rec) (ins " )") (cbd)))
    ( "s" (mk-cmd (ins "scanf( \"") (inm) (rec) (ins "\", ") (rec) (ins " )")))
    ( "s" (mk-cmd (ins "scanf( \"%d\", &") (inm) (rec) (ins " );") ))
    ( "S" (mk-cmd (ins "int ") (var-rec scanf-var) (ins "; ")
