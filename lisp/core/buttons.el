@@ -76,16 +76,16 @@
 				   (when (boundp 'mk-cmd-prefix)
 				     (concat mk-cmd-prefix "-"))))
    for action in actions
-   as form-desc = (mk-cmd-read-action action)
    with descs = nil
    append (destructuring-bind (desc . forms)
-	      form-desc
+	      (mk-cmd-read-action action)
 	    (push desc descs)
 	    forms)
    into forms
    finally (return
 	    `(defun ,name-sym ()
-	       ,(s-join "" (reverse descs)) (interactive)
+	       ,(s-join "" (reverse descs))
+               (interactive)
 	       (let ((undo-len (length buffer-undo-list)))
 		 (undo-boundary)
 		 (or (catch 'button-abort
