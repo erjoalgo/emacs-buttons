@@ -163,7 +163,7 @@
         (loop for (sym . buttons-keymap) in buttons-after-load-alist
               if (boundp sym) do
               (progn
-                ;; (message "loading %s into %s" (symbol-name buttons-keymap) (symbol-name sym))
+                ;; (message "installing %s into %s" (symbol-name buttons-keymap) (symbol-name sym))
                 (define-keymap-onto-keymap (symbol-value buttons-keymap)
                   (symbol-value sym)))
               else collect (cons sym buttons-keymap))))
