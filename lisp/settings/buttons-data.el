@@ -121,12 +121,8 @@
                        ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
                                      (rec) (ins ")") (nli) (rec) (ins ")")))
                        ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
-                                     (rec) (ins ")") (nli) (rec) (ins ")")))
-                       ( "i" (mk-cmd (ins "(declare (ignore ") (rec) (ins "))")))
-                       ( "c" (mk-cmd (ins "(defcommand ") (rec)
-                                     (ins " (") (rec) (ins ")")
-                                     (ins " (") (rec) (ins ")")
-                                     (nli) (rec) (ins ")")))))
+                                     (rec) (ins ")") (nli) (rec) (ins ")"))))
+     )
 
    ( "u" (buttons-make
                        ( "k" (mk-cmd (ins "(defpackage ")
