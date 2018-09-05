@@ -60,10 +60,11 @@
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
-       (setf ,kmap-sym ,(if ancestor-kmap
-                            ;; also try: derived-mode-merge-keymaps
-                            `(keymap--merge-bindings ,ancestor-kmap ,keymap)
-                          keymap))
+       (setf ,kmap-sym ,keymap)
+       (when ,ancestor-kmap
+         ;; (set-keymap-parent ,keymap ,ancestor-kmap)
+         (define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym :from-sym ',kmap-sym
+           :no-overwrite-p t))
        ,@(loop for orig in (if (and load-after-keymap-syms
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
@@ -133,11 +134,23 @@
       (c-indent-line-or-region)
     (indent-for-tab-command)))
 
-(defun define-keymap-onto-keymap (from-map to-map)
-  (map-keymap
-   (lambda (key cmd)
-     (define-key to-map (vector key) cmd))
-   from-map))
+(cl-defun define-keymap-onto-keymap (from-map to-map &key from-sym no-overwrite-p)
+  (cl-labels ((merge (from-map to-map &optional path)
+                     (map-keymap
+                      (lambda (key cmd)
+                        (let* ((keyvec (vector key))
+                               (existing (lookup-key to-map keyvec)))
+                          (cond
+                           ((and (keymapp cmd) (keymapp existing))
+                            ;; (message "recursive merge on %s..." (key-description keyvec))
+                            (merge cmd existing (cons path (key-description keyvec))))
+                           ((or (not no-overwrite-p) (not existing))
+                            (when (and existing (keymapp existing))
+                              (warn "%s overwrites nested keymap with plain command on %s %s"
+                                    (or (symbol-name from-sym) "child") (key-description keyvec) (or (reverse path) "")))
+                            (define-key to-map keyvec cmd)))))
+                      from-map)))
+    (merge from-map to-map)))
 
 (defvar buttons-after-load-alist nil)
 
