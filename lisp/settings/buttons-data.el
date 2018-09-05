@@ -255,8 +255,9 @@
    ( "%" (mk-cmd (ins "%d")))
    ( "\\" (mk-cmd (ins "\\n")))
    ( "l" (mk-cmd (ins "(let [") (rec) (ins "]") (nli) (rec) (ins ")") (nli)))
-   ( "d" (mk-cmd (ins "(defn ") (rec) (ins " [") (rec) (ins "]")
-                 (nli) (rec) (ins ")") (nli)))
+   ( "d" (buttons-make
+          ("f" (mk-cmd (ins "(defn ") (rec) (ins " [") (rec) (ins "]")
+                      (nli) (rec) (ins ")") (nli)))))
    ( "n" (mk-cmd (ins "(printf \"") (rec) (ins "\\n\"") (rec) (ins ")")))
    ( ";" (mk-cmd (ins ": ")))
    ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
