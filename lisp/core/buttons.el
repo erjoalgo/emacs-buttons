@@ -72,7 +72,7 @@
 
 (defmacro mk-cmd (&rest actions)
   (loop
-   with name-sym = (gensym (concat "autogen-cmd-"
+   with name-sym = (gentemp (concat "autogen-cmd-"
 				   (when (boundp 'mk-cmd-prefix)
 				     (concat mk-cmd-prefix "-"))))
    for action in actions
