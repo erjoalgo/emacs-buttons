@@ -318,7 +318,6 @@
           ("l" (mk-cmd (ins "long ")))
           ("c" (mk-cmd (ins "char ")))
           ("I" (mk-cmd (ins "char* ")))
-          ("s" (mk-cmd (ins "string ")))
           ("v" (mk-cmd (ins "void ")))
           ("t" (mk-cmd (ins "const ")))
           ("b" (mk-cmd (ins "bool ")))
@@ -698,6 +697,8 @@
   (c++-mode-map)
   c-buttons
   (buttons-make
+   ( "i" (buttons-make
+          ("s" (mk-cmd (ins "string ")))))
    ( "m" (mk-cmd
           ;; (ins "#include <cstdlib.h>") (nli)
           (ins "using namespace std;") (nli)
