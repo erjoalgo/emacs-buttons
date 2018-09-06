@@ -145,7 +145,10 @@
           ( "o" (mk-cmd (ins "&optional ")))))
    ( "g" (mk-cmd (ins "nil")))
    ( "t" (buttons-make
-          ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
+          ( "l" (buttons-make
+                 ("t" (mk-cmd (ins "(list ") (rec) (ins ")")))
+                 ("l" (mk-cmd (ins "(length ") (rec) (ins ")")))))
+          ( "1" (mk-cmd (ins "(null ") (rec) (ins ")")))
           ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
           ( "g" (mk-cmd
                  (ins "(")
@@ -169,7 +172,8 @@
 
           ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
           ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
-          ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))))
+          ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
+          ( "z" (mk-cmd (ins "(zerop " (rec) (ins ")"))))))
    ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
    ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
    ( "s" (mk-cmd (evl (call-interactively 'insert-emacs-sym))))
