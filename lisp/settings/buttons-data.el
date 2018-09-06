@@ -311,9 +311,7 @@
 
    ( "d" (buttons-make
           ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
-          ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
-          ("m" (mk-cmd (ins "int main ( )") (cbd)))
-          ))
+          ("m" (mk-cmd (ins "int main (int argc, char* argv[])") (cbd)))))
    ( "i" (buttons-make
           ("u" (mk-cmd (ins "unsigned ")))
           ("i" (mk-cmd (ins "int ")))
