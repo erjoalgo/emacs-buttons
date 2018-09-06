@@ -170,19 +170,28 @@
 
 (add-hook 'after-load-functions 'after-load-button)
 
-(defun buttons-display (keymap)
+(cl-defun buttons-display (keymap &key
+                               hide-command-names-p
+                               max-description-chars)
   (let (sym)
     (when (symbolp keymap)
       (setf sym keymap
             keymap (symbol-value keymap)))
     (cl-labels ((print-key (event)
                            (princ (key-description (vector event))))
+                (peek (string len)
+                      (if (not len) string
+                        (subseq string 0 (min len (length string)))))
                 (print-command (binding)
-                               (princ binding)
+                               (unless hide-command-names-p
+                                 (princ binding))
                                (when (and (commandp binding)
-                                          (documentation binding))
+                                          (documentation binding)
+                                          (or (null max-description-chars)
+                                              (not (zerop max-description-chars))))
                                  (princ "\t")
-                                 (prin1 (s-replace "\n" "\\n" (documentation binding)))))
+                                 (prin1 (peek (s-replace "\n" "\\n" (documentation binding))
+                                              max-description-chars))))
                 (print-keymap (keymap level)
                               (map-keymap (lambda (event binding)
                                             (princ level)
