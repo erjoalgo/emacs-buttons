@@ -53,8 +53,7 @@
    ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
    ( "@" (mk-cmd (ins "'") (rec) (ins "'")))
    ( "q" (buttons-make
-                       ( "x" (mk-cmd (ins "xrange(") (rec) (ins ")")))
-                       ))
+          ( "x" (mk-cmd (ins "xrange(") (rec) (ins ")")))))
    ( "M" (mk-cmd (ins "from ") (rec) (ins " import *") (cmt) (nli)))
    ( "N" (mk-cmd (ins "print ( ") (rec) (ins " )") (nli)))
    ( "n" (mk-cmd (ins "print (") (rec) (ins ")") (nli)))
@@ -88,7 +87,7 @@
                  (ins "print(getattr(Solution(), dir(Solution)[-1])(*a))")))
    ( "E" (mk-cmd (ins "raise Exception(") (rec) (ins ")")))
    ( "u" (buttons-make
-                       ( "a" (mk-cmd (ins "assert(") (rec) (ins ")")))))))
+          ( "a" (mk-cmd (ins "assert(") (rec) (ins ")")))))))
 
 (defbuttons
   pdb-buttons
@@ -116,21 +115,19 @@
   programming-buttons
   (buttons-make
    ( "d" (buttons-make
-                       ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
-                       ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
-                                     (rec) (ins ")") (nli) (rec) (ins ")")))
-                       ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
-                                     (rec) (ins ")") (nli) (rec) (ins ")"))))
-     )
+          ( "v" (mk-cmd (ins "(defvar ") (rec) (ins ")") (nli)))
+          ( "f" (mk-cmd (ins "(defun ") (rec) (ins " (")
+                        (rec) (ins ")") (nli) (rec) (ins ")")))
+          ( "m" (mk-cmd (ins "(defmacro ") (rec) (ins " (")
+                        (rec) (ins ")") (nli) (rec) (ins ")")))))
 
    ( "u" (buttons-make
-                       ( "k" (mk-cmd (ins "(defpackage ")
-                                     (nli) (ins "(:use :cl)")
-                                     (rec) (ins ")")))
-                       ( "i" (mk-cmd (ins "(:import-from #:") (rec)))
-                       ( "e" (mk-cmd (ins "(:export #:")))
-                       ( "u" (mk-cmd (ins "(:export #:")))
-                       ))
+          ( "k" (mk-cmd (ins "(defpackage ")
+                        (nli) (ins "(:use :cl)")
+                        (rec) (ins ")")))
+          ( "i" (mk-cmd (ins "(:import-from #:") (rec)))
+          ( "e" (mk-cmd (ins "(:export #:")))
+          ( "u" (mk-cmd (ins "(:export #:")))))
 
    ( "w" (mk-cmd (ins "(while ") (rec) (ins ")") (nli)))
    ( "a" (mk-cmd (ins "(lambda (") (rec) (ins ") ") (rec) (ins ")")))
@@ -143,38 +140,36 @@
    ( "e" (mk-cmd (ins "(setf ") (rec) (ins ")")))
    ( "i" (mk-cmd (ins "(interactive)") ))
    ( "7" (buttons-make
-                       ( "r" (mk-cmd (ins "&rest ")))
-                       ( "k" (mk-cmd (ins "&key ")))
-                       ( "o" (mk-cmd (ins "&optional ")))
-                       ))
-   ( "g" (mk-cmd (ins "nil") ))
+          ( "r" (mk-cmd (ins "&rest ")))
+          ( "k" (mk-cmd (ins "&key ")))
+          ( "o" (mk-cmd (ins "&optional ")))))
+   ( "g" (mk-cmd (ins "nil")))
    ( "t" (buttons-make
-                       ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
-                       ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
-                       ( "g" (mk-cmd
-                              (ins "(")
-                              (var-rec scanf-var)
-                              (ins "-sym (gensym \"")
-                              (var-ins scanf-var)
-                              (ins "\"))")
-                              (nli)
-                              (var-pop scanf-var)))
-                       ( "e"
-                         (buttons-make
-                          ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
-                          ( "q" (mk-cmd (ins "(eq ") (rec) (ins ")")))
-                          ( "=" (mk-cmd (ins "(= ") (rec) (ins ")")))
-                          ( "l" (mk-cmd (ins "(eql ") (rec) (ins ")")))))
+          ( "l" (mk-cmd (ins "(list ") (rec) (ins ")")))
+          ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
+          ( "g" (mk-cmd
+                 (ins "(")
+                 (var-rec scanf-var)
+                 (ins "-sym (gensym \"")
+                 (var-ins scanf-var)
+                 (ins "\"))")
+                 (nli)
+                 (var-pop scanf-var)))
+          ( "e"
+            (buttons-make
+             ( "e" (mk-cmd (ins "(equal ") (rec) (ins ")")))
+             ( "q" (mk-cmd (ins "(eq ") (rec) (ins ")")))
+             ( "=" (mk-cmd (ins "(= ") (rec) (ins ")")))
+             ( "l" (mk-cmd (ins "(eql ") (rec) (ins ")")))))
 
-                       ( "f" ;; filter
-                         (buttons-make
-                          ( "r" (mk-cmd (ins "(remove-if ") (rec) (ins ")")))
-                          ( "R" (mk-cmd (ins "(remove-if-not ") (rec) (ins ")")))))
+          ( "f" ;; filter
+            (buttons-make
+             ( "r" (mk-cmd (ins "(remove-if ") (rec) (ins ")")))
+             ( "R" (mk-cmd (ins "(remove-if-not ") (rec) (ins ")")))))
 
-                       ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
-                       ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
-                       ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
-                       ))
+          ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
+          ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
+          ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))))
    ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
    ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
    ( "s" (mk-cmd (evl (call-interactively 'insert-emacs-sym))))
@@ -187,8 +182,7 @@
    ( "h" (mk-cmd (evl (describe-function-at-point))))
    ( "-" (mk-cmd (ins "(-> ") (rec) (ins ")")))
    ( "_" (mk-cmd (ins "(->> ") (rec) (ins ")")))
-   ( "`" (mk-cmd (ins "`") (rec) (ins "'")))
-   ))
+   ( "`" (mk-cmd (ins "`") (rec) (ins "'")))))
 
 (defbuttons
   cl-buttons
@@ -231,9 +225,7 @@
       ("f" (mk-cmd (ins "finally ")))
       ("r" (mk-cmd (ins "(return ") (rec) (ins ")")))
 
-      ("3" (mk-cmd (ins "#P\"") (rec) (ins "\"")))
-      )
-     )
+      ("3" (mk-cmd (ins "#P\"") (rec) (ins "\"")))))
    ( ";" (mk-cmd (ins ":")))
    ( ":" (mk-cmd (ins "::")))
    ( "h" (buttons-make
@@ -256,7 +248,7 @@
    ( "l" (mk-cmd (ins "(let [") (rec) (ins "]") (nli) (rec) (ins ")") (nli)))
    ( "d" (buttons-make
           ("f" (mk-cmd (ins "(defn ") (rec) (ins " [") (rec) (ins "]")
-                      (nli) (rec) (ins ")") (nli)))))
+                       (nli) (rec) (ins ")") (nli)))))
    ( "n" (mk-cmd (ins "(printf \"") (rec) (ins "\\n\"") (rec) (ins ")")))
    ( ";" (mk-cmd (ins ": ")))
    ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
@@ -265,8 +257,7 @@
    ( "{" (mk-cmd (ins "{:keys [") (rec) (ins "]")
                  (nli) (ins ":or {") (rec) (ins "}}")))
    ( "a" (mk-cmd (ins "(fn [") (rec) (ins "]") (nli) (rec) (ins ")")))
-   ( "e" (mk-cmd (ins "(def ") (rec) (ins ")")))
-   ))
+   ( "e" (mk-cmd (ins "(def ") (rec) (ins ")")))))
 
 (defbuttons
   c-buttons
@@ -320,9 +311,7 @@
           ("I" (mk-cmd (ins "char* ")))
           ("v" (mk-cmd (ins "void ")))
           ("t" (mk-cmd (ins "const ")))
-          ("b" (mk-cmd (ins "bool ")))
-          ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
-          ))
+          ("b" (mk-cmd (ins "bool ")))))
    ( "s" (mk-cmd (ins "sizeof(") (rec) (ins ")")))
    ( "S" (mk-cmd (ins "sizeof(") (var-rec sizeof-arg) (ins ")/sizeof(*")
                  (var-ins sizeof-arg) (ins ")")))
@@ -333,8 +322,7 @@
                  (ins "#include <assert.h>") (nli)
                  (ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
                  (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
-                 (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
-                 ))
+                 (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)))
    ( "b" (buttons-make
           ("c" (mk-cmd (ins "continue;")))
           ("b" (mk-cmd (ins "break;")))))))
@@ -351,14 +339,12 @@
    ( "d" (buttons-make
           ("d" (mk-cmd (ins " ( ") (rec) (ins " )") (cbd)))
           ;; ("m" (mk-cmd (ins "int main ( int argc, char* argv[] )") (cbd)))
-          ("m" (mk-cmd (ins "public static void main ( String[] argv)") (cbd)))
-          ))
+          ("m" (mk-cmd (ins "public static void main ( String[] argv)") (cbd)))))
    ( "p" (buttons-make
           ("p" (mk-cmd (ins "public ")))
           ("v" (mk-cmd (ins "private ")))
           ("k" (mk-cmd (ins "package ")))
-          ("s" (mk-cmd (ins "static ")))
-          ))
+          ("s" (mk-cmd (ins "static ")))))
    ( "s" (mk-cmd (ins "this.") (inm)))
    ( "S" (mk-cmd (evl (java-new))))
    ( "F" (mk-cmd (ins "for (") (rec) (ins ": ") (rec) (ins ")") (cbd) ))
@@ -371,8 +357,7 @@
    ( "-" (mk-cmd (ins " -> ") ))
    ( "m" (mk-cmd (ins "import ") (rec) (ins ";")))
    ( "m" 'java-imports-add-import-dwim)
-   ( "t" (mk-cmd (ins "try ") (cbd) (ins "catch (") (rec) (ins ")") (cbd)))
-   ))
+   ( "t" (mk-cmd (ins "try ") (cbd) (ins "catch (") (rec) (ins ")") (cbd)))))
 
 (defun xml-toggle-line-comment ()
   (interactive)
@@ -405,9 +390,7 @@
             (format (concat "<mix:message log-level=\"INFO\">"
                             "%s is <mix:copy-of select=\"%s\"/>"
                             "</mix:message>")
-                    mix-expr mix-expr))))
-   )
-  )
+                    mix-expr mix-expr))))))
 
 (defbuttons
   html-buttons
@@ -415,9 +398,7 @@
   xml-buttons
   (buttons-make
    ( "\\" (mk-cmd (ins "<br/>") ))
-   ( "P" (mk-cmd (ins "<p>") (rec) (ins "</p>")))
-   )
-  )
+   ( "P" (mk-cmd (ins "<p>") (rec) (ins "</p>")))))
 
 
 (defbuttons
@@ -452,8 +433,7 @@
                  (ins "\");")))
    ( "s" (mk-cmd (ins "this.") ))
    ( "i" (mk-cmd (ins "in") ))
-   ( "p" (mk-cmd (ins ".prototype.")))
-   ))
+   ( "p" (mk-cmd (ins ".prototype.")))))
 
 
 
@@ -498,9 +478,7 @@
    ( "_" (mk-cmd (ins "_, ")))
    ( "{" (mk-cmd (ins "&") (rec) (ins "{") (rec) (ins "}")))
    ( "O" (mk-cmd (ins "verbose(func(){fmt.Printf(\"VERBOSE: ")
-                 (rec) (ins "\"") (rec) (ins ")})")))
-   )
-  )
+                 (rec) (ins "\"") (rec) (ins ")})")))))
 '(setq go-types '("struct" "int" "bool" "string" "float"))
 
 
@@ -556,9 +534,7 @@
                  (nli)
                  (rec)
                  (ins "EOF")))
-   ( "0" (mk-cmd (evl (insert sh-getopt-template))))
-   )
-  )
+   ( "0" (mk-cmd (evl (insert sh-getopt-template))))))
 
 
 (defbuttons
@@ -622,9 +598,7 @@
    ( "7" (mk-cmd (ins " & ")))
 
    ( ";" (mk-cmd (ins "\\;")))
-   ( "/" 'my-comment-out)
-   )
-  )
+   ( "/" 'my-comment-out)))
 
 (defbuttons
   matlab-buttons
@@ -655,9 +629,7 @@
    ( "[" (mk-cmd (ins "{") (rec) (ins "}")))
    ( "5" (mk-cmd (ins "%f")))
    ( ";" (mk-cmd (ins ": ")))
-   ( "x" (mk-cmd (ins "elseif ")))
-   )
-  )
+   ( "x" (mk-cmd (ins "elseif ")))))
 
 (defbuttons
   r-buttons
@@ -672,9 +644,7 @@
    ( "f" (mk-cmd (ins "for(") (rec) (ins " in as.single(")
                  (rec) (ins ":") (rec) (ins "))") (cbd)))
    ( "-" (mk-cmd (ins "attr(") (rec) (ins ", \"") (rec) (ins "\" )")))
-   ( "N" (mk-cmd (ins "print(") (rec) (ins ")")))
-   )
-  )
+   ( "N" (mk-cmd (ins "print(") (rec) (ins ")")))))
 
 (defbuttons
   octave-buttons
@@ -684,9 +654,7 @@
    ( "d" (mk-cmd (ins "function [") (rec) (ins "] = ") (rec) (ins "(")
                  (rec) (ins ")") (nli) (rec) (nli) (ins "endfunction")))
    ( "'" (mk-cmd (ins "#{") (rec) (ins "#}")))
-   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))
-   )
-  )
+   ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))))
 
 
 
@@ -710,8 +678,7 @@
           (ins "#include <iostream>") (nli)
           (ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
           (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
-          (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)
-          ))
+          (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)))
    ( "N" (mk-cmd (ins "cout << ") (rec) (ins " << endl") (scn)))
    ( "," (mk-cmd (ins " << ")))
    ( "l" (mk-cmd (ins ".size()") ))
@@ -720,14 +687,12 @@
    ( "S" (mk-cmd (ins "int ") (var-rec scanf-var) (ins "; ")
                  (ins "scanf( \"%d\", &")
                  (var-ins scanf-var) (var-pop scanf-var) (ins " );") (nli)))
-
    ("M"
     (mk-cmd (ins "#include <unordered_map>") (nli)
             (ins "#include <iostream>") (nli)
             (ins "#include <string>") (nli)
             (ins "#include <assert.h>") (nli)
-            (ins "using namespace std;") (nli)))
-   ))
+            (ins "using namespace std;") (nli)))))
 
 (defbuttons
   yacc-buttons
@@ -736,9 +701,7 @@
   (buttons-make
    ( "v" (mk-cmd (ins "$") (evl (insertchar))))
    ( "D" (mk-cmd (nli) (ins ":\t")))
-   ( "d" (mk-cmd (nli) (ins "|\t")))
-   )
-  )
+   ( "d" (mk-cmd (nli) (ins "|\t")))))
 
 
 
@@ -758,8 +721,7 @@
   (forum-mode-map)
   programming-buttons
   (buttons-make
-   ( "," (mk-cmd (ins "[code]") (rec) (ins "[/code]") ))
-   ))
+   ( "," (mk-cmd (ins "[code]") (rec) (ins "[/code]") ))))
 
 (defun my-comment-out (arg &optional duplicate) (interactive "P")
        (let* ((mode-map-keymap-sym
@@ -789,8 +751,7 @@
                                  (regexp-quote comment-start)))
                 (text (buffer-substring-no-properties start end))
                 (is-commented (string-match comment-regexp text))
-                (comment-end "")
-                )
+                (comment-end ""))
            (if (zerop (length text))
                (insert (concat comment-start
                                (when comment-add comment-start)
@@ -837,8 +798,7 @@
      (ins "#+OPTIONS: num:nil") (nli)
      (ins "#+TITLE: ") (rec) (nli)))
    ( "R" (mk-cmd (ins "***REMOVED***")))
-   ( "w" 'org-refile)
-   ))
+   ( "w" 'org-refile)))
 
 
 (defbuttons
@@ -847,8 +807,7 @@
   nil
   (buttons-make
    ( "=" (mk-cmd (ins " => ")))
-   ( "<" (mk-cmd (re-sub "^[ \t]*>?[ \t]*" ""))))
-  )
+   ( "<" (mk-cmd (re-sub "^[ \t]*>?[ \t]*" "")))))
 
 
 
@@ -866,9 +825,7 @@
   (conf-mode-map)
   programming-buttons
   (buttons-make
-   ( "e" (mk-cmd (ins "="))
-     )
-   ))
+   ( "e" (mk-cmd (ins "=")))))
 
 
 (defbuttons
