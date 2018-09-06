@@ -697,6 +697,9 @@
   (c++-mode-map)
   c-buttons
   (buttons-make
+   ( "f" (buttons-make
+          ("F" (mk-cmd (ins "for(auto& ") (rec) (ins ": ") (rec)
+                       (ins ")") (cbd)))))
    ( "i" (buttons-make
           ("s" (mk-cmd (ins "string ")))))
    ( "m" (mk-cmd
