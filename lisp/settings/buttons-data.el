@@ -135,13 +135,16 @@
    ( "x" (mk-cmd (ins "(when ") (rec) (ins ")")))
    ( "c" (mk-cmd (ins "(unless ") (rec) (ins ")")))
    ( "v" (mk-cmd (ins "(progn ") (rec) (ins ")")))
-   ( "l" (mk-cmd (ins "(let* (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))
-   ( "L" (mk-cmd (ins "(let (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))
+   ( "l"
+     (buttons-make
+      ("l" (mk-cmd (ins "(let (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))
+      ("L" (mk-cmd (ins "(let* (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))))
    ( "e" (mk-cmd (ins "(setf ") (rec) (ins ")")))
    ( "i" (mk-cmd (ins "(interactive)") ))
    ( "7" (buttons-make
           ( "r" (mk-cmd (ins "&rest ")))
           ( "k" (mk-cmd (ins "&key ")))
+          ( "b" (mk-cmd (ins "&body ")))
           ( "o" (mk-cmd (ins "&optional ")))))
    ( "g" (mk-cmd (ins "nil")))
    ( "t" (buttons-make
@@ -149,7 +152,9 @@
                  ("t" (mk-cmd (ins "(list ") (rec) (ins ")")))
                  ("l" (mk-cmd (ins "(length ") (rec) (ins ")")))))
           ( "1" (mk-cmd (ins "(null ") (rec) (ins ")")))
-          ( "m" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))
+          ( "m" (buttons-make
+                 ("m" (mk-cmd (ins "(mapcar ") (rec) (ins ")") (nli)))
+                 ("x" (mk-cmd (ins "(macroexpand '") (rec) (ins ")") (nli)))))
           ( "g" (mk-cmd
                  (ins "(")
                  (var-rec scanf-var)
@@ -170,11 +175,22 @@
              ( "r" (mk-cmd (ins "(remove-if ") (rec) (ins ")")))
              ( "R" (mk-cmd (ins "(remove-if-not ") (rec) (ins ")")))))
 
+          ( "+" (mk-cmd (ins "(1+ ") (rec) (ins ")")))
+          ( "s" (mk-cmd (ins "(subseq ") (rec) (ins ")")))
+          ( "r" (mk-cmd (ins "(return ") (rec) (ins ")")))
+          ( "v" (mk-cmd (ins "(reverse ") (rec) (ins ")")))
+          ( "i" (mk-cmd (ins "(insert ") (rec) (ins ")")))
           ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
           ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
           ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
+          ( "p" (mk-cmd (ins "(push " (rec) (ins ")"))))
+          ( "c" (mk-cmd (ins "(car " (rec) (ins ")"))))
+          ( "d" (mk-cmd (ins "(cdr " (rec) (ins ")"))))
           ( "z" (mk-cmd (ins "(zerop " (rec) (ins ")"))))))
-   ( "n" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))
+   ( "n"
+     (buttons-make
+      ("n" (mk-cmd (ins "(format \"") (rec) (ins "\"") (rec) (ins ")")))
+      ("m" (mk-cmd (ins "(message \"") (rec) (ins "\"") (rec) (ins ")")))))
    ( "\\" (mk-cmd (ins "\\\\(") (rec) (ins "\\\\)")))
    ( "s" (mk-cmd (evl (call-interactively 'insert-emacs-sym))))
 
@@ -186,7 +202,21 @@
    ( "h" (mk-cmd (evl (describe-function-at-point))))
    ( "-" (mk-cmd (ins "(-> ") (rec) (ins ")")))
    ( "_" (mk-cmd (ins "(->> ") (rec) (ins ")")))
-   ( "`" (mk-cmd (ins "`") (rec) (ins "'")))))
+   ( "`" (mk-cmd (ins "`") (rec) (ins "'")))
+   ( "p"
+     (buttons-make
+      ("l" (mk-cmd (ins "(loop for ") (rec) (ins ")") (nli)))
+      ("i" (mk-cmd (ins " in ")))
+      ("t" (mk-cmd (ins "with ") (rec) (ins " = ")))
+      ("b" (mk-cmd (ins "below ")))
+      ("w" (mk-cmd (ins "while ")))
+      ("d" (mk-cmd (ins "do ")))
+      ("c" (mk-cmd (ins "collect ")))
+      ("a" (mk-cmd (ins "append ")))
+      ("f" (mk-cmd (ins "finally ")))
+      ("r" (mk-cmd (ins "(return ") (rec) (ins ")")))
+
+      ("3" (mk-cmd (ins "#P\"") (rec) (ins "\"")))))))
 
 (defbuttons
   cl-buttons
@@ -217,19 +247,6 @@
    ( "%" (mk-cmd (ins "~D")))
    ( "|" (mk-cmd (ins "#\\Newline")))
    ( "\\" (mk-cmd (ins "~%")))
-   ( "L" (mk-cmd (ins "(let (") (rec) (ins ")") (nli) (rec) (ins ")") (nli)))
-   ( "p"
-     (buttons-make
-      ("l" (mk-cmd (ins "(loop for ") (rec) (ins ")") (nli)))
-      ("b" (mk-cmd (ins "below ")))
-      ("w" (mk-cmd (ins "while ")))
-      ("d" (mk-cmd (ins "do ")))
-      ("c" (mk-cmd (ins "collect ")))
-      ("a" (mk-cmd (ins "append ")))
-      ("f" (mk-cmd (ins "finally ")))
-      ("r" (mk-cmd (ins "(return ") (rec) (ins ")")))
-
-      ("3" (mk-cmd (ins "#P\"") (rec) (ins "\"")))))
    ( ";" (mk-cmd (ins ":")))
    ( ":" (mk-cmd (ins "::")))
    ( "h" (buttons-make
