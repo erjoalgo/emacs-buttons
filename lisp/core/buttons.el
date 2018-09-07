@@ -12,33 +12,6 @@
 	      (concat a separator cum))
 	    strings)))
 
-(defun mk-cmd-read-action (action)
-  (destructuring-bind (fun . args) action
-    (let ((arg1 (car args)))
-					;(edebug)
-      (case fun
-	('ins `(,arg1 (insert ,arg1)))
-	('rec `("REC" (buttons-rec)))
-	('inm `("(insert mode)" (global-erjoalgo-command-mode 0)))
-	('nli `("\n" (newline-and-indent)))
-	('evl `(,(format "%s" arg1) ,arg1))
-	('cbd `("{\nREC\n}" (cbd)))
-	('cmt `(,(concat arg1 " <RET>")
-		,(when arg1 `(insert ,arg1))
-		(comint-send-input)))
-	('py-bck `(,"(unindent)"
-		   (python-indent-dedent-line-backspace nil )))
-	('py-scn `(": \n\t" (insert ":") (newline-and-indent)))
-	('scn `("; \n\t" (insert ";") (newline-and-indent)))
-	('idt `("(indent-for-tab-command)" (indent-for-tab-command)))
-	('cmo `("(comment-out current-prefix-arg)" (comment-out current-prefix-arg)))
-	('py-shift (let ((sym-name (format "python-indent-shift-%s" arg1)))
-		     (list sym-name (intern sym-name))))
-	('re-sub (let ((form `(replace-regexp ,(first args) ,(second args))))
-		   `(,(format "%s" form) ,form)))
-	(t (error "unknown action %s %s" action fun)))
-      )))
-
 (defmacro buttons-make (&rest bindings)
   (let ((kmap-sym (gensym "kmap")))
     `(let ((,kmap-sym (make-sparse-keymap)))
@@ -52,7 +25,7 @@
                collect `(define-key ,kmap-sym ,key ,value))
        ,kmap-sym)))
 
-(defmacro defbuttons (kmap-sym load-after-keymap-syms ancestor-kmap keymap)
+(defmacro defbuttons (kmap-sym ancestor-kmap load-after-keymap-syms keymap)
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
@@ -65,31 +38,8 @@
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
                              load-after-keymap-syms)
-               collect `(eval-buttons-after-load ,orig ',kmap-sym)))))
-
-(defmacro mk-cmd (&rest actions)
-  (loop
-   with name-sym = (gentemp (concat "autogen-cmd-"
-				   (when (boundp 'mk-cmd-prefix)
-				     (concat mk-cmd-prefix "-"))))
-   for action in actions
-   with descs = nil
-   append (destructuring-bind (desc . forms)
-	      (mk-cmd-read-action action)
-	    (push desc descs)
-	    forms)
-   into forms
-   finally (return
-	    `(defun ,name-sym ()
-	       ,(s-join "" (reverse descs))
-               (interactive)
-	       (let ((undo-len (length buffer-undo-list)))
-		 (undo-boundary)
-		 (or (catch 'button-abort
-		       ,@forms t)
-		     (message "undoing %d "
-			      (- (length buffer-undo-list) undo-len))
-		     (undo (- (length buffer-undo-list) undo-len))))))))
+               collect `(push (cons ',orig ,kmap-sym)
+                              buttons-after-load-alist)))))
 
 (defmacro with-temporary-erjoalgo-mode-state (state &rest forms)
   (let ((orig-state (gensym "erjoalgo-mode-orig-state-")))
@@ -98,28 +48,10 @@
        ,@forms
        (global-erjoalgo-command-mode ,orig-state))))
 
-(defun buttons-recedit-record-text (var-sym)
-  (with-temporary-erjoalgo-mode-state
-   0
-   (let ((old-point (point)))
-     (recursive-edit)
-     (when var-sym
-       (unless (boundp var-sym) (set var-sym nil))
-       (let ((text (buffer-substring-no-properties old-point (point))))
-	 (add-to-list var-sym text)
-	 '(set var-sym (cons text (symbol-value var-sym))))))))
-
-(defun buttons-pop-text (var-sym)
-  (set var-sym (cdr (symbol-value var-sym))))
-
-(setq cbd-map
-      (list 'go-mode 'js-mode 'js2-mode
-	    'c++-mode 'java-mode 'shell-script-mode 'sh-mode))
-
 (defun buttons-rec ()
   (with-temporary-erjoalgo-mode-state 0 (recursive-edit)))
 
-(defun cbd (&optional content)
+(defun buttons-insert-code-block (&optional content)
   (insert " {")
   (newline-and-indent)
   (indent-for-tab-command)
@@ -150,10 +82,6 @@
 
 (defvar buttons-after-load-alist nil)
 
-(defmacro eval-buttons-after-load (mode-keymap-sym buttons-keymap)
-  `(push (cons ',mode-keymap-sym ,buttons-keymap)
-         buttons-after-load-alist))
-
 (defun after-load-button (file-loaded)
   (setf buttons-after-load-alist
         (loop for (sym . buttons-keymap) in buttons-after-load-alist
@@ -168,7 +96,8 @@
 
 (cl-defun buttons-display (keymap &key
                                hide-command-names-p
-                               max-description-chars)
+                               max-description-chars
+                               hide-command-use-count-p)
   (let (sym)
     (when (symbolp keymap)
       (setf sym keymap
@@ -181,12 +110,16 @@
                 (print-command (binding)
                                (unless hide-command-names-p
                                  (princ binding))
+                               (unless (or hide-command-use-count-p
+                                           (null (get binding 'use-count)))
+                                 (princ (format "(%d)" (get binding 'use-count))))
+
                                (when (and (commandp binding)
                                           (documentation binding)
                                           (or (null max-description-chars)
                                               (not (zerop max-description-chars))))
                                  (princ "\t")
-                                 (prin1 (peek (s-replace "\n" "\\n" (documentation binding))
+                                 (princ (peek (s-replace "\n" "\\n" (documentation binding))
                                               max-description-chars))))
                 (print-keymap (keymap level)
                               (map-keymap (lambda (event binding)
@@ -201,3 +134,107 @@
                                           keymap)))
       (with-help-window (format "%s help" (or sym "unknown keymap"))
         (print-keymap keymap "")))))
+
+
+(defun buttons-recedit-record-text ()
+  (let ((old-point (point)))
+    (recursive-edit)
+    (buffer-substring-no-properties old-point (point))))
+
+(defmacro buttons-insert-rec-template (&rest templates)
+  (loop with start = 0
+        with forms = nil
+        with tmpl = (apply 'concat templates)
+        with rec-sym-alist = nil
+        as rec-group-start = (string-match "{\\(.*?\\)}" tmpl start)
+        do (if rec-group-start
+               (progn
+                 (unless (= start rec-group-start)
+                   (push `(insert ,(subseq tmpl start rec-group-start)) forms))
+                 (let ((group-no-str (match-string 1 tmpl))
+                       (match-data (match-data)))
+                   (cond
+                    ((zerop (length group-no-str)) (push `(recursive-edit) forms))
+                    ((string-match "^[0-9]+$" group-no-str)
+                     (let* ((group-no (string-to-number group-no-str))
+                            (sym (cdr (assoc group-no rec-sym-alist))))
+                       (if sym
+                           (push `(insert ,sym) forms)
+                         (setf sym (gensym (format "rec-group-%d--" group-no)))
+                         (push (cons group-no sym) rec-sym-alist)
+                         (push `(setf ,sym (buttons-recedit-record-text)) forms))))
+                    (t (push `(,(intern group-no-str)) forms)))
+                   (set-match-data match-data)
+                   (setf start (match-end 0))))
+             (progn (when (< start (length tmpl))
+                      (push `(insert ,(subseq tmpl start)) forms))
+                    (setf start (length tmpl))))
+        while rec-group-start
+        finally (return `(let ,(mapcar 'cdr rec-sym-alist)
+                           ;; (doc ,tmpl)
+                           ,@(reverse forms)))))
+
+(defmacro buttons-defcmd (&rest body)
+  (loop for form in body
+        with forms = nil
+        with doc = nil
+        with cmd-name = (gentemp "autogen-cmd")
+        do (if (and (consp form)
+                    (eq (car form) 'doc))
+               (push (second form) doc)
+             (push form forms))
+        finally
+        (return
+         `(progn
+            (put ',cmd-name 'use-count (or (get ',cmd-name 'use-count) 0))
+            (defun ,cmd-name ()
+              ,(s-join "" (reverse (mapcar 'prin1-to-string forms)))
+              (interactive)
+              (incf (get ',cmd-name 'use-count))
+	      (let ((undo-len (length buffer-undo-list)))
+	        (undo-boundary)
+	        (or (progn ,@forms t)
+		    (message "undoing from autogen button: %d"
+			     (- (length buffer-undo-list) undo-len))
+		    (undo (- (length buffer-undo-list) undo-len)))))))))
+
+(defmacro defalias-tmp (aliases &rest body )
+  (let (defs pre post)
+    (loop for (from to) in aliases
+          do
+          (if (fboundp from)
+              (let ((tmp (gensym "original-")))
+                (push `(defalias ',tmp ',from) pre)
+                (push `(defalias ',from ',tmp) post)
+                (push `(fmakunbound ',tmp) post))
+            (push `(fmakunbound ',from) post))
+          collect `(defalias ',from ,to) into defs
+          finally
+          (return
+           `(progn
+              ,@pre
+              ,@defs
+              (prog1 (progn ,@body)
+                ,@(reverse post)))))))
+
+(defmacro buttons-macrolet (&rest body)
+  "define 3-letter aliases for useful functions and macros
+to provide a compact DLS for defining buttons"
+  `(defalias-tmp
+     ((ins 'buttons-insert-rec-template)
+      (rec 'recursive-edit)
+      (cmd 'buttons-defcmd)
+      (cbd 'buttons-insert-code-block)
+      (cmt 'comint-send-input)
+      (idt 'indent-for-tab-command))
+     ,@body)
+  `(macrolet
+       ((nli () `(newline-and-indent))
+        (ins (text) `(buttons-insert-rec-template ,text))
+        (cmd (&rest rest) `(buttons-defcmd ,@rest))
+        (cbd () `(buttons-insert-code-block))
+        (rec () `(recursive-edit))
+        (idt () `(indent-for-tab-command)))
+     ,@body))
+
+(buttons-display 'cl-buttons)

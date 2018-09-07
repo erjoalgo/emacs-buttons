@@ -25,8 +25,6 @@
    ( (kbd "M-?") 'my-comment-out-and-duplicate)
    ( "R" (mk-cmd (ins "***REMOVED***")))))
 
-(global-set-key (kbd "M-/") 'my-comment-out)
-
 (defbuttons
   python-buttons
   python-mode-map
@@ -103,13 +101,6 @@
    ( "escape" (mk-cmd (cmt "")))
    ( "X" (mk-cmd (cmt "exit")))))
 
-(defun describe-function-at-point ()
-  (interactive)
-  (describe-function (function-called-at-point)))
-
-(defmacro ins-sexp (string &rest forms)
-  `((ins ,(concat "(" string)) ,@forms (ins ")")))
-
 (defbuttons emacs-lisp-buttons
   (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
   programming-buttons
@@ -182,11 +173,11 @@
           ( "i" (mk-cmd (ins "(insert ") (rec) (ins ")")))
           ( "b" (mk-cmd (ins "(boundp ") (rec) (ins ")")))
           ( "n" (mk-cmd (ins "~{~A~^") (rec) (ins "~}")))
-          ( "a" (mk-cmd (ins "(assert " (rec) (ins ")"))))
-          ( "p" (mk-cmd (ins "(push " (rec) (ins ")"))))
-          ( "c" (mk-cmd (ins "(car " (rec) (ins ")"))))
-          ( "d" (mk-cmd (ins "(cdr " (rec) (ins ")"))))
-          ( "z" (mk-cmd (ins "(zerop " (rec) (ins ")"))))))
+          ( "a" (mk-cmd (ins "(assert ") (rec) (ins ")")))
+          ( "p" (mk-cmd (ins "(push ") (rec) (ins ")")))
+          ( "c" (mk-cmd (ins "(car ") (rec) (ins ")")))
+          ( "d" (mk-cmd (ins "(cdr ") (rec) (ins ")")))
+          ( "z" (mk-cmd (ins "(zerop ") (rec) (ins ")")))))
    ( "n"
      (buttons-make
       ("n" (mk-cmd (ins "(format \"") (rec) (ins "\"") (rec) (ins ")")))
@@ -380,18 +371,7 @@
    ( "m" 'java-imports-add-import-dwim)
    ( "t" (mk-cmd (ins "try ") (cbd) (ins "catch (") (rec) (ins ")") (cbd)))))
 
-(defun xml-toggle-line-comment ()
-  (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (if (re-search-forward
-         "^[[:space:]]*\\(<!--\\(.*\\)-->\\)[[:space:]]*"
-         (line-end-position) t)
-        (replace-match (match-string 2) nil t nil 1)
-      (progn
-        (re-search-forward "^[[:space:]]*\\(.*\\)[[:space:]]*"
-                           (line-end-position) t)
-        (replace-match (format "<!--%s-->" (match-string 1)) nil t nil 1)))))
+
 
 (defbuttons
   xml-buttons
@@ -456,8 +436,6 @@
    ( "i" (mk-cmd (ins "in") ))
    ( "p" (mk-cmd (ins ".prototype.")))))
 
-
-
 (defbuttons
   go-buttons
   go-mode-map
@@ -500,16 +478,6 @@
    ( "{" (mk-cmd (ins "&") (rec) (ins "{") (rec) (ins "}")))
    ( "O" (mk-cmd (ins "verbose(func(){fmt.Printf(\"VERBOSE: ")
                  (rec) (ins "\"") (rec) (ins ")})")))))
-'(setq go-types '("struct" "int" "bool" "string" "float"))
-
-
-(defun insert-unique-line ()
-  (interactive)
-  (let* ((initial (concat "# " (uuid) "-"))
-         (line (read-string "enter unique line: " initial))
-         (final (format "insert-text-block '%s' " line)))
-    (insert final)))
-
 
 (defbuttons
   bash-buttons
@@ -556,7 +524,6 @@
                  (rec)
                  (ins "EOF")))
    ( "0" (mk-cmd (evl (insert sh-getopt-template))))))
-
 
 (defbuttons
   tex-buttons
@@ -677,10 +644,6 @@
    ( "'" (mk-cmd (ins "#{") (rec) (ins "#}")))
    ( "2" (mk-cmd (ins "\"") (rec) (ins "\"")))))
 
-
-
-
-
 (defbuttons
   cpp-buttons
   (c++-mode-map)
@@ -724,8 +687,6 @@
    ( "D" (mk-cmd (nli) (ins ":\t")))
    ( "d" (mk-cmd (nli) (ins "|\t")))))
 
-
-
 (defbuttons
   dot-buttons
   (dot-mode-map)
@@ -734,61 +695,12 @@
    ( "l" (mk-cmd (ins " [label=\"") (rec) (ins "\"];")))
    ( "-" (mk-cmd (ins " -> ")))))
 
-
-
-
 (defbuttons
   forum-post-buttons
   (forum-mode-map)
   programming-buttons
   (buttons-make
    ( "," (mk-cmd (ins "[code]") (rec) (ins "[/code]") ))))
-
-(defun my-comment-out (arg &optional duplicate) (interactive "P")
-       (let* ((mode-map-keymap-sym
-               (intern (concat (symbol-name major-mode) "-map")))
-              (comment-cmd (when (boundp mode-map-keymap-sym)
-                             (lookup-key (symbol-value mode-map-keymap-sym)
-                                         (kbd "s-/")))))
-         (when (and comment-cmd (not (eq comment-cmd (function my-comment-out))))
-           (call-interactively comment-cmd)
-           (return)))
-       (let ((start-end (if mark-active
-                            (cons (region-beginning)
-                                  (region-end))
-                          (cons
-                           (line-beginning-position)
-                           (save-excursion
-                             (when arg (next-logical-line (1- arg)))
-                             (point))))))
-         (let* ((start (save-excursion
-                         (goto-char (car start-end))
-                         (line-beginning-position)))
-                (end (save-excursion
-                       (goto-char (cdr start-end))
-                       (line-end-position)))
-                (comment-regexp (concat
-                                 "\\`[[:space:]]*"
-                                 (regexp-quote comment-start)))
-                (text (buffer-substring-no-properties start end))
-                (is-commented (string-match comment-regexp text))
-                (comment-end ""))
-           (if (zerop (length text))
-               (insert (concat comment-start
-                               (when comment-add comment-start)
-                               " "))
-             (funcall (if is-commented 'uncomment-region 'comment-region)
-                      start end nil))
-           (when duplicate
-             (goto-char end)
-             (end-of-line)
-             (open-line 1)
-             (next-line 1)
-             (insert text)))))
-
-(defun my-comment-out-and-duplicate (arg)
-  (interactive "P")
-  (my-comment-out arg t))
 
 (defbuttons
   org-buttons
@@ -821,7 +733,6 @@
    ( "R" (mk-cmd (ins "***REMOVED***")))
    ( "w" 'org-refile)))
 
-
 (defbuttons
   message-buttons
   (message-mode-map)
@@ -829,8 +740,6 @@
   (buttons-make
    ( "=" (mk-cmd (ins " => ")))
    ( "<" (mk-cmd (re-sub "^[ \t]*>?[ \t]*" "")))))
-
-
 
 (defbuttons ansi-term-buttons
   term-raw-map
@@ -848,7 +757,6 @@
   (buttons-make
    ( "e" (mk-cmd (ins "=")))))
 
-
 (defbuttons
   magit-buttons
   (magit-mode-map)
@@ -857,20 +765,6 @@
    ( "p" 'magit-go-backward)
    ( "n" 'magit-go-forward)))
 
-
-
-
-(defun git-hunk-toggle-cmd (dest-indicator)
-  `(lambda (a b)
-     ,(format "make region hunk lines start with '%s'" dest-indicator)
-     (interactive (if (region-active-p)
-                      (list (region-beginning) (region-end))
-                    (list (line-beginning-position)
-                          (line-end-position (when (numberp current-prefix-arg) current-prefix-arg)))))
-     (save-excursion
-       (goto-char a)
-       (while (re-search-forward "^[-+ ]" b t nil)
-         (replace-match ,dest-indicator t)))))
 
 
 (defbuttons
