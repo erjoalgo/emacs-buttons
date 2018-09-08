@@ -32,8 +32,7 @@
        (setf ,kmap-sym ,keymap)
        (when ,ancestor-kmap
          ;; (set-keymap-parent ,keymap ,ancestor-kmap)
-         (define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym :from-sym ',kmap-sym
-           :no-overwrite-p t))
+         (define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t))
        ,@(loop for orig in (if (and load-after-keymap-syms
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
@@ -62,7 +61,7 @@
       (c-indent-line-or-region)
     (indent-for-tab-command)))
 
-(cl-defun define-keymap-onto-keymap (from-map to-map &key from-sym no-overwrite-p)
+(defun define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
   (cl-labels ((merge (from-map to-map &optional path)
                      (map-keymap
                       (lambda (key cmd)
@@ -94,10 +93,7 @@
 
 (add-hook 'after-load-functions 'after-load-button)
 
-(cl-defun buttons-display (keymap &key
-                               hide-command-names-p
-                               max-description-chars
-                               hide-command-use-count-p)
+(defun buttons-display (keymap &optional hide-command-names-p hide-command-use-count-p)
   (let (sym)
     (when (symbolp keymap)
       (setf sym keymap
