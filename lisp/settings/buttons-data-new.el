@@ -191,7 +191,6 @@
     ("1" (cmd (ins "(not {})")))
     (":" (cmd (ins ": ")))
     ("'" (cmd (ins "'")))
-    ("h" (cmd (describe-function-at-point)))
     ("-" (cmd (ins "(-> {})")))
     ("_" (cmd (ins "(->> {})")))
     ("`" (cmd (ins "`{}'")))
@@ -711,4 +710,15 @@
      (git-hunk-toggle-cmd "+"))
     ("0"
      (git-hunk-toggle-cmd " "))))
+
+ (defbuttons backtrace-bindings nil
+   (debugger-mode-map emacs-lisp-mode-map)
+   (buttons-make
+    ("h"
+     (buttons-make
+      ("f" (cmd (describe-function-at-point)))
+      ("d" (cmd (setf debug-on-error (not debug-on-error))
+                (message "debug-on-error: %s" debug-on-error)))
+      ("q" (cmd (with-current-buffer "*Backtrace*" (top-level))))))))
+
  (after-load-button nil))
