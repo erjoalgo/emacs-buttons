@@ -235,6 +235,7 @@ to provide a compact DLS for defining buttons"
       (cmd 'buttons-defcmd)
       (cbd 'buttons-insert-code-block)
       (cmt 'comint-send-input)
+      ;; (python-indent-dedent-line-backspace nil)
       (idt 'indent-for-tab-command))
      ,@body)
   `(macrolet
