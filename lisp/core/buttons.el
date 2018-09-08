@@ -203,7 +203,7 @@
                 (unless (eq t buffer-undo-list)
                   (setf ,undo-len-sym (length buffer-undo-list))
 	          (undo-boundary))
-	        (or (progn ,@forms t)
+	        (or (progn ,@(reverse forms) t)
                     (when ,undo-len-sym
 		      (undo (- (length buffer-undo-list) ,undo-len-sym))))))))))
 
