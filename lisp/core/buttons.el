@@ -1,6 +1,8 @@
 (defmacro buttons-make (key-mapper &rest bindings)
-  (let ((kmap-sym (gensym "kmap")))
-    `(let ((,kmap-sym (make-sparse-keymap)))
+  (let ((kmap-sym (gentemp "kmap")))
+    `(lexical-let ((,kmap-sym (make-sparse-keymap)))
+       (define-key ,kmap-sym "?" (lambda () (interactive)
+                                   (buttons-display ,kmap-sym)))
        ,@(loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "malformed key definition")
