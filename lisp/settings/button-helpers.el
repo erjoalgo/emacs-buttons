@@ -108,6 +108,7 @@
                                 (cbd (setf curr (concat curr "{cbd}")))
                                 (idt (setf curr (concat curr "{idt}")))
                                 (scn (setf curr (concat curr ";{nli}")))
+                                (py-scn (setf curr (concat curr ":{nli}")))
                                 (nli (setf curr (concat curr "{nli}")))
                                 (inm (setf curr (concat curr "{inm}")))
                                 (py-bck (setf curr (concat curr "{idt}")))
