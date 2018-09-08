@@ -238,4 +238,3 @@ to provide a compact DLS for defining buttons"
         (idt () `(indent-for-tab-command)))
      ,@body))
 
-(buttons-display 'cl-buttons)
