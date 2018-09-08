@@ -87,7 +87,7 @@
       ("a" (cmd (ins "assert({})")))))))
 
  (defbuttons pdb-buttons python-buttons
-   (inferior-python-mode)
+   (inferior-python-mode-map)
    (buttons-make
     ("r" (cmd (cmt "restart")
               (pdb-restart)))
