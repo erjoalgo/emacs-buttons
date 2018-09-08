@@ -22,6 +22,7 @@
     ((kbd "M-/") 'my-comment-out)
     ((kbd "M-?") 'my-comment-out-and-duplicate)
     ("R" (cmd (ins "***REMOVED***")))))
+
  (defbuttons python-buttons programming-buttons
    (python-mode-map)
    (buttons-make
@@ -62,8 +63,8 @@
      (buttons-make
       ("x" (cmd (ins "xrange({})")))))
     ("M" (cmd (ins "from {} import *")
-      (cmt)
-      (ins "{nli}")))
+              (cmt)
+              (ins "{nli}")))
     ("N" (cmd (ins "print ( {} ){nli}")))
     ("n" (cmd (ins "print ({}){nli}")))
     ("r" (cmd (ins "return {}{nli}")
@@ -92,7 +93,7 @@
     ("H" (cmd (pdb-help-on-expression)))
     ("i" (cmd (ins " in ")))
     ("[" (cmd (insert "{")
-      (ins "{}}")))
+              (ins "{}}")))
     ("[" (cmd (insert "{}")))
     ("]" (cmd (ins ".format({})")))
     ("N" (cmd (ins "a=[{}]{nli}print(getattr(Solution(), dir(Solution)[-1])(*a))")))
@@ -100,11 +101,12 @@
     ("u"
      (buttons-make
       ("a" (cmd (ins "assert({})")))))))
+
  (defbuttons pdb-buttons python-buttons
    (inferior-python-mode)
    (buttons-make
     ("r" (cmd (cmt "restart")
-      (pdb-restart)))
+              (pdb-restart)))
     ("c" (cmd (gud-cont nil)))
     ("d" (cmd (cmt "n")))
     ("x" (cmd (gud-break nil)))
@@ -112,6 +114,7 @@
     ("b" (cmd (cmt "b")))
     ("escape" (cmd (cmt "")))
     ("X" (cmd (cmt "exit")))))
+
  (defbuttons emacs-lisp-buttons programming-buttons
    (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
    (buttons-make
@@ -174,7 +177,7 @@
       ("i" (cmd (ins "(insert {})")))
       ("b" (cmd (ins "(boundp {})")))
       ("n" (cmd (insert "~{~A~^")
-        (ins "{}~}")))
+                (ins "{}~}")))
       ("a" (cmd (ins "(assert {})")))
       ("p" (cmd (ins "(push {})")))
       ("c" (cmd (ins "(car {})")))
@@ -207,6 +210,7 @@
       ("f" (cmd (ins "finally ")))
       ("r" (cmd (ins "(return {})")))
       ("3" (cmd (ins "#P\"{}\"")))))))
+
  (defbuttons cl-buttons emacs-lisp-buttons
    (lisp-mode-map slime-mode-map)
    (buttons-make
@@ -222,7 +226,7 @@
       ("f" (cmd (ins "(format fh {})")))
       ("n" (cmd (ins "(format {})")))
       ("[" (cmd (insert "~{~A~^")
-        (ins "{}~}")))))
+                (ins "{}~}")))))
     ("#" (cmd (ins "#:")))
     ("5" (cmd (ins "~A")))
     ("%" (cmd (ins "~D")))
@@ -233,12 +237,13 @@
     ("h"
      (buttons-make
       ("d" (cmd (move-beginning-of-line nil)
-        (ins "(describe '")
-        (move-end-of-line nil)
-        (ins ")")
-        (slime-repl-return)))
+                (ins "(describe '")
+                (move-end-of-line nil)
+                (ins ")")
+                (slime-repl-return)))
       ("a" (cmd (ins "(apropos \"{}\"){nli}")))
       ("D" (cmd (ins "(declaim (optimize (debug 3) (speed 0)))")))))))
+
  (defbuttons clojure-buttons cl-buttons
    (clojure-mode-map cider-repl-mode-map)
    (buttons-make
@@ -252,15 +257,16 @@
     ("n" (cmd (ins "(printf \"{}\\n\"{})")))
     (";" (cmd (ins ": ")))
     ("[" (cmd (insert "{")
-      (ins "{}}")))
+              (ins "{}}")))
     ("c" (cmd (ins "(when-not  {})")))
     ("h" (cmd (ins "(doc  {})")))
     ("{" (cmd (insert "{:keys [")
-      (ins "{}]{nli}")
-      (insert ":or {")
-      (ins "{}}}")))
+              (ins "{}]{nli}")
+              (insert ":or {")
+              (ins "{}}}")))
     ("a" (cmd (ins "(fn [{}]{nli}{})")))
     ("e" (cmd (ins "(def {})")))))
+
  (defbuttons c-buttons programming-buttons
    (c-mode-map)
    (buttons-make
@@ -274,10 +280,10 @@
     ("c" (cmd (ins " else {cbd}")))
     ("v" (cmd (ins "?{}: {}")))
     ("V" (cmd (kill-surrounding-sexp nil)
-      (end-of-line)
-      (ins "{nli}(void)")
-      (yank-or-pop)
-      (ins ";{inm}")))
+              (end-of-line)
+              (ins "{nli}(void)")
+              (yank-or-pop)
+              (ins ";{inm}")))
     ("1" (cmd (ins "!")))
     ("n" (cmd (ins "printf( {} );")))
     ("N" (cmd (ins "scanf( \"{}\"{} );")))
@@ -292,9 +298,9 @@
     (">" (cmd (py-shift right)))
     ("<" (cmd (py-shift left)))
     ("[" (cmd (insert "{")
-      (ins "{}}")))
+              (ins "{}}")))
     (";" (cmd (move-end-of-line nil)
-      (ins ";{nli}")))
+              (ins ";{nli}")))
     ("d"
      (buttons-make
       ("d" (cmd (ins " ( {} ){cbd}")))
@@ -317,6 +323,7 @@
      (buttons-make
       ("c" (cmd (ins "continue;")))
       ("b" (cmd (ins "break;")))))))
+
  (defbuttons java-buttons c-buttons
    (java-mode-map)
    (buttons-make
@@ -343,12 +350,13 @@
       ("I" (cmd (ins "Integer {inm}")))
       ("s" (cmd (ins "String ")))))
     ("$" (cmd (ins "new {}")
-      (insert "[]{")
-      (ins "{}}")))
+              (insert "[]{")
+              (ins "{}}")))
     ("-" (cmd (ins " -> ")))
     ("m" (cmd (ins "import {};")))
     ("m" 'java-imports-add-import-dwim)
     ("t" (cmd (ins "try {cbd}catch ({}){cbd}")))))
+
  (defbuttons xml-buttons nil
    (nxml-mode-map)
    (buttons-make
@@ -367,18 +375,20 @@
         (format
          (concat "<mix:message log-level=\"INFO\">" "%s is <mix:copy-of select=\"%s\"/>" "</mix:message>")
          mix-expr mix-expr))))))
+
  (defbuttons html-buttons xml-buttons
    (html-mode-map)
    (buttons-make
     ("\\" (cmd (ins "<br/>")))
     ("P" (cmd (ins "<p>{}</p>")))))
+
  (defbuttons js-buttons c-buttons
    (js-mode-map)
    (buttons-make
     ("d" (cmd (ins "function {} ( {} ){cbd}")))
     ("a" (cmd (ins "function({}")
-      (insert "){")
-      (ins "{}}")))
+              (insert "){")
+              (ins "{}}")))
     ("." (cmd (ins "debugger;{nli}")))
     ("n" (cmd (ins "console.log( \"{}\"{} );")))
     ("T" (cmd (ins "try{cbd}catch(err){cbd}")))
@@ -387,35 +397,36 @@
     ("l" (cmd (ins ".length")))
     ("r" (cmd (ins "return {};")))
     ("Z" (cmd (ins "if ( {}")
-      (insert " ){ ")
-      (ins "{} }")))
+              (insert " ){ ")
+              (ins "{} }")))
     ("v" (cmd (ins "var {inm}")))
     ("[" (cmd (insert "{}")))
     ("]" (cmd (ins ".format({})")))
     ("{" (cmd (insert "{")
-      (ins "{nli}{}{nli}}{idt}")))
+              (ins "{nli}{}{nli}}{idt}")))
     (";" (cmd (ins ": ")))
     (":" (cmd (ins ": ")))
     ("_" (cmd (ins ",{nli}{inm}")))
     ("L" (cmd (insert "let { ")
-      (ins "{} } = ")))
+              (ins "{} } = ")))
     ("G" (cmd (ins "null")))
     ("N" (cmd (ins "logger.silly( \"")
-      (insert
-       (format "%s-%d"
-               (f-filename
-                (buffer-file-name))
-               (random)))
-      (ins "\");")))
+              (insert
+               (format "%s-%d"
+                       (f-filename
+                        (buffer-file-name))
+                       (random)))
+              (ins "\");")))
     ("s" (cmd (ins "this.")))
     ("i" (cmd (ins "in")))
     ("p" (cmd (ins ".prototype.")))))
+
  (defbuttons go-buttons c-buttons
    (go-mode-map)
    (buttons-make
     ("a" (cmd (ins "func({}")
-      (insert "){")
-      (ins "{}}")))
+              (insert "){")
+              (ins "{}}")))
     ("s" (cmd (ins ".(*{})")))
     ("E" (cmd (ins " := ")))
     ("d" (cmd (ins "func {} ( {} ) {}{cbd}")))
@@ -450,38 +461,39 @@
     ("P" (cmd (ins "%p")))
     ("_" (cmd (ins "_, ")))
     ("{" (cmd (ins "&{}")
-      (insert "{")
-      (ins "{}}")))
+              (insert "{")
+              (ins "{}}")))
     ("O" (cmd (insert "verbose(func(){fmt.Printf(\"VERBOSE: ")
-      (ins "{}\"{})})")))))
+              (ins "{}\"{})})")))))
+
  (defbuttons bash-buttons programming-buttons
    (sh-mode-map)
    (buttons-make
     ("1" (cmd (ins "! ")))
     ("V" (cmd (insert "\"${")
-      (rec)
-      (upcase-last)
-      (ins "}\"")))
+              (rec)
+              (upcase-last)
+              (ins "}\"")))
     ("v" (cmd (insert "${")
-      (rec)
-      (upcase-last)
-      (ins "}")))
+              (rec)
+              (upcase-last)
+              (ins "}")))
     ("w" (cmd (ins "while {}; do{nli}{}{nli}done")))
     ("e" (cmd (upcase-last)
-      (ins "=")))
+              (ins "=")))
     ("E" (cmd (upcase-last)
-      (insert "=${")
-      (insert
-       (bash-identifier-current-line))
-      (ins "{}:-{}}{nli}")))
+              (insert "=${")
+              (insert
+               (bash-identifier-current-line))
+              (ins "{}:-{}}{nli}")))
     ("$" (cmd (ins "$({})")))
     ("j" (cmd (ins " || ")))
     ("k" (cmd (ins " && ")))
     ("S" (cmd (ins "{idt}")
-      (insert "case ${")
-      (rec)
-      (upcase-last)
-      (ins "} in{nli}{}{nli}esac{nli}")))
+              (insert "case ${")
+              (rec)
+              (upcase-last)
+              (ins "} in{nli}{}{nli}esac{nli}")))
     ("s" (cmd (ins "{idt}){nli}{}{nli};;{nli}")))
     ("o" (cmd (insert "${OPTARG}")))
     ("4" (cmd (ins "[ {} ]")))
@@ -496,49 +508,49 @@
     ("d" (cmd (ins "function {}{cbd}")))
     ("l" (cmd (insert " || exit ${LINENO}")))
     ("L" (cmd (ins "echo \"{}")
-      (insert "\" && exit ${LINENO}")))
+              (insert "\" && exit ${LINENO}")))
     ("f" (cmd (ins "for {}")
-      (upcase-last)
-      (ins " in {}; do{nli}{}{nli}done")))
-    ("x" 'shell-command-of-region)
+              (upcase-last)
+              (ins " in {}; do{nli}{}{nli}done")))
     ("H" (cmd (insert "${1} && shift")
-      (ins "{nli}")))
+              (ins "{nli}")))
     ("g" (cmd (ins "true")))
     ("G" (cmd (ins "false")))
     ("u" 'insert-unique-line)
     ("C" (cmd (ins "cat <<EOF{nli}{}EOF")))
     ("0" (cmd (insert sh-getopt-template)))))
+
  (defbuttons tex-buttons programming-buttons
    (tex-mode-map)
    (buttons-make
     ("m" (cmd (ins "${}$")))
     ("b" (cmd (insert "\\begin{")
-      (ins "{0}}{}")
-      (insert "\\end{")
-      (ins "{0}}")))
+              (ins "{0}}{}")
+              (insert "\\end{")
+              (ins "{0}}")))
     ("B" (cmd (insert "\\textbf{")
-      (ins "{}}")))
+              (ins "{}}")))
     ("[" (cmd (insert "{")
-      (ins "{}}")))
+              (ins "{}}")))
     ("i" (cmd (ins "\\in ")))
     ("I" (cmd (ins "\\item {idt}{}{nli}")))
     ("I" (cmd (ins "\\item {idt}{}{nli}")))
     ("l" (cmd (insert "\\begin{align*}")
-      (ins "{nli}{}{nli}")
-      (insert "\\end{align*}")))
+              (ins "{nli}{}{nli}")
+              (insert "\\end{align*}")))
     ("L" (cmd (insert "\\begin{tabular}{lr}")
-      (ins "{nli}{}")
-      (insert "\\end{tabular}")))
+              (ins "{nli}{}")
+              (insert "\\end{tabular}")))
     ("_" (cmd (ins ".${}$.")))
     ("x" (cmd (ins "(.x.)")))
     ("q" (cmd (insert "\\begin{numedquestion}")
-      (ins "% q#{}{nli}{}{nli}")
-      (insert "\\end{numedquestion}")
-      (ins "{idt}{nli}")))
+              (ins "% q#{}{nli}{}{nli}")
+              (insert "\\end{numedquestion}")
+              (ins "{idt}{nli}")))
     ("P" (cmd (insert "\\begin{part}")
-      (ins "% ({}){nli}{}{nli}")
-      (insert "\\end{part}")
-      (ins "{idt}{nli}")))
+              (ins "% ({}){nli}{}{nli}")
+              (insert "\\end{part}")
+              (ins "{idt}{nli}")))
     ("j" (cmd (ins " \\vee ")))
     ("k" (cmd (ins " \\wedge ")))
     ("j" (cmd (ins "\\cup ")))
@@ -546,41 +558,42 @@
     ("1" (cmd (ins " \\sim ")))
     ("\\" (cmd (ins " \\\\{nli}{inm}")))
     ("6" (cmd (insert "^{")
-      (ins "{}}")))
+              (ins "{}}")))
     ("K" (cmd (insert "{")
-      (ins "{} \\choose {}} {inm}")))
+              (ins "{} \\choose {}} {inm}")))
     ("f" (cmd (insert "\\frac{")
-      (rec)
-      (insert "}{")
-      (ins "{}}")))
+              (rec)
+              (insert "}{")
+              (ins "{}}")))
     ("(" (cmd (ins "P({})")))
     ("8" (cmd (ins "P({})")))
     (")" (cmd (ins " + ")))
     ("." (cmd (ins "\\cdot ")))
     ("|" (cmd (ins "P({}|{})")))
     ("_" (cmd (backward-char)
-      (upcase-last)
-      (ins "_")
-      (forward-char)))
+              (upcase-last)
+              (ins "_")
+              (forward-char)))
     ("t" (cmd (insert "\\text{")
-      (ins "{}}")))
+              (ins "{}}")))
     ("{" (cmd (insert "\\{")
-      (ins "{}\\}")))
+              (ins "{}\\}")))
     ("-" (cmd (ins "(1-p)^{inm}")))
     ("_" (cmd (ins "_")))
     ("p" (cmd (ins "^{inm}")))
     (";" (cmd (insert "P(\\{X=")
-      (ins "{}\\})")))
+              (ins "{}\\})")))
     ("=" (cmd (ins " + ")))
     ("E" (cmd (ins "E[{}]")))
     ("]" (cmd (ins "^")))
     ("+" (cmd (ins "+")))
     ("v" (cmd (insert "\\begin{verbatim}")
-      (rec)
-      (insert "\\end{verbatim}")))
+              (rec)
+              (insert "\\end{verbatim}")))
     ("7" (cmd (ins " & ")))
     (";" (cmd (ins "\\;")))
     ("/" 'my-comment-out)))
+
  (defbuttons matlab-buttons python-buttons
    (matlab-mode-map)
    (buttons-make
@@ -600,16 +613,17 @@
     ("a" (cmd (ins "arrayfun(@(x) {})")))
     (">" (cmd (ins "keyboard;{nli}")))
     ("Q" (cmd (ins "dbquit")
-      (cmt "")))
+              (cmt "")))
     ("q" (cmd (ins "dbcont")
-      (cmt "")))
+              (cmt "")))
     ("N" (cmd (ins "sprintf('{}')")))
     ("N" (cmd (ins "disp(sprintf('{}'{}))")))
     ("[" (cmd (insert "{")
-      (ins "{}}")))
+              (ins "{}}")))
     ("5" (cmd (ins "%f")))
     (";" (cmd (ins ": ")))
     ("x" (cmd (ins "elseif ")))))
+
  (defbuttons r-buttons programming-buttons
    (ess-mode-map)
    (buttons-make
@@ -621,13 +635,15 @@
     ("f" (cmd (ins "for({} in as.single({}:{})){cbd}")))
     ("-" (cmd (ins "attr({}, \"{}\" )")))
     ("N" (cmd (ins "print({})")))))
+
  (defbuttons octave-buttons matlab-buttons
    (octave-mode-map inferior-octave-mode-map)
    (buttons-make
     ("d" (cmd (ins "function [{}] = {}({}){nli}{}{nli}endfunction")))
     ("'" (cmd (insert "#{")
-      (ins "{}#}")))
+              (ins "{}#}")))
     ("2" (cmd (ins "\"{}\"")))))
+
  (defbuttons cpp-buttons c-buttons
    (c++-mode-map)
    (buttons-make
@@ -645,22 +661,26 @@
     ("s" (cmd (ins "scanf( \"%d\", &{inm}{} );")))
     ("S" (cmd (ins "int {0}; scanf( \"%d\", &{0} );{nli}")))
     ("M" (cmd (ins "#include <unordered_map>{nli}#include <iostream>{nli}#include <string>{nli}#include <assert.h>{nli}using namespace std;{nli}")))))
+
  (defbuttons yacc-buttons programming-buttons
    (yacc-mode-map)
    (buttons-make
     ("v" (cmd (ins "$")
-      (insertchar)))
+              (insertchar)))
     ("D" (cmd (ins "{nli}:	")))
     ("d" (cmd (ins "{nli}|	")))))
+
  (defbuttons dot-buttons programming-buttons
    (dot-mode-map)
    (buttons-make
     ("l" (cmd (ins " [label=\"{}\"];")))
     ("-" (cmd (ins " -> ")))))
+
  (defbuttons forum-post-buttons programming-buttons
    (forum-mode-map)
    (buttons-make
     ("," (cmd (ins "[code]{}[/code]")))))
+
  (defbuttons org-buttons nil
    (org-mode-map)
    (buttons-make
@@ -677,12 +697,15 @@
          (org-display-inline-images))))
     ("m" (cmd (ins "#+OPTIONS: ^:nil{nli}#+OPTIONS: toc:nil{nli}#+OPTIONS: html-postamble:nil{nli}#+OPTIONS: num:nil{nli}#+TITLE: {}{nli}")))
     ("R" (cmd (ins "***REMOVED***")))
+    ("r" 'org-refile)
     ("w" 'org-refile)))
+
  (defbuttons message-buttons nil
    (message-mode-map)
    (buttons-make
     ("=" (cmd (ins " => ")))
     ("<" (cmd (re-sub "^[ 	]*>?[ 	]*" "")))))
+
  (defbuttons ansi-term-buttons nil
    (term-raw-map)
    (buttons-make
@@ -692,15 +715,18 @@
        "send ^C^C"
        (term-send-raw-string "")
        (term-send-raw-string "")))))
+
  (defbuttons conf-buttons programming-buttons
    (conf-mode-map)
    (buttons-make
     ("e" (cmd (ins "=")))))
+
  (defbuttons magit-buttons nil
    (magit-mode-map)
    (buttons-make
     ("p" 'magit-go-backward)
     ("n" 'magit-go-forward)))
+
  (defbuttons diff-buttons nil
    (diff-mode-map)
    (buttons-make

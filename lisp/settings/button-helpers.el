@@ -77,7 +77,8 @@
      (interactive (if (region-active-p)
                       (list (region-beginning) (region-end))
                     (list (line-beginning-position)
-                          (line-end-position (when (numberp current-prefix-arg) current-prefix-arg)))))
+                          (line-end-position
+                           (when (numberp current-prefix-arg) current-prefix-arg)))))
      (save-excursion
        (goto-char a)
        (while (re-search-forward "^[-+ ]" b t nil)
