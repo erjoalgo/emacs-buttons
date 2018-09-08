@@ -117,6 +117,7 @@
                                (unless hide-command-names-p
                                  (princ binding))
                                (unless (or hide-command-use-count-p
+                                           (not (symbolp binding))
                                            (null (get binding 'use-count))
                                            (zerop (get binding 'use-count)))
                                  (princ (format "(%d)" (get binding 'use-count))))
