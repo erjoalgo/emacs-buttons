@@ -145,8 +145,8 @@
   (let ((print-level nil))
     (find-file to-file)
     (let ((contents (pp-to-string
-                     (cons 'buttons-macrolet
-                           (cdr (map-buttons "buttons-data.el"))))))
+                     `(buttons-macrolet ()
+                           ,@(cdr (map-buttons "buttons-data.el"))))))
       (with-current-buffer to-file
         (erase-buffer)
         (insert contents)

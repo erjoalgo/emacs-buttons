@@ -9,6 +9,7 @@
         (eval (read (format fmt key-spec)))))))
 
 (buttons-macrolet
+ ()
  (setf buttons-after-load-alist nil)
  (defbuttons programming-buttons nil nil
    (buttons-make super-add

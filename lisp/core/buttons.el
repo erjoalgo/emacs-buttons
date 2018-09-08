@@ -213,7 +213,7 @@
               (prog1 (progn ,@body)
                 ,@(reverse post)))))))
 
-(defmacro buttons-macrolet (&rest body)
+(defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "define 3-letter aliases for useful functions and macros
 to provide a compact DLS for defining buttons"
   `(macrolet
@@ -222,6 +222,7 @@ to provide a compact DLS for defining buttons"
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd () `(buttons-insert-code-block))
         (rec () `(recursive-edit))
-        (idt () `(indent-for-tab-command)))
+        (idt () `(indent-for-tab-command))
+        ,@more-macrolet-defs)
      ,@body))
 
