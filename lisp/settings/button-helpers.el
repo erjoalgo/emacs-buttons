@@ -110,7 +110,7 @@
                                 (scn (setf curr (concat curr ";{nli}")))
                                 (nli (setf curr (concat curr "{nli}")))
                                 (inm (setf curr (concat curr "{inm}")))
-                                (py-bck (setf curr (concat curr "{py-bck}")))
+                                (py-bck (setf curr (concat curr "{idt}")))
                                 (var-pop nil)
                                 (t
                                  (when (not (zerop (length curr)))
