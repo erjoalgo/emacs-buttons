@@ -95,7 +95,15 @@
 
 (add-hook 'after-load-functions 'after-load-button)
 
+(defun read-keymap ()
+  "taken from help-fns+.el"
+  (intern
+   (completing-read "Keymap: " obarray
+                   (lambda (m) (and (boundp m)  (keymapp (symbol-value m))))
+                   t nil 'variable-name-history)))
+
 (defun buttons-display (keymap &optional hide-command-names-p hide-command-use-count-p)
+  (interactive (list (read-keymap)))
   (let (sym)
     (when (symbolp keymap)
       (setf sym keymap
