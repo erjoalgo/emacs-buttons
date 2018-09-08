@@ -110,9 +110,6 @@
             keymap (symbol-value keymap)))
     (cl-labels ((print-key (event)
                            (princ (key-description (vector event))))
-                (peek (string len)
-                      (if (not len) string
-                        (subseq string 0 (min len (length string)))))
                 (print-command (binding)
                                (unless hide-command-names-p
                                  (princ binding))
@@ -125,8 +122,7 @@
                                (when (and (commandp binding)
                                           (documentation binding))
                                  (princ "\t")
-                                 (princ (peek (s-replace "\n" "\\n" (documentation binding))
-                                              max-description-chars))))
+                                 (princ (s-replace "\n" "\\n" (documentation binding)))))
                 (print-keymap (keymap level)
                               (map-keymap (lambda (event binding)
                                             (princ level)
