@@ -123,9 +123,7 @@
                                  (princ (format "(%d)" (get binding 'use-count))))
 
                                (when (and (commandp binding)
-                                          (documentation binding)
-                                          (or (null max-description-chars)
-                                              (not (zerop max-description-chars))))
+                                          (documentation binding))
                                  (princ "\t")
                                  (princ (peek (s-replace "\n" "\\n" (documentation binding))
                                               max-description-chars))))
@@ -140,9 +138,14 @@
                                               (print-command binding))
                                             (princ "\n"))
                                           keymap)))
-      (with-help-window (format "%s help" (or sym "unknown keymap"))
-        (print-keymap keymap "")))))
-
+      (let ((buffer-name (format "%s help" (or sym "unknown keymap")))
+            (help-window-select t))
+        (with-help-window buffer-name
+          (with-current-buffer
+              buffer-name
+            (let ((help-window (get-buffer-window buffer-name)))
+              (print-keymap keymap ""))
+            (toggle-truncate-lines t)))))))
 
 (defun buttons-recedit-record-text ()
   (let ((old-point (point)))
