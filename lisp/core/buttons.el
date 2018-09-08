@@ -130,6 +130,9 @@
               (print-keymap keymap ""))
             (toggle-truncate-lines t)))))))
 
+(unless (lookup-key help-map "M")
+  (define-key help-map "M" 'buttons-display))
+
 (defun buttons-recedit-record-text ()
   (let ((old-point (point)))
     (recursive-edit)
