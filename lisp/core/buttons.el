@@ -190,6 +190,7 @@
         with forms = nil
         with doc = nil
         with cmd-name = (gentemp "autogen-cmd")
+        with undo-len-sym = (gensym "undo-list-len")
         do (if (and (consp form)
                     (eq (car form) 'doc))
                (push (second form) doc)
@@ -202,12 +203,13 @@
               ,(s-join "" (reverse (mapcar 'prin1-to-string forms)))
               (interactive)
               (incf (get ',cmd-name 'use-count))
-	      (let ((undo-len (length buffer-undo-list)))
-	        (undo-boundary)
+	      (let (,undo-len-sym)
+                (unless (eq t buffer-undo-list)
+                  (setf ,undo-len-sym (length buffer-undo-list))
+	          (undo-boundary))
 	        (or (progn ,@forms t)
-		    (message "undoing from autogen button: %d"
-			     (- (length buffer-undo-list) undo-len))
-		    (undo (- (length buffer-undo-list) undo-len)))))))))
+                    (when ,undo-len-sym
+		      (undo (- (length buffer-undo-list) ,undo-len-sym))))))))))
 
 (defmacro defalias-tmp (aliases &rest body )
   (let (defs pre post)
