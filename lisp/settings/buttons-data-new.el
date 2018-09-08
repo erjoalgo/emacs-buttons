@@ -164,8 +164,11 @@
                 (ins "{}~}")))
       ("a" (cmd (ins "(assert {})")))
       ("p" (cmd (ins "(push {})")))
-      ("c" (cmd (ins "(car {})")))
-      ("d" (cmd (ins "(cdr {})")))
+      ("c"
+       (buttons-make
+        ("d" (cmd (ins "(cdr {})")))
+        ("a" (cmd (ins "(car {})")))
+        ("c" (cmd (ins "(cons {})")))))
       ("z" (cmd (ins "(zerop {})")))))
     ("n"
      (buttons-make
