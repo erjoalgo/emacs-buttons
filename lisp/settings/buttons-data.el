@@ -111,7 +111,7 @@
     ("X" (cmd (cmt "exit")))))
 
  (defbuttons emacs-lisp-buttons programming-buttons
-   (emacs-lisp-mode-map read-expression-map)
+   (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
    (buttons-make super-add
     ("d"
      (buttons-make super-add
@@ -208,14 +208,6 @@
       ("f" (cmd (ins "finally ")))
       ("r" (cmd (ins "(return {})")))
       ("3" (cmd (ins "#P\"{}\"")))))))
-
- ;; (defbuttons inferior-emacs-lisp-mode-map-buttons
- ;;   emacs-lisp-buttons
- ;;   (inferior-emacs-lisp-mode-map)
- ;;   (buttons-make
- ;;    nil
- ;;    ((kbd "M-p") 'comint-previous-input)
- ;;    ((kbd "M-n") 'comint-next-input)))
 
  (defbuttons cl-buttons emacs-lisp-buttons
    (lisp-mode-map slime-mode-map)
