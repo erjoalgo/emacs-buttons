@@ -725,7 +725,7 @@
      (git-hunk-toggle-cmd " "))))
 
  (defbuttons backtrace-bindings nil
-   (debugger-mode-map emacs-lisp-mode-map)
+   (debugger-mode-map emacs-lisp-mode-map inferior-emacs-lisp-mode-map)
    (buttons-make
     ("h"
      (buttons-make
