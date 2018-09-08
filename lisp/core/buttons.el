@@ -74,7 +74,9 @@
                            ((or (not no-overwrite-p) (not existing))
                             (when (and existing (keymapp existing))
                               (warn "%s overwrites nested keymap with plain command on %s %s"
-                                    (or (symbol-name from-sym) "child") (key-description keyvec) (or (reverse path) "")))
+                                    (or (symbol-name from-sym) "child")
+                                    (key-description keyvec)
+                                    (or (reverse path) "")))
                             (define-key to-map keyvec cmd)))))
                       from-map)))
     (merge from-map to-map)))
