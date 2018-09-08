@@ -38,7 +38,7 @@
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
                              load-after-keymap-syms)
-               collect `(push (cons ',orig ,kmap-sym)
+               collect `(push (cons ',orig ',kmap-sym)
                               buttons-after-load-alist)))))
 
 (defmacro with-temporary-erjoalgo-mode-state (state &rest forms)
