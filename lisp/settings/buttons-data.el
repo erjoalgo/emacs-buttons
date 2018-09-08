@@ -683,6 +683,7 @@
          (org-display-inline-images))))
     ("m" (cmd (ins "#+OPTIONS: ^:nil{nli}#+OPTIONS: toc:nil{nli}#+OPTIONS: html-postamble:nil{nli}#+OPTIONS: num:nil{nli}#+TITLE: {}{nli}")))
     ("R" (cmd (ins "***REMOVED***")))
+    ("p" 'org-todo-promote-top)
     ("r" 'org-refile)
     ("w" 'org-refile)))
 
