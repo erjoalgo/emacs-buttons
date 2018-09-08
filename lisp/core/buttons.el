@@ -216,15 +216,6 @@
 (defmacro buttons-macrolet (&rest body)
   "define 3-letter aliases for useful functions and macros
 to provide a compact DLS for defining buttons"
-  `(defalias-tmp
-     ((ins 'buttons-insert-rec-template)
-      (rec 'recursive-edit)
-      (cmd 'buttons-defcmd)
-      (cbd 'buttons-insert-code-block)
-      (cmt 'comint-send-input)
-      ;; (python-indent-dedent-line-backspace nil)
-      (idt 'indent-for-tab-command))
-     ,@body)
   `(macrolet
        ((nli () `(newline-and-indent))
         (ins (text) `(buttons-insert-rec-template ,text))
