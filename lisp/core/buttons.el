@@ -1,26 +1,13 @@
-(defun buttons-add-super-modifier (keyspec)
-  (if (equal keyspec "\\")
-      (kbd "s-\\")
-    (let ((fmt
-	   (if (equal (length keyspec) 1) "(kbd \"s-%s\")"
-	     "(kbd \"<s-%s>\")")))
-      (eval (read (format fmt keyspec))))))
-
-(unless (functionp 'string-join)
-  (defun string-join (strings separator)
-    (reduce (lambda (cum a)
-	      (concat a separator cum))
-	    strings)))
-
-(defmacro buttons-make (&rest bindings)
+(defmacro buttons-make (key-mapper &rest bindings)
   (let ((kmap-sym (gensym "kmap")))
     `(let ((,kmap-sym (make-sparse-keymap)))
        ,@(loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "malformed key definition")
-               as key = (if (stringp key-spec)
-                            ;; TODO use dynamically defined modifier
-                            (buttons-add-super-modifier key-spec)
+               as key = (if key-mapper
+                            (if (symbolp key-mapper)
+                                `(,key-mapper ,key-spec)
+                              `(funcall ,key-mapper ,key-spec))
                           key-spec)
                collect `(define-key ,kmap-sym ,key ,value))
        ,kmap-sym)))
