@@ -29,15 +29,6 @@
                collect `(push (cons ',orig ',kmap-sym)
                               buttons-after-load-alist)))))
 
-(defmacro with-temporary-erjoalgo-mode-state (state &rest forms)
-  (let ((orig-state (gensym "erjoalgo-mode-orig-state-")))
-    `(let ((,orig-state erjoalgo-command-mode))
-       (global-erjoalgo-command-mode ,state)
-       ,@forms
-       (global-erjoalgo-command-mode ,orig-state))))
-
-(defun buttons-rec ()
-  (with-temporary-erjoalgo-mode-state 0 (recursive-edit)))
 
 (defun buttons-insert-code-block (&optional content)
   (insert " {")
@@ -198,25 +189,6 @@
 	        (or (progn ,@(reverse forms) t)
                     (when ,undo-len-sym
 		      (undo (- (length buffer-undo-list) ,undo-len-sym))))))))))
-
-(defmacro defalias-tmp (aliases &rest body )
-  (let (defs pre post)
-    (loop for (from to) in aliases
-          do
-          (if (fboundp from)
-              (let ((tmp (gensym "original-")))
-                (push `(defalias ',tmp ',from) pre)
-                (push `(defalias ',from ',tmp) post)
-                (push `(fmakunbound ',tmp) post))
-            (push `(fmakunbound ',from) post))
-          collect `(defalias ',from ,to) into defs
-          finally
-          (return
-           `(progn
-              ,@pre
-              ,@defs
-              (prog1 (progn ,@body)
-                ,@(reverse post)))))))
 
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "define 3-letter aliases for useful functions and macros
