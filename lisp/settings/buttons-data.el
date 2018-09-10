@@ -513,7 +513,7 @@
     ("g" (cmd (ins "true")))
     ("G" (cmd (ins "false")))
     ("u" 'insert-unique-line)
-    ("C" (cmd (ins "cat <<EOF{nli}{}EOF")))
+    ("C" (cmd (ins "<<EOF{nli}{}EOF")))
     ;; ( "x" 'shell-command-of-region)
     ("0" (cmd (insert sh-getopt-template)))))
 
