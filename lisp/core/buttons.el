@@ -19,9 +19,9 @@
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
        (setf ,kmap-sym ,keymap)
-       (when ,ancestor-kmap
+       ,@(when ancestor-kmap
          ;; (set-keymap-parent ,keymap ,ancestor-kmap)
-         (define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t))
+         `((define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
        ,@(loop for orig in (if (and load-after-keymap-syms
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
