@@ -27,11 +27,14 @@
                                (list load-after-keymap-syms)
                              load-after-keymap-syms)
                as form = `(define-keymap-onto-keymap ,kmap-sym ,orig)
-               collect
+               append
                (if (boundp orig)
-                   form
-                 `(push (cons ',orig (lambda () ,form))
-                        buttons-after-load-alist))))))
+                   `(,form)
+                 `((setf buttons-after-load-alist
+                         (delq (assoc ',orig buttons-after-load-alist)
+                               buttons-after-load-alist))
+                   (push (cons ',orig (lambda () ,form))
+                         buttons-after-load-alist)))))))
 
 (defun buttons-insert-code-block (&optional content)
   (insert " {")
