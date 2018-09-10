@@ -745,4 +745,9 @@
                 (message "debug-on-error: %s" debug-on-error)))
       ("q" (cmd (with-current-buffer "*Backtrace*" (top-level))))))))
 
- (after-load-button nil))
+ (defbuttons sldb-bindings nil
+   (sldb-mode-map)
+   (buttons-make super-add
+      ("a" 'sldb-abort)
+      ("c" 'sldb-continue)
+      ("q" 'sldb-quit))))
