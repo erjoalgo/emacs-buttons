@@ -215,6 +215,7 @@
      (buttons-make super-add
       ("i" (cmd (ins "(declare (ignore {}))")))
       ("c" (cmd (ins "(defcommand {} ({}) ({}){nli}{})")))
+      ("p" (cmd (ins "(defparameter {})")))
       ("s" (cmd (ins "(defstruct {}{nli}{})")))))
     ("n"
      (buttons-make super-add
