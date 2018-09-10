@@ -26,9 +26,12 @@
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
                              load-after-keymap-syms)
-               collect `(push (cons ',orig ',kmap-sym)
-                              buttons-after-load-alist)))))
-
+               as form = `(define-keymap-onto-keymap ,kmap-sym ,orig)
+               collect
+               (if (boundp orig)
+                   form
+                 `(push (cons ',orig (lambda () ,form))
+                        buttons-after-load-alist))))))
 
 (defun buttons-insert-code-block (&optional content)
   (insert " {")
@@ -65,13 +68,12 @@
 
 (defun after-load-button (file-loaded)
   (setf buttons-after-load-alist
-        (loop for (sym . buttons-keymap) in buttons-after-load-alist
+        (loop for (sym . fun) in buttons-after-load-alist
               if (boundp sym) do
               (progn
-                ;; (message "installing %s into %s" (symbol-name buttons-keymap) (symbol-name sym))
-                (define-keymap-onto-keymap (symbol-value buttons-keymap)
-                  (symbol-value sym)))
-              else collect (cons sym buttons-keymap))))
+                (message "calling hook for %s" (symbol-name sym))
+                (funcall fun))
+              else collect (cons sym fun))))
 
 (add-hook 'after-load-functions 'after-load-button)
 
