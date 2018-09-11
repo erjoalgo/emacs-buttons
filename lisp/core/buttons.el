@@ -207,4 +207,3 @@ to provide a compact DLS for defining buttons"
         (idt () `(indent-for-tab-command))
         ,@more-macrolet-defs)
      ,@body))
-
