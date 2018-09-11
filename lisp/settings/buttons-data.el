@@ -321,6 +321,8 @@ otherwise, leave it intact"
      (buttons-make super-add
       ("u" (cmd (ins "unsigned ")))
       ("i" (cmd (ins "int ")))
+      ("3" (cmd (ins "int32 ")))
+      ("6" (cmd (ins "int64 ")))
       ("l" (cmd (ins "long ")))
       ("c" (cmd (ins "char ")))
       ("I" (cmd (ins "char* ")))
