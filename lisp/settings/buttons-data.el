@@ -33,6 +33,14 @@ otherwise, leave it intact"
     ("6" (cmd (ins "[^{}]")))
     ((kbd "M-/") 'my-comment-out)
     ((kbd "M-?") 'my-comment-out-and-duplicate)
+
+    ("." (buttons-make super-add
+                       ("f" 'xref-find-definitions)
+                       ("s" 'xref-show-location-at-point)
+                       ("r" 'eglot-rename)
+                       ("x" 'xref-find-references)
+                       ("a" 'xref-find-apropos)
+                       ("c" 'eglot-code-actions)))
     ("R" (cmd (ins "***REMOVED***")))))
 
  (defbuttons python-buttons programming-buttons
