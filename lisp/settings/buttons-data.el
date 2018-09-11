@@ -41,6 +41,9 @@ otherwise, leave it intact"
                        ("x" 'xref-find-references)
                        ("a" 'xref-find-apropos)
                        ("c" 'eglot-code-actions)))
+
+    ((kbd "M-.") 'next-error)
+    ((kbd "M-,") 'previous-error)
     ("R" (cmd (ins "***REMOVED***")))))
 
  (defbuttons python-buttons programming-buttons
