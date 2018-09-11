@@ -668,7 +668,6 @@ otherwise, leave it intact"
       ("s" (cmd (ins "string ")))))
     ("m" (cmd (ins "using namespace std;{nli}#include <vector>{nli}#include <unordered_map>{nli}#include <iostream>{nli}#define MAX(a, b) ((a)>(b)? (a):(b)){nli}#define MIN(a, b) ((a)<(b)? (a):(b)){nli}#define ABS(a) ((a)>=0? (a):-(a)){nli}")))
     ("N" (cmd (ins "cout << {} << endl;{nli}")))
-    ("," (cmd (ins " << ")))
     ("l" (cmd (ins ".size()")))
     ("s" (cmd (ins "scanf( \"{inm}{}\", {} )")))
     ("s" (cmd (ins "scanf( \"%d\", &{inm}{} );")))
