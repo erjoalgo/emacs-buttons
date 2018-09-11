@@ -207,6 +207,7 @@ otherwise, leave it intact"
     ("-" (cmd (ins "(-> {})")))
     ("_" (cmd (ins "(->> {})")))
     ("`" (cmd (ins "`{}'")))
+    ((kbd "s-\"") (cmd (ins "‘{}'")))
     ("p"
      (buttons-make super-add
       ("l" (cmd (ins "(loop for {}){nli}")))
