@@ -1,4 +1,6 @@
 (defun super-add (key-spec)
+  "if ‘key-spec' is a string, then prefix it with super
+otherwise, leave it intact"
   (if (not (stringp key-spec))
       key-spec
     (if (equal key-spec "\\")
