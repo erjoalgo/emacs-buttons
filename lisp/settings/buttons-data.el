@@ -153,6 +153,8 @@ otherwise, leave it intact"
       ("l" (cmd (ins "(let ({}){nli}{}){nli}")))
       ("L" (cmd (ins "(let* ({}){nli}{}){nli}")))))
     ("e" (cmd (ins "(setf {})")))
+    ("E" (cmd (forward-sexp)
+              (my-eval-defun)))
     ("i" (cmd (ins "(interactive)")))
     ("7"
      (buttons-make super-add
