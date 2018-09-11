@@ -42,8 +42,14 @@ otherwise, leave it intact"
                        ("a" 'xref-find-apropos)
                        ("c" 'eglot-code-actions)))
 
-    ((kbd "M-.") 'next-error)
-    ((kbd "M-,") 'previous-error)
+    ((kbd "M-.") (lambda () (interactive)
+                   (if (get-buffer "*compilation*")
+                       (call-interactively 'next-error)
+                     (call-interactively 'flymake-goto-next-error))))
+    ((kbd "M-,") (lambda () (interactive)
+                   (if (get-buffer "*compilation*")
+                       (call-interactively 'previous-error)
+                     (call-interactively 'flymake-goto-prev-error))))
     ("R" (cmd (ins "***REMOVED***")))))
 
  (defbuttons python-buttons programming-buttons
