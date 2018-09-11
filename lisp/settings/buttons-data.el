@@ -672,6 +672,7 @@ otherwise, leave it intact"
     ("s" (cmd (ins "scanf( \"{inm}{}\", {} )")))
     ("s" (cmd (ins "scanf( \"%d\", &{inm}{} );")))
     ("S" (cmd (ins "int {0}; scanf( \"%d\", &{0} );{nli}")))
+    (";" (cmd (ins "::")))
     ("M" (cmd (ins "#include <unordered_map>{nli}#include <iostream>{nli}#include <string>{nli}#include <assert.h>{nli}using namespace std;{nli}")))))
 
  (defbuttons yacc-buttons programming-buttons
