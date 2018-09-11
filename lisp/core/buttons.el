@@ -1,7 +1,7 @@
 (defmacro buttons-make (key-mapper &rest bindings)
   (let ((kmap-sym (gentemp "kmap")))
     `(lexical-let ((,kmap-sym (make-sparse-keymap)))
-       (define-key ,kmap-sym "?" (lambda () (interactive)
+       (define-key ,kmap-sym (kbd "s-?") (lambda () (interactive)
                                    (buttons-display ,kmap-sym)))
        ,@(loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
