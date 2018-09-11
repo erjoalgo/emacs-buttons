@@ -767,8 +767,12 @@ otherwise, leave it intact"
     ("h"
      (buttons-make super-add
       ("f" (cmd (describe-function-at-point)))
-      ("d" (cmd (setf debug-on-error (not debug-on-error))
-                (message "debug-on-error: %s" debug-on-error)))
+      ("d" (buttons-make
+            super-add
+            ("t" (cmd (setf debug-on-error t)
+                      (message "debug-on-error: %s" debug-on-error)))
+            ("g" (cmd (setf debug-on-error nil)
+                      (message "debug-on-error: %s" debug-on-error)))))
       ("q" (cmd (with-current-buffer "*Backtrace*" (top-level))))))))
 
  (defbuttons sldb-bindings nil
