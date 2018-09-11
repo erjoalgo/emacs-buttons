@@ -72,7 +72,10 @@
               if (boundp sym) do
               (progn
                 (message "calling hook for %s" (symbol-name sym))
-                (funcall fun))
+                (condition-case err (funcall fun)
+                  ('error
+	           (warn "WARNING: unable to load action %s for symbol %s: %s"
+                         sym fun err))))
               else collect (cons sym fun))))
 
 (add-hook 'after-load-functions 'after-load-button)
@@ -81,7 +84,7 @@
   "taken from help-fns+.el"
   (intern
    (completing-read "Keymap: " obarray
-                    (lambda (m) (and (boundp m)  (keymapp (symbol-value m))))
+                    (lambda (m) (and (boundp m)))
                     t
                     (when (symbol-at-point)
                       (symbol-name (symbol-at-point)))
