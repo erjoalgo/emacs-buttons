@@ -782,4 +782,11 @@ otherwise, leave it intact"
    (buttons-make super-add
       ("a" 'sldb-abort)
       ("c" 'sldb-continue)
-      ("q" 'sldb-quit))))
+      ("q" 'sldb-quit)))
+
+ (defbuttons minibuffer-quick-yes-button
+   nil
+   (minibuffer-local-map)
+   (buttons-make
+    nil
+    ((kbd "s-SPC") 'quick-yes-answer-yes))))
