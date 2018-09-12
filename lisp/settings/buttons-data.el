@@ -26,7 +26,12 @@ otherwise, leave it intact"
     ("4" (cmd (ins "[{}]")))
     ("r" (cmd (ins "return ")))
     ("SPC" (cmd (ins ", {inm}")))
-    ("5" (cmd (ins "%s")))
+    ("5" (buttons-make
+          super-add
+          ("s" (cmd (ins "%s")))
+          ("d" (cmd (ins "%d")))
+          ("l" (cmd (ins "%ld")))
+          ("L" (cmd (ins "%lld")))))
     ("=" (cmd (ins " == ")))
     ("+" (cmd (ins " != ")))
     ("]" (cmd (ins "[]")))
