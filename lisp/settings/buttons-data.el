@@ -11,7 +11,7 @@ otherwise, leave it intact"
         (eval (read (format fmt key-spec)))))))
 
 (buttons-macrolet
- ()
+ ((inm () `(global-erjoalgo-command-mode 0)))
  (defbuttons programming-buttons nil nil
    (buttons-make super-add
     ("\\" (cmd (ins "\\n")))
