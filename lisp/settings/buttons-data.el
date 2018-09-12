@@ -309,7 +309,7 @@ otherwise, leave it intact"
               (yank-or-pop)
               (ins ";{inm}")))
     ("1" (cmd (ins "!")))
-    ("n" (cmd (ins "printf( {} );")))
+    ("n" (cmd (ins "printf(\"{}\\n\"{});")))
     ("N" (cmd (ins "scanf( \"{}\"{} );")))
     ("l" (cmd (ins "strlen( {} )")))
     ("'" (cmd (ins "/*{}*/{nli}")))
