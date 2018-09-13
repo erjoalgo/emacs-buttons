@@ -13,7 +13,8 @@ otherwise, leave it intact"
 (buttons-macrolet
  ((inm () `(global-erjoalgo-command-mode 0)))
  (defbuttons programming-buttons nil nil
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("\\" (cmd (ins "\\n")))
     ("%" (cmd (ins "%d")))
     ("3" (cmd (ins "({})")))
@@ -59,7 +60,8 @@ otherwise, leave it intact"
 
  (defbuttons python-buttons programming-buttons
    (python-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("e"
      (lambda nil
        (interactive)
@@ -81,7 +83,8 @@ otherwise, leave it intact"
     ("2" (cmd (ins "\"{}\"")))
     ("@" (cmd (ins "'{}'")))
     ("q"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("x" (cmd (ins "xrange({})")))))
     ("M" (cmd (ins "from {} import *")
               (cmt)
@@ -117,12 +120,14 @@ otherwise, leave it intact"
     ("N" (cmd (ins "a=[{}]{nli}print(getattr(Solution(), dir(Solution)[-1])(*a))")))
     ("E" (cmd (ins "raise Exception({})")))
     ("u"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("a" (cmd (ins "assert({})")))))))
 
  (defbuttons pdb-buttons python-buttons
    (inferior-python-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("r" (cmd (cmt "restart")
               (pdb-restart)))
     ("c" (cmd (gud-cont nil)))
@@ -135,14 +140,17 @@ otherwise, leave it intact"
 
  (defbuttons emacs-lisp-buttons programming-buttons
    (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("d"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("v" (cmd (ins "(defvar {}){nli}")))
       ("f" (cmd (ins "(defun {} ({}){nli}{})")))
       ("m" (cmd (ins "(defmacro {} ({}){nli}{})")))))
     ("u"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("k" (cmd (ins "(defpackage {nli}(:use :cl){})")))
       ("i" (cmd (ins "(:import-from #:{}")))
       ("e" (cmd (ins "(:export #:")))
@@ -154,7 +162,8 @@ otherwise, leave it intact"
     ("c" (cmd (ins "(unless {})")))
     ("v" (cmd (ins "(progn {})")))
     ("l"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("l" (cmd (ins "(let ({}){nli}{}){nli}")))
       ("L" (cmd (ins "(let* ({}){nli}{}){nli}")))))
     ("e" (cmd (ins "(setf {})")))
@@ -162,32 +171,38 @@ otherwise, leave it intact"
               (my-eval-defun)))
     ("i" (cmd (ins "(interactive)")))
     ("7"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("r" (cmd (ins "&rest ")))
       ("k" (cmd (ins "&key ")))
       ("b" (cmd (ins "&body ")))
       ("o" (cmd (ins "&optional ")))))
     ("g" (cmd (ins "nil")))
     ("t"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("l"
-       (buttons-make super-add
+       (buttons-make
+        super-add
         ("t" (cmd (ins "(list {})")))
         ("l" (cmd (ins "(length {})")))))
       ("1" (cmd (ins "(null {})")))
       ("m"
-       (buttons-make super-add
+       (buttons-make
+        super-add
         ("m" (cmd (ins "(mapcar {}){nli}")))
         ("x" (cmd (ins "(macroexpand '{}){nli}")))))
       ("g" (cmd (ins "({0}-sym (gensym \"{0}\")){nli}")))
       ("e"
-       (buttons-make super-add
+       (buttons-make
+        super-add
         ("e" (cmd (ins "(equal {})")))
         ("q" (cmd (ins "(eq {})")))
         ("=" (cmd (ins "(= {})")))
         ("l" (cmd (ins "(eql {})")))))
       ("f"
-       (buttons-make super-add
+       (buttons-make
+        super-add
         ("r" (cmd (ins "(remove-if {})")))
         ("R" (cmd (ins "(remove-if-not {})")))))
       ("+" (cmd (ins "(1+ {})")))
@@ -201,13 +216,15 @@ otherwise, leave it intact"
       ("a" (cmd (ins "(assert {})")))
       ("p" (cmd (ins "(push {})")))
       ("c"
-       (buttons-make super-add
+       (buttons-make
+        super-add
         ("d" (cmd (ins "(cdr {})")))
         ("a" (cmd (ins "(car {})")))
         ("c" (cmd (ins "(cons {})")))))
       ("z" (cmd (ins "(zerop {})")))))
     ("n"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("n" (cmd (ins "(format \"{}\"{})")))
       ("m" (cmd (ins "(message \"{}\"{})")))))
     ("\\" (cmd (ins "\\\\({}\\\\)")))
@@ -222,7 +239,8 @@ otherwise, leave it intact"
     ("`" (cmd (ins "`{}'")))
     ((kbd "s-\"") (cmd (ins "‘{}'")))
     ("p"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("l" (cmd (ins "(loop for {}){nli}")))
       ("i" (cmd (ins " in ")))
       ("t" (cmd (ins "with {} = ")))
@@ -241,15 +259,18 @@ otherwise, leave it intact"
 
  (defbuttons cl-buttons emacs-lisp-buttons
    (lisp-mode-map slime-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("d"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("i" (cmd (ins "(declare (ignore {}))")))
       ("c" (cmd (ins "(defcommand {} ({}) ({}){nli}{})")))
       ("p" (cmd (ins "(defparameter {})")))
       ("s" (cmd (ins "(defstruct {}{nli}{})")))))
     ("n"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("g" (cmd (ins "(format nil {})")))
       ("t" (cmd (ins "(format t {})")))
       ("f" (cmd (ins "(format fh {})")))
@@ -264,7 +285,8 @@ otherwise, leave it intact"
     (";" (cmd (ins ":")))
     (":" (cmd (ins "::")))
     ("h"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("d" (cmd (move-beginning-of-line nil)
                 (ins "(describe '")
                 (move-end-of-line nil)
@@ -275,13 +297,15 @@ otherwise, leave it intact"
 
  (defbuttons clojure-buttons cl-buttons
    (clojure-mode-map cider-repl-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("5" (cmd (ins "%s")))
     ("%" (cmd (ins "%d")))
     ("\\" (cmd (ins "\\n")))
     ("l" (cmd (ins "(let [{}]{nli}{}){nli}")))
     ("d"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("f" (cmd (ins "(defn {} [{}]{nli}{}){nli}")))))
     ("n" (cmd (ins "(printf \"{}\\n\"{})")))
     (";" (cmd (ins ": ")))
@@ -298,9 +322,11 @@ otherwise, leave it intact"
 
  (defbuttons c-buttons programming-buttons
    (c-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("f"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("f" (cmd (ins "for ( int {0} = 0; {0} < {}; {0}++ ){cbd}")))
       ("F" (cmd (ins "for ( int {0} = {}; {0} >= 0; {0}-- ){cbd}")))))
     ("w" (cmd (ins "while ({}){cbd}")))
@@ -331,11 +357,13 @@ otherwise, leave it intact"
     (";" (cmd (move-end-of-line nil)
               (ins ";{nli}")))
     ("d"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("d" (cmd (ins " ( {} ){cbd}")))
       ("m" (cmd (ins "int main (int argc, char* argv[]){cbd}")))))
     ("i"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("u" (cmd (ins "unsigned ")))
       ("i" (cmd (ins "int ")))
       ("3" (cmd (ins "int32 ")))
@@ -351,22 +379,26 @@ otherwise, leave it intact"
     ("-" (cmd (ins "->")))
     ("m" (cmd (ins "#include <stdlib.h>{nli}#include <stdio.h>{nli}#include <string.h>{nli}#include <assert.h>{nli}#define MAX(a, b) ((a)>(b)? (a):(b)){nli}#define MIN(a, b) ((a)<(b)? (a):(b)){nli}#define ABS(a) ((a)>=0? (a):-(a)){nli}")))
     ("b"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("c" (cmd (ins "continue;")))
       ("b" (cmd (ins "break;")))))))
 
  (defbuttons java-buttons c-buttons
    (java-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("n" (cmd (ins "System.out.printf( \"{}\\n\"{} );{nli}")))
     ("l" (cmd (ins ".length")))
     ("G" (cmd (ins "null")))
     ("d"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("d" (cmd (ins " ( {} ){cbd}")))
       ("m" (cmd (ins "public static void main ( String[] argv){cbd}")))))
     ("p"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("p" (cmd (ins "public ")))
       ("v" (cmd (ins "private ")))
       ("k" (cmd (ins "package ")))
@@ -376,7 +408,8 @@ otherwise, leave it intact"
     ("F" (cmd (ins "for ({}: {}){cbd}")))
     ("L" (cmd (ins "class {}{cbd}")))
     ("i"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("i" (cmd (ins "int {inm}")))
       ("I" (cmd (ins "Integer {inm}")))
       ("s" (cmd (ins "String ")))))
@@ -390,7 +423,8 @@ otherwise, leave it intact"
 
  (defbuttons xml-buttons nil
    (nxml-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("/" (cmd (ins "<!--{}-->{nli}")))
     ((kbd "M-/") 'xml-toggle-line-comment)
     ("." (cmd (ins "</{0}>")))
@@ -409,13 +443,15 @@ otherwise, leave it intact"
 
  (defbuttons html-buttons xml-buttons
    (html-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("\\" (cmd (ins "<br/>")))
     ("P" (cmd (ins "<p>{}</p>")))))
 
  (defbuttons js-buttons c-buttons
    (js-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("d" (cmd (ins "function {} ( {} ){cbd}")))
     ("a" (cmd (ins "function({}")
               (insert "){")
@@ -454,7 +490,8 @@ otherwise, leave it intact"
 
  (defbuttons go-buttons c-buttons
    (go-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("a" (cmd (ins "func({}")
               (insert "){")
               (ins "{}}")))
@@ -499,7 +536,8 @@ otherwise, leave it intact"
 
  (defbuttons bash-buttons programming-buttons
    (sh-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("1" (cmd (ins "! ")))
     ("V" (cmd (insert "\"${")
               (rec)
@@ -552,7 +590,8 @@ otherwise, leave it intact"
 
  (defbuttons tex-buttons programming-buttons
    (tex-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("m" (cmd (ins "${}$")))
     ("b" (cmd (insert "\\begin{")
               (ins "{0}}{}")
@@ -626,7 +665,8 @@ otherwise, leave it intact"
 
  (defbuttons matlab-buttons python-buttons
    (matlab-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("z" (cmd (ins "if {};{nli}{}{nli}end{idt}")))
     ("'" (cmd (ins "'")))
     ("f" (cmd (ins "for {}=1{}:{}{nli}{}end")))
@@ -656,7 +696,8 @@ otherwise, leave it intact"
 
  (defbuttons r-buttons programming-buttons
    (ess-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("h" (cmd (ins "help.search({inm}{})")))
     ("e" (cmd (ins " <- ")))
     ("d" (cmd (ins " <- function({}){cbd}")))
@@ -668,7 +709,8 @@ otherwise, leave it intact"
 
  (defbuttons octave-buttons matlab-buttons
    (octave-mode-map inferior-octave-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("d" (cmd (ins "function [{}] = {}({}){nli}{}{nli}endfunction")))
     ("'" (cmd (insert "#{")
               (ins "{}#}")))
@@ -676,12 +718,15 @@ otherwise, leave it intact"
 
  (defbuttons cpp-buttons c-buttons
    (c++-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("f"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("F" (cmd (ins "for(auto& {}: {}){cbd}")))))
     ("i"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("s" (cmd (ins "string ")))))
     ("m" (cmd (ins "using namespace std;{nli}#include <vector>{nli}#include <unordered_map>{nli}#include <iostream>{nli}#define MAX(a, b) ((a)>(b)? (a):(b)){nli}#define MIN(a, b) ((a)<(b)? (a):(b)){nli}#define ABS(a) ((a)>=0? (a):-(a)){nli}")))
     ("N" (cmd (ins "cout << {} << endl;{nli}")))
@@ -694,7 +739,8 @@ otherwise, leave it intact"
 
  (defbuttons yacc-buttons programming-buttons
    (yacc-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("v" (cmd (ins "$")
               (insertchar)))
     ("D" (cmd (ins "{nli}:	")))
@@ -702,18 +748,21 @@ otherwise, leave it intact"
 
  (defbuttons dot-buttons programming-buttons
    (dot-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("l" (cmd (ins " [label=\"{}\"];")))
     ("-" (cmd (ins " -> ")))))
 
  (defbuttons forum-post-buttons programming-buttons
    (forum-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("," (cmd (ins "[code]{}[/code]")))))
 
  (defbuttons org-buttons nil
    (org-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("q" (cmd (ins "#+BEGIN_SRC {}{nli}{}#+END_SRC{nli}")))
     ("`" (cmd (ins "~{}~")))
     ("Q" (cmd (ins "#+begin_quote {}{nli}{}#+end_quote{nli}")))
@@ -733,13 +782,15 @@ otherwise, leave it intact"
 
  (defbuttons message-buttons nil
    (message-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("=" (cmd (ins " => ")))
     ("<" (cmd (re-sub "^[ 	]*>?[ 	]*" "")))))
 
  (defbuttons ansi-term-buttons nil
    (term-raw-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("c"
      (lambda nil
        (interactive)
@@ -749,18 +800,21 @@ otherwise, leave it intact"
 
  (defbuttons conf-buttons programming-buttons
    (conf-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("e" (cmd (ins "=")))))
 
  (defbuttons magit-buttons nil
    (magit-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("p" 'magit-go-backward)
     ("n" 'magit-go-forward)))
 
  (defbuttons diff-buttons nil
    (diff-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("-"
      (git-hunk-toggle-cmd "-"))
     ("="
@@ -770,9 +824,11 @@ otherwise, leave it intact"
 
  (defbuttons backtrace-bindings nil
    (debugger-mode-map emacs-lisp-mode-map inferior-emacs-lisp-mode-map)
-   (buttons-make super-add
+   (buttons-make
+    super-add
     ("h"
-     (buttons-make super-add
+     (buttons-make
+      super-add
       ("f" (cmd (describe-function-at-point)))
       ("d" (buttons-make
             super-add
