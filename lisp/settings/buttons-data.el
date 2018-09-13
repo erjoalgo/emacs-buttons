@@ -40,13 +40,14 @@ otherwise, leave it intact"
     ((kbd "M-/") 'my-comment-out)
     ((kbd "M-?") 'my-comment-out-and-duplicate)
 
-    ("." (buttons-make super-add
-                       ("f" 'xref-find-definitions)
-                       ("s" 'xref-show-location-at-point)
-                       ("r" 'eglot-rename)
-                       ("x" 'xref-find-references)
-                       ("a" 'xref-find-apropos)
-                       ("c" 'eglot-code-actions)))
+    ("." (buttons-make
+          super-add
+          ("f" 'xref-find-definitions)
+          ("s" 'xref-show-location-at-point)
+          ("r" 'eglot-rename)
+          ("x" 'xref-find-references)
+          ("a" 'xref-find-apropos)
+          ("c" 'eglot-code-actions)))
 
     ((kbd "M-.") (lambda () (interactive)
                    (if (get-buffer "*compilation*")
@@ -840,10 +841,11 @@ otherwise, leave it intact"
 
  (defbuttons sldb-bindings nil
    (sldb-mode-map)
-   (buttons-make super-add
-      ("a" 'sldb-abort)
-      ("c" 'sldb-continue)
-      ("q" 'sldb-quit)))
+   (buttons-make
+    super-add
+    ("a" 'sldb-abort)
+    ("c" 'sldb-continue)
+    ("q" 'sldb-quit)))
 
  (defbuttons minibuffer-quick-yes-button
    nil
