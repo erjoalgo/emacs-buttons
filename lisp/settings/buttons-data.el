@@ -794,4 +794,7 @@ otherwise, leave it intact"
    (minibuffer-local-map)
    (buttons-make
     nil
-    ((kbd "s-SPC") 'quick-yes-answer-yes))))
+    ((kbd "s-SPC") 'quick-yes-answer-yes)
+    ;; this is different from the emacs-lisp binding: no need to escape the \ itself
+    ((kbd "s-\\") (cmd (ins "\\({}\\)")))
+    ((kbd "s-9") (cmd (ins "[0-9]+"))))))
