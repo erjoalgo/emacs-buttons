@@ -857,4 +857,26 @@ otherwise, leave it intact"
     ((kbd "s-SPC") 'quick-yes-answer-yes)
     ;; this is different from the emacs-lisp binding: no need to escape the \ itself
     ((kbd "s-\\") (cmd (ins "\\({}\\)")))
-    ((kbd "s-9") (cmd (ins "[0-9]+"))))))
+    ((kbd "s-9") (cmd (ins "[0-9]+")))))
+
+ (defbuttons apropos-buttons
+   nil
+   (global-map)
+   (buttons-make
+    nil
+    ((kbd "C-h")
+     (buttons-make
+      nil
+      ("a"
+       (buttons-make
+        nil
+        ;; all
+        ("l" 'apropos)
+        ;; functions/commands
+        ("f" (cmd (let ((apropos-do-all t))
+                    (call-interactively 'apropos-command))))
+        ;; commands only
+        ("c" (cmd (let ((apropos-do-all nil))
+                    (call-interactively 'apropos-command))))
+        ;; variables
+        ("v" (cmd (call-interactively 'apropos-variable))))))))))
