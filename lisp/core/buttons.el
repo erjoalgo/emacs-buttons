@@ -37,7 +37,7 @@
   (insert " {")
   (newline-and-indent)
   (indent-for-tab-command)
-  (buttons-rec)
+  (recursive-edit)
   (newline-and-indent)
   (insert "}")
   (if (member major-mode '(c-mode js-mode))
