@@ -779,7 +779,9 @@ otherwise, leave it intact"
     ("R" (cmd (ins "***REMOVED***")))
     ("p" 'org-todo-promote-top)
     ("r" 'org-refile)
-    ("w" 'org-refile)))
+    ("w" 'org-refile)
+    ("c" 'org-clock-in)
+    ("C" 'org-clock-out)))
 
  (defbuttons message-buttons nil
    (message-mode-map)
