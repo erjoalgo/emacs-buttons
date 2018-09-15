@@ -166,7 +166,9 @@ otherwise, leave it intact"
      (buttons-make
       super-add
       ("l" (cmd (ins "(let ({}){nli}{}){nli}")))
-      ("L" (cmd (ins "(let* ({}){nli}{}){nli}")))))
+      ("L" (cmd (ins "(let* ({}){nli}{}){nli}")))
+      ("x" (cmd (ins "(lexical-let ({}){nli}{}){nli}")))
+      ("X" (cmd (ins "(lexical-let* ({}){nli}{}){nli}")))))
     ("e" (cmd (ins "(setf {})")))
     ("E" (cmd (forward-sexp)
               (my-eval-defun)))
