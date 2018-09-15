@@ -784,7 +784,7 @@ otherwise, leave it intact"
     ("r" 'org-refile)
     ("w" 'org-refile)
     ("c" 'org-clock-in)
-    ("C" 'org-clock-out)))
+    ("C" 'org-resolve-clocks)))
 
  (defbuttons message-buttons nil
    (message-mode-map)
