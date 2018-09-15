@@ -587,7 +587,10 @@ otherwise, leave it intact"
     ("u" 'insert-unique-line)
     ("C" (cmd (ins "<<EOF{nli}{}EOF")))
     ;; ( "x" 'shell-command-of-region)
-    ("0" (cmd (insert sh-getopt-template)))))
+    ("0" (cmd (insert sh-getopt-template)))
+    ("t" (buttons-make
+          super-add
+          ("t" (cmd (ins "test ") (inm)))))))
 
  (defbuttons tex-buttons programming-buttons
    (tex-mode-map)
