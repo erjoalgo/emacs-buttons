@@ -1,0 +1,31 @@
+@setfilename buttons.info
+@settitle Emacs Buttons Documentation
+@setchapternewpage odd
+@c %**end of header
+
+# @dircategory X11
+@direntry
+* Emacs Buttons             
+@end direntry
+
+* Defining buttons
+%%% defbuttons
+%%% buttons-make
+
+* Compact DLS for generating commands
+%%% buttons-macrolet
+%%% buttons-insert-rec-template
+%%% buttons-defcmd
+
+* Visualization
+@@@ buttons-display
+
+* Internal
+### after-symbol-loaded-function-alist
+@@@ define-keymap-onto-keymap
+
+
+# Local Variables:
+# compile-command-lisp: (slime-eval (\` (STUMPWM::generate-manual :in (\, (concat default-directory "./README.in.org")) :out (\, (concat default-directory "./README.texi")))))
+# erjoalgo-compilation-next-buffer: "README.texi"
+# End:
