@@ -18,13 +18,6 @@
 
 '(setq go-types '("struct" "int" "bool" "string" "float"))
 
-(defun insert-unique-line ()
-  (interactive)
-  (let* ((initial (concat "# " (uuid) "-"))
-         (line (read-string "enter unique line: " initial))
-         (final (format "insert-text-block '%s' " line)))
-    (insert final)))
-
 (defun my-comment-out (arg &optional duplicate) (interactive "P")
        (let* ((mode-map-keymap-sym
                (intern (concat (symbol-name major-mode) "-map")))
