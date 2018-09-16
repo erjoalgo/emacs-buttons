@@ -124,7 +124,7 @@ command use-counts.
 
 "
   (interactive (list (read-keymap)))
-  (let (sym)
+  (let (sym (sep "  "))
     (when (symbolp keymap)
       (setf sym keymap
             keymap (symbol-value keymap)))
@@ -141,17 +141,17 @@ command use-counts.
 
                                (when (and (commandp binding)
                                           (documentation binding))
-                                 (princ "\t")
+                                 (princ sep)
                                  (princ (s-replace "\n" "\\n" (documentation binding)))))
                 (print-keymap (keymap level)
                               (map-keymap (lambda (event binding)
                                             (princ level)
                                             (print-key event)
-                                            (princ "\t")
+                                            (princ sep)
                                             (if (keymapp binding)
                                                 (progn (princ "(prefix)")
                                                        (princ "\n")
-                                                       (print-keymap binding (concat level "\t")))
+                                                       (print-keymap binding (concat level sep)))
                                               (print-command binding))
                                             (princ "\n"))
                                           keymap)))
