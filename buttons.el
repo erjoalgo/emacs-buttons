@@ -55,10 +55,14 @@ its input key to make the BINDINGS list more consice."
        ,kmap-sym)))
 
 (defmacro defbuttons (kmap-sym ancestor-kmap load-after-keymap-syms keymap)
-  "Define a keymap KMAP-SYM. ANCESTOR-KMAP, if non-nil,
-is merged recursively onto KMAP-SYM via DEFINE-KEYMAP-ONTO-KEYMAP.
+  "Define a keymap KMAP-SYM.
+
+ANCESTOR-KMAP, if non-nil,is merged recursively onto
+KMAP-SYM via DEFINE-KEYMAP-ONTO-KEYMAP.
+
 LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
 onto which to define KMAP-SYM via AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
+
 KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
@@ -153,6 +157,7 @@ are visualized recurisvely. This is suitable for visualizing
 BUTTONS-MAKE-defined nested keymaps.
 
 If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
+
 If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display recorded
 command use-counts.
 
@@ -230,14 +235,23 @@ command use-counts.
     Expands into:
 
         - insert 'for ( int '
-        - enter recursive edit. upon exit, record the text string labeled 0
+
+        - enter recursive edit. upon exit, record the entered text as a string labeled 0
+
         - insert ' = ; '
+
         - insert the already-recoded string 0
+
         - insert ' < '
+
         - enter recursive edit, no recording is done
+
         - enter '; '
+
         - insert the already-recorded string 0
-        - insert '++ )
+
+        - insert '++  )'
+
         - expand into the form: (cbd), which denotes the name a function or a macro
 "
 
