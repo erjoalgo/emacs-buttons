@@ -138,7 +138,8 @@ evaluating and removing entries for symbols that have become bound."
                          sym fun err))))
               else collect (cons sym fun))))
 
-(add-hook 'after-load-functions 'after-symbol-loaded)
+;; (defvar after-load-functions nil);; make CL happy while generating manual
+;; (add-hook 'after-load-functions 'after-symbol-loaded)
 
 (defun read-keymap ()
   "Taken from help-fns+.el. Interactively read a keymap symbol."
@@ -203,8 +204,8 @@ command use-counts.
               (print-keymap keymap ""))
             (toggle-truncate-lines t)))))))
 
-(unless (lookup-key help-map "M")
-  (define-key help-map "M" 'buttons-display))
+;; (unless (lookup-key help-map "M")
+;;   (define-key help-map "M" 'buttons-display))
 
 (defmacro buttons-insert-rec-template (&rest templates)
   "Compile a string specificing a keyboard macro template into
