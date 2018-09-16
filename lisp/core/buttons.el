@@ -8,7 +8,7 @@ KEY-MAPPER is optionally a function that transforms a "
   (let ((kmap-sym (gentemp "kmap")))
     `(lexical-let ((,kmap-sym (make-sparse-keymap)))
        (define-key ,kmap-sym (kbd "s-?") (lambda () (interactive)
-                                   (buttons-display ,kmap-sym)))
+                                           (buttons-display ,kmap-sym)))
        ,@(loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "malformed key definition")
@@ -31,8 +31,7 @@ KEYMAP is the keymap."
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
        (setf ,kmap-sym ,keymap)
        ,@(when ancestor-kmap
-         ;; (set-keymap-parent ,keymap ,ancestor-kmap)
-         `((define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
+           `((define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
        ,@(loop for orig in (if (and load-after-keymap-syms
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
@@ -69,7 +68,6 @@ only when NO-OVERWRITE-P is non-nil.
                                (existing (lookup-key to-map keyvec)))
                           (cond
                            ((and (keymapp cmd) (keymapp existing))
-                            ;; (message "recursive merge on %s..." (key-description keyvec))
                             (merge cmd existing (cons path (key-description keyvec))))
                            ((or (not no-overwrite-p) (not existing))
                             (when (and existing (keymapp existing))
@@ -151,7 +149,8 @@ command use-counts.
                                             (print-key event)
                                             (princ "\t")
                                             (if (keymapp binding)
-                                                (progn (princ "\n")
+                                                (progn (princ "(prefix)")
+                                                       (princ "\n")
                                                        (print-keymap binding (concat level "\t")))
                                               (print-command binding))
                                             (princ "\n"))
