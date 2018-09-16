@@ -103,4 +103,5 @@
                   (generate-hook-doc os line)
                   (generate-variable-doc os line)
                   (generate-command-doc os line)
-                  (write-line line os)))))))
+                  (unless (STARTS-WITH-SUBSEQ "#" line)
+                    (write-line line os))))))))
