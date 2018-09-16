@@ -26,11 +26,19 @@
 
 (defmacro buttons-make (key-mapper &rest bindings)
   "Define an anonymous keymap.
-BINDINGS... is a list of (KEY TARGET) pairs, where key
-must be suitable to use as the KEY argument in DEFINE-KEY,
-for example <s-f1>
+BINDINGS... is a list of (KEY TARGET) pairs, where KEY
+should be suitable to use as the KEY argument in DEFINE-KEY,
+for example \"<s-f1>\".
 
-KEY-MAPPER is optionally a function that transforms a "
+TARGET may be any value that could be passed to the DEF
+argument of DEFINE-KEY, including a command and a keymap,
+including an anonymous keymap created with BUTTONS-MAKE.
+
+KEY-MAPPER, if non-nil, is a function to apply to the
+KEY of each binding before it is passed to DEFINE-KEY.
+As an example, it may be used to add a modifier to
+its input key to make the BINDINGS list more consice."
+
   (let ((kmap-sym (gentemp "kmap")))
     `(lexical-let ((,kmap-sym (make-sparse-keymap)))
        (define-key ,kmap-sym (kbd "s-?") (lambda () (interactive)
