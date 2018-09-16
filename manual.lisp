@@ -32,6 +32,8 @@
   ;(format t "~&Doing ~a ~a..." type sym)
   )
 
+(declaim (optimize (debug 3) (speed 0)))
+
 (defun escape-brackets (text)
   (ppcre:regex-replace-all "([{}])" text "@\\1"))
 
