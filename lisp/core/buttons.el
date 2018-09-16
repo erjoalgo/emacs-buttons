@@ -1,4 +1,10 @@
 (defmacro buttons-make (key-mapper &rest bindings)
+  "Define an anonymous keymap.
+BINDINGS... is a list of (KEY TARGET) pairs, where key
+must be suitable to use as the KEY argument in DEFINE-KEY,
+for example <s-f1>
+
+KEY-MAPPER is optionally a function that transforms a "
   (let ((kmap-sym (gentemp "kmap")))
     `(lexical-let ((,kmap-sym (make-sparse-keymap)))
        (define-key ,kmap-sym (kbd "s-?") (lambda () (interactive)
@@ -15,6 +21,11 @@
        ,kmap-sym)))
 
 (defmacro defbuttons (kmap-sym ancestor-kmap load-after-keymap-syms keymap)
+  "Define a keymap KMAP-SYM. ANCESTOR-KMAP, if non-nil,
+is merged recursively onto KMAP-SYM via DEFINE-KEYMAP-ONTO-KEYMAP.
+LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
+onto which to define KMAP-SYM via AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
+KEYMAP is the keymap."
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
@@ -31,7 +42,7 @@
                (if (boundp orig)
                    `(,form)
                  `((push (cons ',orig (lambda () ,form))
-                         buttons-after-load-alist)))))))
+                         after-symbol-loaded-function-alist)))))))
 
 (defun buttons-insert-code-block (&optional content)
   (insert " {")
@@ -45,6 +56,12 @@
     (indent-for-tab-command)))
 
 (defun define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
+  "Define bindings FROM-MAP onto TO-MAP, recursively.
+If a binding A in FROM-MAP doesn't exist on TO-MAP, define A onto TO-MAP.
+Otherwise, if a binding is a prefix key on both maps, merge recursively.
+Otherwise FROM-MAP's binding overwrites TO-MAP's binding
+only when NO-OVERWRITE-P is non-nil.
+"
   (cl-labels ((merge (from-map to-map &optional path)
                      (map-keymap
                       (lambda (key cmd)
@@ -64,11 +81,18 @@
                       from-map)))
     (merge from-map to-map)))
 
-(defvar buttons-after-load-alist nil)
+(defvar after-symbol-loaded-function-alist nil
+  "An alist where each element has the form (SYMBOL . FUNCTION).
+FUNCTION takes no arguments and is evaluated after SYMBOL has been bound.
+If SYMBOL is currently bound, FUNCTION is called immediately.
+")
 
-(defun after-load-button (file-loaded)
-  (setf buttons-after-load-alist
-        (loop for (sym . fun) in buttons-after-load-alist
+(defun after-symbol-loaded (file-loaded)
+  "Function invoked after new symbols may have been defined.
+Iterates over list of pending items in ‘after-symbol-loaded-function-alist',
+evaluating and removing entries for symbols that have become bound."
+  (setf after-symbol-loaded-function-alist
+        (loop for (sym . fun) in after-symbol-loaded-function-alist
               if (boundp sym) do
               (progn
                 (message "calling hook for %s" (symbol-name sym))
@@ -78,10 +102,10 @@
                          sym fun err))))
               else collect (cons sym fun))))
 
-(add-hook 'after-load-functions 'after-load-button)
+(add-hook 'after-load-functions 'after-symbol-loaded)
 
 (defun read-keymap ()
-  "taken from help-fns+.el"
+  "Taken from help-fns+.el. Interactively read a keymap symbol."
   (intern
    (completing-read "Keymap: " obarray
                     (lambda (m) (and (boundp m)))
@@ -91,6 +115,16 @@
                     'variable-name-history)))
 
 (defun buttons-display (keymap &optional hide-command-names-p hide-command-use-count-p)
+  "Visualize a keymap KEYMAP in a help buffer.
+Unlike the standard keymap bindings help, nested keymaps
+are visualized recurisvely. This is suitable for visualizing
+BUTTONS-MAKE-defined nested keymaps.
+
+If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
+If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display recorded
+command use-counts.
+
+"
   (interactive (list (read-keymap)))
   (let (sym)
     (when (symbolp keymap)
@@ -134,12 +168,46 @@
 (unless (lookup-key help-map "M")
   (define-key help-map "M" 'buttons-display))
 
-(defun buttons-recedit-record-text ()
-  (let ((old-point (point)))
-    (recursive-edit)
-    (buffer-substring-no-properties old-point (point))))
-
 (defmacro buttons-insert-rec-template (&rest templates)
+  "Compile a string specificing a keyboard macro template into
+   a progression of lisp command.
+
+   Any directive {DIRECTIVE} within curly brackets is interpreted:
+
+       If DIRECTIVE is the empty string, a recursive edit is
+           entered for the user to type any text.
+
+       If DIRECTIVE is a number K, and a string labeled K does not exist,
+           a recursive edit is entered for the user to type any text. Upon exit,
+           the substring in the current buffer between the markers
+           before and after the recursive edit are stored as a string labeled K.
+           If a string labeled K already exists, it is inserted.
+
+       Otherwise, DIRECTIVE is interpreted as a function or macro, and
+       expanded into the call: (DIRECTIVE)
+
+    Any non-directive text is inserted literally.
+
+    No escaping of the curly brackets is supported.
+
+    Example:
+
+    for ( int {0} = 0; {0} < {}; {0}++ ){cbd}
+
+    Expands into:
+
+        - insert 'for ( int '
+        - enter recursive edit. upon exit, record the text string labeled 0
+        - insert ' = ; '
+        - insert the already-recoded string 0
+        - insert ' < '
+        - enter recursive edit, no recording is done
+        - enter '; '
+        - insert the already-recorded string 0
+        - insert '++ )
+        - expand into the form: (cbd), which denotes the name a function or a macro
+"
+
   (loop with start = 0
         with forms = nil
         with tmpl = (apply 'concat templates)
@@ -173,6 +241,13 @@
                            ,@(reverse forms)))))
 
 (defmacro buttons-defcmd (&rest body)
+  "Define an anonymous command with body BODY.
+The number of times the command is invoked is recorded
+as the USE-COUNT property of the function symbol.
+This can be helpful for analysis and for making
+decisions about which bindings' key-sequence
+lengths are worth shortening.
+"
   (loop for form in body
         with forms = nil
         with doc = nil
@@ -199,7 +274,7 @@
 		      (undo (- (length buffer-undo-list) ,undo-len-sym))))))))))
 
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
-  "define 3-letter aliases for useful functions and macros
+  "Define 3-letter aliases for useful functions and macros
 to provide a compact DLS for defining buttons"
   `(macrolet
        ((nli () `(newline-and-indent))
