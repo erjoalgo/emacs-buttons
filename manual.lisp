@@ -32,6 +32,9 @@
   ;(format t "~&Doing ~a ~a..." type sym)
   )
 
+(defun escape-brackets (text)
+  (ppcre:regex-replace-all "([{}])" text "@\\1"))
+
 (defun generate-function-doc (s line)
   (ppcre:register-groups-bind (name) ("^@@@ (.*)" line)
                               (dprint 'func name)
@@ -56,7 +59,8 @@
                                 (format s "@defmac {~a} ~{~a~^ ~}~%~a~&@end defmac~%~%"
                                         name
                                         (sb-introspect:function-lambda-list (macro-function symbol))
-                                        (documentation symbol 'function))
+                                        (escape-brackets
+                                        (documentation symbol 'function)))
                                 t)))
 
 (defun generate-variable-doc (s line)
