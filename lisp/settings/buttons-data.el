@@ -380,7 +380,13 @@ otherwise, leave it intact"
     ("s" (cmd (ins "sizeof({})")))
     ("S" (cmd (ins "sizeof({0})/sizeof(*{0})")))
     ("-" (cmd (ins "->")))
-    ("m" (cmd (ins "#include <stdlib.h>{nli}#include <stdio.h>{nli}#include <string.h>{nli}#include <assert.h>{nli}#define MAX(a, b) ((a)>(b)? (a):(b)){nli}#define MIN(a, b) ((a)<(b)? (a):(b)){nli}#define ABS(a) ((a)>=0? (a):-(a)){nli}")))
+    ("m" (cmd (ins "#include <stdlib.h>") (nli)
+              (ins "#include <stdio.h>") (nli)
+              (ins "#include <string.h>") (nli)
+              (ins "#include <assert.h>") (nli)
+              (ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
+              (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
+              (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)))
     ("b"
      (buttons-make
       super-add
@@ -440,9 +446,11 @@ otherwise, leave it intact"
        (mix-expr)
        (interactive "senter mix expression: ")
        (insert
-        (format
-         (concat "<mix:message log-level=\"INFO\">" "%s is <mix:copy-of select=\"%s\"/>" "</mix:message>")
-         mix-expr mix-expr))))))
+        (concat "<mix:message log-level=\"INFO\">"
+                (format
+                 "%s is <mix:copy-of select=\"%s\"/>"
+                 mix-expr mix-expr)
+                "</mix:message>"))))))
 
  (defbuttons html-buttons xml-buttons
    (html-mode-map)
@@ -734,14 +742,24 @@ otherwise, leave it intact"
      (buttons-make
       super-add
       ("s" (cmd (ins "string ")))))
-    ("m" (cmd (ins "using namespace std;{nli}#include <vector>{nli}#include <unordered_map>{nli}#include <iostream>{nli}#define MAX(a, b) ((a)>(b)? (a):(b)){nli}#define MIN(a, b) ((a)<(b)? (a):(b)){nli}#define ABS(a) ((a)>=0? (a):-(a)){nli}")))
+    ("m" (cmd (ins "using namespace std;") (nli)
+              (ins "#include <vector>") (nli)
+              (ins "#include <unordered_map>") (nli)
+              (ins "#include <iostream>") (nli)
+              (ins "#define MAX(a, b) ((a)>(b)? (a):(b))") (nli)
+              (ins "#define MIN(a, b) ((a)<(b)? (a):(b))") (nli)
+              (ins "#define ABS(a) ((a)>=0? (a):-(a))") (nli)))
     ("N" (cmd (ins "cout << {} << endl;{nli}")))
     ("l" (cmd (ins ".size()")))
     ("s" (cmd (ins "scanf( \"{inm}{}\", {} )")))
     ("s" (cmd (ins "scanf( \"%d\", &{inm}{} );")))
     ("S" (cmd (ins "int {0}; scanf( \"%d\", &{0} );{nli}")))
     (";" (cmd (ins "::")))
-    ("M" (cmd (ins "#include <unordered_map>{nli}#include <iostream>{nli}#include <string>{nli}#include <assert.h>{nli}using namespace std;{nli}")))))
+    ("M" (cmd (ins "#include <unordered_map>") (nli)
+              (ins "#include <iostream>") (nli)
+              (ins "#include <string>") (nli)
+              (ins "#include <assert.h>") (nli)
+              (ins "using namespace std;") (nli)))))
 
  (defbuttons yacc-buttons programming-buttons
    (yacc-mode-map)
@@ -780,7 +798,11 @@ otherwise, leave it intact"
        (if org-inline-image-overlays
            (org-remove-inline-images)
          (org-display-inline-images))))
-    ("m" (cmd (ins "#+OPTIONS: ^:nil{nli}#+OPTIONS: toc:nil{nli}#+OPTIONS: html-postamble:nil{nli}#+OPTIONS: num:nil{nli}#+TITLE: {}{nli}")))
+    ("m" (cmd (ins "#+OPTIONS: ^:nil") (nli)
+              (ins "#+OPTIONS: toc:nil") (nli)
+              (ins "#+OPTIONS: html-postamble:nil") (nli)
+              (ins "#+OPTIONS: num:nil") (nli)
+              (ins "#+TITLE: {}") (nli)))
     ("R" (cmd (ins "***REMOVED***")))
     ("p" 'org-todo-promote-top)
     ("r" 'org-refile)
