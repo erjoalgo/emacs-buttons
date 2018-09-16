@@ -25,7 +25,7 @@ KEY-MAPPER is optionally a function that transforms a "
 is merged recursively onto KMAP-SYM via DEFINE-KEYMAP-ONTO-KEYMAP.
 LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
 onto which to define KMAP-SYM via AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
-KEYMAP is the keymap."
+KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
