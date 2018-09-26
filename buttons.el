@@ -212,8 +212,8 @@ command use-counts.
     (buffer-substring-no-properties old-point (point))))
 
 (defmacro buttons-insert-rec-template (&rest templates)
-  "Compile a string specificing a keyboard macro template into
-   a progression of lisp command.
+  "Compile a string that specifies a keyboard macro template into
+   a progression of lisp commands.
 
    Any directive {DIRECTIVE} within curly brackets is interpreted:
 
