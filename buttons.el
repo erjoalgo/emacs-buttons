@@ -231,7 +231,9 @@ command use-counts.
 
     Any non-directive text is inserted literally.
 
-    No escaping of the curly brackets is supported.
+    BUTTONS-INSERT-REC-TEMPLATE-DIRECTIVE-REGEXP may be used to set the regexp
+    that defines directives to interpret. The first capture group is used
+    as the directive contents.
 
     Example:
 
@@ -264,7 +266,10 @@ command use-counts.
         with forms = nil
         with tmpl = (apply 'concat templates)
         with rec-sym-alist = nil
-        as rec-group-start = (string-match "{\\(.*?\\)}" tmpl start)
+        with buttons-insert-rec-template-directive-regexp =
+        (or buttons-insert-rec-template-directive-regexp "{\\(.*?\\)}")
+        as rec-group-start = (string-match
+                              buttons-insert-rec-template-directive-regexp tmpl start)
         do (if rec-group-start
                (progn
                  (unless (= start rec-group-start)
