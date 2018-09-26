@@ -206,6 +206,11 @@ command use-counts.
 (unless (lookup-key help-map "M")
   (define-key help-map "M" 'buttons-display))
 
+(defun buttons-recedit-record-text ()
+  (let ((old-point (point)))
+    (recursive-edit)
+    (buffer-substring-no-properties old-point (point))))
+
 (defmacro buttons-insert-rec-template (&rest templates)
   "Compile a string specificing a keyboard macro template into
    a progression of lisp command.
