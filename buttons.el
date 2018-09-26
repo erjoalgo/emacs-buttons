@@ -262,6 +262,12 @@ command use-counts.
               buttons-insert-rec-template-directive-regexp)
             "{\\(.*?\\)}")
 
+        with recedit-record-form =
+        (let ((old-point-sym (gensym "old-point")))
+          `(let ((,old-point-sym (point)))
+             (recursive-edit)
+             (buffer-substring-no-properties ,old-point-sym (point))))
+
         as rec-capture-start = (string-match directive-regexp tmpl start)
         do (if rec-group-start
                (progn
@@ -278,7 +284,7 @@ command use-counts.
                            (push `(insert ,sym) forms)
                          (setf sym (gensym (format "rec-group-%d--" group-no)))
                          (push (cons group-no sym) rec-sym-alist)
-                         (push `(setf ,sym (buttons-recedit-record-text)) forms))))
+                         (push `(setf ,sym ,recedit-record-form) forms))))
                     (t (push (let ((expr-val-sym (gensym "expr-val")))
                                `(let* ((,expr-val-sym ,(read group-no-str)))
                                  (when (stringp ,expr-val-sym)
