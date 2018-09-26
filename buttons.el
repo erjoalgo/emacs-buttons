@@ -268,10 +268,10 @@ command use-counts.
              (buffer-substring-no-properties ,old-point-sym (point))))
 
         as rec-capture-start = (string-match directive-regexp tmpl start)
-        do (if rec-group-start
+        do (if rec-capture-start
                (progn
-                 (unless (= start rec-group-start)
-                   (push `(insert ,(subseq tmpl start rec-group-start)) forms))
+                 (unless (= start rec-capture-start)
+                   (push `(insert ,(subseq tmpl start rec-capture-start)) forms))
                  (let ((group-no-str (match-string 1 tmpl))
                        (match-data (match-data)))
                    (cond
@@ -281,7 +281,7 @@ command use-counts.
                             (sym (cdr (assoc group-no rec-sym-alist))))
                        (if sym
                            (push `(insert ,sym) forms)
-                         (setf sym (gensym (format "rec-group-%d--" group-no)))
+                         (setf sym (gensym (format "rec-capture-%d--" group-no)))
                          (push (cons group-no sym) rec-sym-alist)
                          (push `(setf ,sym ,recedit-record-form) forms))))
                     (t (push (let ((expr-val-sym (gensym "expr-val")))
@@ -294,7 +294,7 @@ command use-counts.
              (progn (when (< start (length tmpl))
                       (push `(insert ,(subseq tmpl start)) forms))
                     (setf start (length tmpl))))
-        while rec-group-start
+        while rec-capture-start
         finally (return `(let ,(mapcar 'cdr rec-sym-alist)
                            ;; (doc ,tmpl)
                            ,@(reverse forms)))))
