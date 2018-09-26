@@ -226,8 +226,8 @@ command use-counts.
            before and after the recursive edit are stored as a string labeled K.
            If a string labeled K already exists, it is inserted.
 
-       Otherwise, DIRECTIVE is interpreted as a function or macro, and
-       expanded into the call: (DIRECTIVE)
+       Otherwise, DIRECTIVE is interpreted as a lisp expression.
+       If the expression evaluates to a string, it is inserted.
 
     Any non-directive text is inserted literally.
 
@@ -235,7 +235,7 @@ command use-counts.
 
     Example:
 
-    for ( int {0} = 0; {0} < {}; {0}++ ){cbd}
+    for ( int {0} = 0; {0} < {}; {0}++ ){(cbd)}
 
     Expands into:
 
@@ -281,7 +281,11 @@ command use-counts.
                          (setf sym (gensym (format "rec-group-%d--" group-no)))
                          (push (cons group-no sym) rec-sym-alist)
                          (push `(setf ,sym (buttons-recedit-record-text)) forms))))
-                    (t (push `(,(intern group-no-str)) forms)))
+                    (t (push (let ((expr-val-sym (gensym "expr-val")))
+                               `(let* ((,expr-val-sym ,(read group-no-str)))
+                                 (when (stringp ,expr-val-sym)
+                                   (insert ,expr-val-sym))))
+                                 forms)))
                    (set-match-data match-data)
                    (setf start (match-end 0))))
              (progn (when (< start (length tmpl))
