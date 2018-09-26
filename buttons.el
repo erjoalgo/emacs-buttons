@@ -257,10 +257,12 @@ command use-counts.
         with forms = nil
         with tmpl = (apply 'concat templates)
         with rec-sym-alist = nil
-        with buttons-insert-rec-template-directive-regexp =
-        (or buttons-insert-rec-template-directive-regexp "{\\(.*?\\)}")
-        as rec-group-start = (string-match
-                              buttons-insert-rec-template-directive-regexp tmpl start)
+        with directive-regexp =
+        (or (when (boundp 'buttons-insert-rec-template-directive-regexp)
+              buttons-insert-rec-template-directive-regexp)
+            "{\\(.*?\\)}")
+
+        as rec-capture-start = (string-match directive-regexp tmpl start)
         do (if rec-group-start
                (progn
                  (unless (= start rec-group-start)
