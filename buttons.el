@@ -250,8 +250,7 @@ command use-counts.
         - enter '; '
         - insert the already-recorded string 0
         - insert '++ )
-        - expand into the form: (cbd), which denotes the name a function or a macro
-"
+        - expand into the form: (cbd), which denotes the name a function or a macro"
 
   (loop with start = 0
         with forms = nil
