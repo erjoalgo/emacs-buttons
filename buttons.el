@@ -242,23 +242,14 @@ command use-counts.
     Expands into:
 
         - insert 'for ( int '
-
-        - enter recursive edit. upon exit, record the entered text as a string labeled 0
-
+        - enter recursive edit. on exit, record the entered text as a string labeled '0'
         - insert ' = ; '
-
         - insert the already-recoded string 0
-
         - insert ' < '
-
         - enter recursive edit, no recording is done
-
         - enter '; '
-
         - insert the already-recorded string 0
-
-        - insert '++  )'
-
+        - insert '++ )
         - expand into the form: (cbd), which denotes the name a function or a macro
 "
 
