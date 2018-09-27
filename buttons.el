@@ -336,7 +336,8 @@ lengths are worth shortening.
   "Define 3-letter aliases for useful functions and macros
 to provide a compact DLS for defining buttons"
   `(macrolet
-       ((nli () `(newline-and-indent))
+       ((but (&rest rest) `(buttons-make ,@rest))
+        (nli () `(newline-and-indent))
         (ins (text) `(buttons-insert-rec-template ,text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd () `(buttons-insert-code-block))
