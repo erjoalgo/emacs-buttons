@@ -45,7 +45,7 @@ its input key to make the BINDINGS list more consice."
                                            (buttons-display ,kmap-sym)))
        ,@(loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
-               when rest do (error "malformed key definition")
+               when rest do (error "malformed key definition: %s %s" key-spec value)
                as key = (if key-mapper
                             (if (symbolp key-mapper)
                                 `(,key-mapper ,key-spec)
