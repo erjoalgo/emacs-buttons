@@ -33,7 +33,7 @@ It should be bound at compile-time via ‘let-when'")
   "Creates a sparse keymap.
 
 BINDINGS... is a list of (KEY TARGET) pairs, where KEY
-should be suitable to use as the KEY argument in DEFINE-KEY,
+should be suitable for use as the KEY argument in DEFINE-KEY,
 for example \"<s-f1>\".
 
 TARGET may be any value that could be passed to the DEF
