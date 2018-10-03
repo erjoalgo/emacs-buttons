@@ -238,7 +238,9 @@ command use-counts.
 
     BUTTONS-INSERT-REC-TEMPLATE-DIRECTIVE-REGEXP may be used to set the regexp
     that defines directives to interpret. The first capture group is used
-    as the directive contents.
+    as the directive contents. Note that this variable should be bonud
+    via ‘let-when-compile' instead of ‘let' to make this binding available
+    at macro-expansion time.
 
     Example:
 
