@@ -26,6 +26,6 @@
 
 
 # Local Variables:
-# compile-command-lisp: (slime-eval (\` (STUMPWM::generate-manual :in (\, (concat default-directory "./README.in.org")) :out (\, (concat default-directory "./README.texi")))))
+# compile-command: auto-doc-el
 # erjoalgo-compilation-next-buffer: "README.texi"
 # End:
