@@ -345,7 +345,7 @@ to provide a compact DLS for defining buttons"
   `(macrolet
        ((but (&rest rest) `(buttons-make ,@rest))
         (nli () `(newline-and-indent))
-        (ins (text) `(buttons-insert-rec-template ,text))
+        (ins (&rest text) `(buttons-insert-rec-template ,@text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd () `(buttons-insert-code-block))
         (rec () `(recursive-edit))
