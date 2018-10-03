@@ -24,8 +24,14 @@
 ;;; Code:
 
 
-(defmacro buttons-make (key-mapper &rest bindings)
-  "Define an anonymous keymap.
+(defvar *buttons-make-key-mapper* nil
+  "A function used by buttons-make to map key definitions
+within a buttons-make form.
+It should be bound at compile-time via ‘let-when'")
+
+(defmacro buttons-make (&rest bindings)
+  "Creates a sparse keymap.
+
 BINDINGS... is a list of (KEY TARGET) pairs, where KEY
 should be suitable to use as the KEY argument in DEFINE-KEY,
 for example \"<s-f1>\".
@@ -34,8 +40,9 @@ TARGET may be any value that could be passed to the DEF
 argument of DEFINE-KEY, including a command and a keymap,
 including an anonymous keymap created with BUTTONS-MAKE.
 
-KEY-MAPPER, if non-nil, is a function to apply to the
-KEY of each binding before it is passed to DEFINE-KEY.
+*BUTTONS-MAKE-KEY-MAPPER*, if non-nil, specifiess
+a function to apply to the KEY of each binding
+before it is passed to DEFINE-KEY.
 As an example, it may be used to add a modifier to
 its input key to make the BINDINGS list more consice."
 
@@ -46,10 +53,8 @@ its input key to make the BINDINGS list more consice."
        ,@(loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "malformed key definition: %s %s" key-spec value)
-               as key = (if key-mapper
-                            (if (symbolp key-mapper)
-                                `(,key-mapper ,key-spec)
-                              `(funcall ,key-mapper ,key-spec))
+               as key = (if *buttons-make-key-mapper*
+                            (funcall *buttons-make-key-mapper* key-spec)
                           key-spec)
                collect `(define-key ,kmap-sym ,key ,value))
        ,kmap-sym)))
