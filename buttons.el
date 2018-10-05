@@ -308,12 +308,11 @@ command use-counts.
 
 (defmacro buttons-defcmd (&rest body)
   "Define an anonymous command with body BODY.
-The number of times the command is invoked is recorded
-as the USE-COUNT property of the function symbol.
-This can be helpful for analysis and for making
-decisions about which bindings' key-sequence
-lengths are worth shortening.
-"
+   The number of times the command is invoked is recorded
+   as the USE-COUNT property of the function symbol.
+   This may be useful for analysis and for making
+   decisions about which bindings' key-sequence
+   lengths are worth shortening."
   (loop for form in body
         with forms = nil
         with doc = nil
@@ -340,8 +339,8 @@ lengths are worth shortening.
 		      (undo (- (length buffer-undo-list) ,undo-len-sym))))))))))
 
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
-  "Define 3-letter aliases for useful functions and macros
-to provide a compact DLS for defining buttons"
+  "Define 3-letter aliases for useful button-related macros and functions.
+   Provides a compact DLS for defining buttons"
   `(macrolet
        ((but (&rest rest) `(buttons-make ,@rest))
         (nli () `(newline-and-indent))
