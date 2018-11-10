@@ -205,3 +205,4 @@ keymaps of commands and frequently-occurring code templates.
 * Additional links
   - [[file:doc/motivation.org][Motivation]]
   - [[./doc/buttons/index.html][Auto-generated function/macro index]]
+  - Full Example
