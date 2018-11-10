@@ -59,6 +59,17 @@ its input key to make the BINDINGS list more consice."
                collect `(define-key ,kmap-sym ,key ,value))
        ,kmap-sym)))
 
+(defun buttons-modifier-add-super (key-spec)
+  "If ‘key-spec' is a string, then prefix it with the super modifier, otherwise leave it intact
+  Suitable as the value of *BUTTONS-MAKE-KEY-MAPPER* in ‘buttons-make'"
+  (typecase key-spec
+    (string (kbd (format
+                  (if (= (length key-spec) 1)
+                      "s-%s"
+                    "<s-%s>")
+                  key-spec)))
+    (t key-spec)))
+
 (defmacro defbuttons (kmap-sym ancestor-kmap load-after-keymap-syms keymap)
   "Define a keymap KMAP-SYM.
 
@@ -111,6 +122,7 @@ only when NO-OVERWRITE-P is non-nil.
                                (existing (lookup-key to-map keyvec)))
                           (cond
                            ((and (keymapp cmd) (keymapp existing))
+
                             (merge cmd existing (cons (key-description keyvec) path)))
                            ((or (not no-overwrite-p) (not existing))
                             (when (and existing (keymapp existing))
