@@ -111,7 +111,7 @@ only when NO-OVERWRITE-P is non-nil.
                                (existing (lookup-key to-map keyvec)))
                           (cond
                            ((and (keymapp cmd) (keymapp existing))
-                            (merge cmd existing (cons path (key-description keyvec))))
+                            (merge cmd existing (cons (key-description keyvec) path)))
                            ((or (not no-overwrite-p) (not existing))
                             (when (and existing (keymapp existing))
                               (warn "%s overwrites nested keymap with plain command on %s %s"
