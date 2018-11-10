@@ -3,15 +3,10 @@
 #+OPTIONS: num:nil
 #+TITLE: EMACS-BUTTONS
 
-@@html:
-<style>
-.figure-number {
-    display: none;
-}
-</style>
-@@
+#+BEGIN_CENTER
+“The power of emacs lisp at your fingertips”
+#+END_CENTER
 
-#+CAPTION: “The power of emacs lisp at your fingertips”
 #+ATTR_HTML: :width 400
 [[file:doc/img/emacs-buttons.png]]
 
