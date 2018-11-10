@@ -24,6 +24,7 @@
 ;;; Code:
 
 
+(require 'cl-lib)
 (defvar *buttons-make-key-mapper* nil
   "A function used by buttons-make to map key definitions
 within a buttons-make form.
@@ -46,11 +47,11 @@ before it is passed to DEFINE-KEY.
 As an example, it may be used to add a modifier to
 its input key to make the BINDINGS list more consice."
 
-  (let ((kmap-sym (gentemp "kmap")))
-    `(lexical-let ((,kmap-sym (make-sparse-keymap)))
+  (let ((kmap-sym (cl-gentemp "kmap")))
+    `(let ((,kmap-sym (make-sparse-keymap)))
        (define-key ,kmap-sym (kbd "s-?") (lambda () (interactive)
                                            (buttons-display ,kmap-sym)))
-       ,@(loop with map = (make-sparse-keymap)
+       ,@(cl-loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "malformed key definition: %s %s" key-spec value)
                as key = (if *buttons-make-key-mapper*
@@ -62,7 +63,7 @@ its input key to make the BINDINGS list more consice."
 (defun buttons-modifier-add-super (key-spec)
   "If ‘key-spec' is a string, then prefix it with the super modifier, otherwise leave it intact
   Suitable as the value of *BUTTONS-MAKE-KEY-MAPPER* in ‘buttons-make'"
-  (typecase key-spec
+  (cl-typecase key-spec
     (string (kbd (format
                   (if (= (length key-spec) 1)
                       "s-%s"
@@ -86,7 +87,7 @@ KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
        (setf ,kmap-sym ,keymap)
        ,@(when ancestor-kmap
            `((define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
-       ,@(loop for orig in (if (and load-after-keymap-syms
+       ,@(cl-loop for orig in (if (and load-after-keymap-syms
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
                              load-after-keymap-syms)
@@ -145,7 +146,7 @@ If SYMBOL is currently bound, FUNCTION is called immediately.
 Iterates over list of pending items in ‘after-symbol-loaded-function-alist',
 evaluating and removing entries for symbols that have become bound."
   (setf after-symbol-loaded-function-alist
-        (loop for (sym . fun) in after-symbol-loaded-function-alist
+        (cl-loop for (sym . fun) in after-symbol-loaded-function-alist
               if (boundp sym) do
               (progn
                 (message "calling hook for %s" (symbol-name sym))
@@ -271,7 +272,7 @@ command use-counts.
         - insert '++ )
         - expand into the form: (cbd), which denotes the name a function or a macro"
 
-  (loop with start = 0
+  (cl-loop with start = 0
         with forms = nil
         with tmpl = (apply 'concat templates)
         with rec-sym-alist = nil
@@ -290,7 +291,7 @@ command use-counts.
         do (if rec-capture-start
                (progn
                  (unless (= start rec-capture-start)
-                   (push `(insert ,(subseq tmpl start rec-capture-start)) forms))
+                   (push `(insert ,(cl-subseq tmpl start rec-capture-start)) forms))
                  (let ((group-no-str (match-string 1 tmpl))
                        (match-data (match-data)))
                    (cond
@@ -311,7 +312,7 @@ command use-counts.
                    (set-match-data match-data)
                    (setf start (match-end 0))))
              (progn (when (< start (length tmpl))
-                      (push `(insert ,(subseq tmpl start)) forms))
+                      (push `(insert ,(cl-subseq tmpl start)) forms))
                     (setf start (length tmpl))))
         while rec-capture-start
         finally (return `(let ,(mapcar 'cdr rec-sym-alist)
@@ -325,10 +326,10 @@ command use-counts.
    This may be useful for analysis and for making
    decisions about which bindings' key-sequence
    lengths are worth shortening."
-  (loop for form in body
+  (cl-loop for form in body
         with forms = nil
         with doc = nil
-        with cmd-name = (gentemp "autogen-cmd")
+        with cmd-name = (cl-gentemp "autogen-cmd")
         with undo-len-sym = (gensym "undo-list-len")
         do (if (and (consp form)
                     (eq (car form) 'doc))
@@ -341,7 +342,7 @@ command use-counts.
             (defun ,cmd-name ()
               ,(s-join "" (reverse (mapcar 'prin1-to-string forms)))
               (interactive)
-              (incf (get ',cmd-name 'use-count))
+              (cl-incf (get ',cmd-name 'use-count))
 	      (let (,undo-len-sym)
                 (unless (eq t buffer-undo-list)
                   (setf ,undo-len-sym (length buffer-undo-list))
@@ -353,7 +354,7 @@ command use-counts.
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "Define 3-letter aliases for useful button-related macros and functions.
    Provides a compact DLS for defining buttons"
-  `(macrolet
+  `(cl-macrolet
        ((but (&rest rest) `(buttons-make ,@rest))
         (nli () `(newline-and-indent))
         (ins (&rest text) `(buttons-insert-rec-template ,@text))
