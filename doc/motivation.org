@@ -1,0 +1,102 @@
+* Benefits
+ - Minimize mental overhead when switching between languages by
+   associating the same key binding with the same construct across many languages.
+   - Here are ways of defining a new function in several languages:
+     - emacs lisp
+       #+BEGIN_SRC lisp
+       (defun add (a b)
+           (+ a b))
+       #+END_SRC
+     - clojure
+       #+BEGIN_SRC clojure
+       (defn add [a b]
+         (+ a b))
+       #+END_SRC
+     - python
+       #+BEGIN_SRC python
+       def add(a, b):
+           return a+b
+       #+END_SRC
+     - javascript
+       #+BEGIN_SRC js
+       function add ( a, b ) {
+           return a+b;
+       }
+       #+END_SRC
+
+     - shell
+       #+BEGIN_SRC sh
+       function add {
+           A=${1} && shift
+           B=${1} && shift
+           expr ${A} + ${B}
+       }
+       #+END_SRC
+     - c
+       #+BEGIN_SRC c++
+       int add ( int a, int b ) {
+         return a+b;
+       }
+       #+END_SRC
+     - go
+       #+BEGIN_SRC go
+       func add ( a, b int ) int {
+       	return a+b
+       }
+       #+END_SRC
+   - Here is basic printing in these languages:
+     - lisp
+     #+BEGIN_SRC lisp
+     (format t "hello world~%")
+     #+END_SRC
+     - clojure
+     #+BEGIN_SRC clojure
+     (printf "hello world\n")
+     #+END_SRC
+     - python
+     #+BEGIN_SRC python
+     print ("hello world")
+     #+END_SRC
+     - c++
+     #+BEGIN_SRC c++
+     cout << "hello world" << end;
+     #+END_SRC
+     - java
+     #+BEGIN_SRC java
+     System.out.printf( "hello world\n" );
+     #+END_SRC
+   - go
+     #+BEGIN_SRC go
+     fmt.Printf( "hello world\n" )
+     #+END_SRC
+   - The same goes for other standard programming language constructs like iteration,
+     conditionals, class declarations, etc. There is a lot of variation which requires mental effort to track.
+     In many cases the constructs are mostly semantically equivalent between lannguages and can be mapped to
+     a single button consistently.
+ - Minimize typing:
+   
+   Some constructs can be verbose.
+   - c++ nested loop
+     #+BEGIN_SRC c++
+     for ( int i = 0; i < A.size(); i++ ) {
+         for ( int ii = 0; ii < B.size(); ii++ ) {
+           cout << A[i] << ',' << B[i] << end;
+         }
+       }
+     #+END_SRC
+   - In buttons, this frequently occurring construct and related ones can be templetized:
+     - ascending for-loop
+     : "for ( int {0} = 0; {0} < {}; {0}++ ){(cbd)}"
+     - descending for-loop
+     : "for ( int {0} = {}; {0} >= 0; {0}-- ){(cbd)}"
+   - This allows producing most of this double loop in 5 or 6 keystrokes:
+     
+ - Avoids running out of key bindings by taking advantage of the exponential growth of trees as opposed to
+   relying soley on a limited # of modifier combinations,
+   
+ - Minimize repetitive strain by adding diversity to the key-sequences that may
+   prefix a command instead of repeatedly pressing the same modifier keys.
+
+# Local Variables:
+# org-treat-as-readme-p: t
+# End:
