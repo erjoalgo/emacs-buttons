@@ -1,16 +1,15 @@
-* Propaganda phrases
-  #+begin_quote
-  “The power of emacs lisp at your fingertips”
-  #+end_quote
 
-  #+begin_quote
-  “Making coding feel like playing videogames.”
-  #+end_quote
+@@html:
+<style>
+.figure-number {
+    display: none;
+}
+</style>
+@@
 
-  #+CAPTION: videogame controller
-  #+NAME: fig:SED-HR4049
-  #+ATTR_HTML: :width 400
-  [[file:doc/img/emacs-buttons.png]]
+#+CAPTION: “The power of emacs lisp at your fingertips”
+#+ATTR_HTML: :width 400
+[[file:doc/img/emacs-buttons.png]]
 
 
 * Description
