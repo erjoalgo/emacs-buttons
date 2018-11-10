@@ -2,16 +2,16 @@
   #+begin_quote
   “The power of emacs lisp at your fingertips”
   #+end_quote
-  
-  #+begin_quote 
+
+  #+begin_quote
   “Making coding feel like playing videogames.”
   #+end_quote
-  
+
   #+CAPTION: videogame controller
   #+NAME: fig:SED-HR4049
   #+ATTR_HTML: :width 100
   [[file:~/Downloads/joystick-.jpg]]
-  
+
 
 * Description
 
@@ -58,7 +58,7 @@ keymaps of commands and frequently-occurring code templates.
                kmap))
    #+END_SRC
    The following example creates a keymap ~emacs-lisp-buttons~ on top of the base
-   keymap ~programming-buttons~. 
+   keymap ~programming-buttons~.
 
    #+BEGIN_SRC emacs-lisp
    (defbuttons emacs-lisp-buttons programming-buttons
@@ -108,7 +108,7 @@ keymaps of commands and frequently-occurring code templates.
            ("o" "&optional ")))
          ...))
      #+END_SRC
-         
+
 ** ~buttons-insert-rec-template~ (aka *ins*)
     A macro to define a code template.
 
@@ -124,7 +124,7 @@ keymaps of commands and frequently-occurring code templates.
       it may be referenced as a variable later in the template
     - Any other content within the ~{...}~ directive regexp is interpreted
       as a lisp expression. If the expression evaluates to a string, it is inserted.
- 
+
     - Example macroexpansion of a typical for-loop:
     #+BEGIN_SRC emacs-lisp
     (macroexpand ' (buttons-insert-rec-template

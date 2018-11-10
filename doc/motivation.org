@@ -74,7 +74,7 @@
      In many cases the constructs are mostly semantically equivalent between lannguages and can be mapped to
      a single button consistently.
  - Minimize typing:
-   
+
    Some constructs can be verbose.
    - c++ nested loop
      #+BEGIN_SRC c++
@@ -90,10 +90,10 @@
      - descending for-loop
      : "for ( int {0} = {}; {0} >= 0; {0}-- ){(cbd)}"
    - This allows producing most of this double loop in 5 or 6 keystrokes:
-     
+
  - Avoids running out of key bindings by taking advantage of the exponential growth of trees as opposed to
    relying soley on a limited # of modifier combinations,
-   
+
  - Minimize repetitive strain by adding diversity to the key-sequences that may
    prefix a command instead of repeatedly pressing the same modifier keys.
 
