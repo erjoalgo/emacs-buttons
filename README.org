@@ -24,7 +24,7 @@ keymaps of commands and frequently-occurring code templates.
 
 * Features
   - Inheritance
-    - Supports defining buttons for a given mode by building on top of an existing keymap
+    - Supports defining keymaps for a given mode by building on top of an existing keymap
   - Auto-loading
     - emacs-buttons handles auto-installing bindings to given keymap symbols that may be unbound
       now and become bound in the future
@@ -187,7 +187,7 @@ keymaps of commands and frequently-occurring code templates.
    #+END_SRC
    - ~BODY~ is an implicit PROGN
    - It also (WIP) defines an undo-boundary and handling of a custom tag
-     to make it easy to cancel a button command atomically
+     to make it easy to cancel the currently executing command atomically
 ** ~buttons-macrolet (MORE-MACROLET-DEFS &rest BODY)~
    Provides 3-letter aliases to frequently used functions and macros to
    make ~defbuttons~ forms more concise. Within a ~buttons-macrolet~ form, these
