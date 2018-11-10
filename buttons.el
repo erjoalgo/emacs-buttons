@@ -340,7 +340,7 @@ command use-counts.
          `(progn
             (put ',cmd-name 'use-count (or (get ',cmd-name 'use-count) 0))
             (defun ,cmd-name ()
-              ,(s-join "" (reverse (mapcar 'prin1-to-string forms)))
+              ,(apply 'concat (reverse (mapcar 'prin1-to-string forms)))
               (interactive)
               (cl-incf (get ',cmd-name 'use-count))
 	      (let (,undo-len-sym)
