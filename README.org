@@ -9,8 +9,8 @@
 
   #+CAPTION: videogame controller
   #+NAME: fig:SED-HR4049
-  #+ATTR_HTML: :width 100
-  [[file:doc/img/joystick.jpg]]
+  #+ATTR_HTML: :width 400
+  [[file:doc/img/emacs-buttons.png]]
 
 
 * Description
