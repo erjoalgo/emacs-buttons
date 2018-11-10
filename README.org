@@ -22,9 +22,10 @@ keymaps of commands and frequently-occurring code templates.
   - Inheritance
     - Supports defining keymaps for a given mode by building on top of an existing keymap
   - Auto-loading
-    - emacs-buttons handles auto-installing bindings to given keymap symbols that may be unbound
-      now and become bound in the future
-  - code templates
+    - emacs-buttons handles auto-installing newly-defined bindings to well-known
+      keymap symbols that may be unbound now and will be loaded in the future,
+      avoiding the need to manually write custom hooks.
+  - Code templates
     - Provides a simple but flexible template macro for defining code templates (also known as snippets
       or keyboard macros)
   - Visualization
