@@ -25,13 +25,13 @@
 
 
 (require 'cl-lib)
+
 (defvar *buttons-make-key-mapper* nil
-  "A function used by buttons-make to map key definitions
-within a buttons-make form.
+  "A function used to map key definitions within a buttons-make form.
 It should be bound at compile-time via ‘let-when'")
 
 (defmacro buttons-make (&rest bindings)
-  "Creates a sparse keymap.
+  "Create a sparse keymap.
 
 BINDINGS... is a list of (KEY TARGET) pairs, where KEY
 should be suitable for use as the KEY argument in DEFINE-KEY,
@@ -53,7 +53,7 @@ its input key to make the BINDINGS list more consice."
                                            (buttons-display ,kmap-sym)))
        ,@(cl-loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
-               when rest do (error "malformed key definition: %s %s" key-spec value)
+               when rest do (error "Malformed key definition: %s %s" key-spec value)
                as key = (if *buttons-make-key-mapper*
                             (funcall *buttons-make-key-mapper* key-spec)
                           key-spec)
@@ -61,7 +61,10 @@ its input key to make the BINDINGS list more consice."
        ,kmap-sym)))
 
 (defun buttons-modifier-add-super (key-spec)
-  "If ‘key-spec' is a string, then prefix it with the super modifier, otherwise leave it intact
+  "Add the supper modifier to KEY-SPEC, if it is a string.
+
+  If KEY-SPEC is a string, then prefix it with the super modifier,
+  otherwise leave it intact.
   Suitable as the value of *BUTTONS-MAKE-KEY-MAPPER* in ‘buttons-make'"
   (cl-typecase key-spec
     (string (kbd (format
@@ -115,7 +118,8 @@ If a binding A in FROM-MAP doesn't exist on TO-MAP, define A onto TO-MAP.
 Otherwise, if a binding is a prefix key on both maps, merge recursively.
 Otherwise FROM-MAP's binding overwrites TO-MAP's binding
 only when NO-OVERWRITE-P is non-nil.
-"
+
+The opptional argument FROM-SYM is used for visualization."
   (cl-labels ((merge (from-map to-map &optional path)
                      (map-keymap
                       (lambda (key cmd)
@@ -138,11 +142,10 @@ only when NO-OVERWRITE-P is non-nil.
 (defvar after-symbol-loaded-function-alist nil
   "An alist where each element has the form (SYMBOL . FUNCTION).
 FUNCTION takes no arguments and is evaluated after SYMBOL has been bound.
-If SYMBOL is currently bound, FUNCTION is called immediately.
-")
+If SYMBOL is currently bound, FUNCTION is called immediately.")
 
 (defun after-symbol-loaded (file-loaded)
-  "Function invoked after new symbols may have been defined.
+  "Function invoked after new symbols may have been defined in FILE-LOADED.
 Iterates over list of pending items in ‘after-symbol-loaded-function-alist',
 evaluating and removing entries for symbols that have become bound."
   (setf after-symbol-loaded-function-alist
@@ -159,7 +162,7 @@ evaluating and removing entries for symbols that have become bound."
 (add-hook 'after-load-functions 'after-symbol-loaded)
 
 (defun read-keymap ()
-  "Taken from help-fns+.el. Interactively read a keymap symbol."
+  "Interactively read a keymap symbol.  Based on ‘help-fns+'."
   (intern
    (completing-read "Keymap: " obarray
                     (lambda (m) (and (boundp m)))
@@ -171,15 +174,13 @@ evaluating and removing entries for symbols that have become bound."
 (defun buttons-display (keymap &optional hide-command-names-p hide-command-use-count-p)
   "Visualize a keymap KEYMAP in a help buffer.
 Unlike the standard keymap bindings help, nested keymaps
-are visualized recurisvely. This is suitable for visualizing
+are visualized recurisvely.  This is suitable for visualizing
 BUTTONS-MAKE-defined nested keymaps.
 
 If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
 
-If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display recorded
-command use-counts.
-
-"
+If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
+recorded command use-counts."
   (interactive (list (read-keymap)))
   (let (sym (sep "  "))
     (when (symbolp keymap)
@@ -230,8 +231,10 @@ command use-counts.
     (buffer-substring-no-properties old-point (point))))
 
 (defmacro buttons-insert-rec-template (&rest templates)
-  "Compile a string that specifies a keyboard macro template into
-   a progression of lisp commands.
+  "Compile a string template into a progression of LISP commands.
+
+   The template may be split into
+   several arguments TEMPLATES, which are concatenated together.
 
    Any directive {DIRECTIVE} within curly brackets is interpreted:
 
@@ -239,19 +242,19 @@ command use-counts.
            entered for the user to type any text.
 
        If DIRECTIVE is a number K, and a string labeled K does not exist,
-           a recursive edit is entered for the user to type any text. Upon exit,
-           the substring in the current buffer between the markers
+           a recursive edit is entered for the user to type any text.
+           Upon exit,the substring in the current buffer between the markers
            before and after the recursive edit are stored as a string labeled K.
            If a string labeled K already exists, it is inserted.
 
-       Otherwise, DIRECTIVE is interpreted as a lisp expression.
+       Otherwise, DIRECTIVE is interpreted as a LISP expression.
        If the expression evaluates to a string, it is inserted.
 
     Any non-directive text is inserted literally.
 
-    BUTTONS-INSERT-REC-TEMPLATE-DIRECTIVE-REGEXP may be used to set the regexp
-    that defines directives to interpret. The first capture group is used
-    as the directive contents. Note that this variable should be bonud
+    *BUTTONS-INSERT-REC-TEMPLATE-DIRECTIVE-REGEXP* may be used to set the regexp
+    that defines directives to interpret.  The first capture group is used
+    as the directive contents.  Note that this variable should be bonud
     via ‘let-when-compile' instead of ‘let' to make this binding available
     at macro-expansion time.
 
@@ -262,7 +265,7 @@ command use-counts.
     Expands into:
 
         - insert 'for ( int '
-        - enter recursive edit. on exit, record the entered text as a string labeled '0'
+        - enter recursive edit.  on exit, record the entered text as a string labeled '0'
         - insert ' = ; '
         - insert the already-recoded string 0
         - insert ' < '
@@ -321,6 +324,7 @@ command use-counts.
 
 (defmacro buttons-defcmd (&rest body)
   "Define an anonymous command with body BODY.
+
    The number of times the command is invoked is recorded
    as the USE-COUNT property of the function symbol.
    This may be useful for analysis and for making
@@ -352,8 +356,10 @@ command use-counts.
 		      (undo (- (length buffer-undo-list) ,undo-len-sym))))))))))
 
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
-  "Define 3-letter aliases for useful button-related macros and functions.
-   Provides a compact DLS for defining buttons"
+  "Make 3-letter aliases of useful button-related forms available in BODY.
+
+   Provides a compact DLS for defining buttons.
+   MORE-MACROLET-DEFS specifies additional user-defined cl-macrolet forms."
   `(cl-macrolet
        ((but (&rest rest) `(buttons-make ,@rest))
         (nli () `(newline-and-indent))
