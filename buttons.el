@@ -364,7 +364,7 @@ It should be bound at compile-time via ‘let-when'")
                   ((*buttons-insert-rec-template-directive-regexp* "<\\(.*?\\)>"))
                 ;; insert a code block with curly braces
                 (buttons-insert-rec-template
-                 " {<(nli)><(idt)><>hola<(nli)> }")))
+                 " {<(nli)><(idt)><><(nli)> }")))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
         ,@more-macrolet-defs)
