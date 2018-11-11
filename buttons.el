@@ -107,17 +107,6 @@ KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
                  `((push (cons ',orig (lambda () ,form))
                          after-symbol-loaded-function-alist)))))))
 
-(defun buttons-insert-code-block (&optional content)
-  (insert " {")
-  (newline-and-indent)
-  (indent-for-tab-command)
-  (recursive-edit)
-  (newline-and-indent)
-  (insert "}")
-  (if (member major-mode '(c-mode js-mode))
-      (c-indent-line-or-region)
-    (indent-for-tab-command)))
-
 (defun define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
   "Define bindings FROM-MAP onto TO-MAP, recursively.
 If a binding A in FROM-MAP doesn't exist on TO-MAP, define A onto TO-MAP.
@@ -371,7 +360,12 @@ recorded command use-counts."
         (nli () `(newline-and-indent))
         (ins (&rest text) `(buttons-insert-rec-template ,@text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
-        (cbd () `(buttons-insert-code-block))
+        (cbd ()
+             `(let-when-compile
+                  ((*buttons-insert-rec-template-directive-regexp* "<\\(.*?\\)>"))
+                ;; insert a code block with curly braces
+                (buttons-insert-rec-template
+                 " {<(nli)><(idt)><>hola<(nli)> }")))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
         ,@more-macrolet-defs)
