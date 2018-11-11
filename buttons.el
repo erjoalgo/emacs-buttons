@@ -328,7 +328,7 @@ It should be bound at compile-time via ‘let-when'")
         with forms = nil
         with doc = nil
         with cmd-name = (cl-gentemp "autogen-cmd")
-        with undo-len-sym = (gensym "undo-list-len")
+        with point-original-sym = (gensym "point-original")
         do (if (and (consp form)
                     (eq (car form) 'doc))
                (push (second form) doc)
@@ -341,13 +341,19 @@ It should be bound at compile-time via ‘let-when'")
               ,(apply 'concat (reverse (mapcar 'prin1-to-string forms)))
               (interactive)
               (cl-incf (get ',cmd-name 'use-count))
-	      (let (,undo-len-sym)
-                (unless (eq t buffer-undo-list)
-                  (setf ,undo-len-sym (length buffer-undo-list))
-	          (undo-boundary))
-	        (or (progn ,@(reverse forms) t)
-                    (when ,undo-len-sym
-		      (undo (- (length buffer-undo-list) ,undo-len-sym))))))))))
+              (block ,cmd-name
+	      (let ((,point-original-sym (point)))
+                (catch 'buttons-abort
+                  ,@(reverse forms)
+                  (return-from ,cmd-name))
+                ;; aborted. undoing...
+                (undo-boundary)
+                (delete-region ,point-original-sym (point)))))))))
+
+(defun buttons-abort-cmd ()
+  (interactive)
+  (message "aborting buttons command...")
+  (throw 'buttons-abort nil))
 
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "Make 3-letter aliases of useful button-related forms available in BODY.
