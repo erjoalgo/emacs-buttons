@@ -154,11 +154,10 @@ keymaps of commands and frequently-occurring code templates.
      through ~let-when-compile~:
 
      #+BEGIN_SRC emacs-lisp
-     ("H" (cmd
-               (let-when-compile
-                   ((buttons-insert-rec-template-directive-regexp "<\\(.*?\\)>"))
-                 (ins "<(upcase-last)>=${1} && shift")
-                 (ins "<(newline-and-indent)>"))))
+     (let-when-compile
+                ((buttons-insert-rec-template-directive-regexp "<\\(.*?\\)>"))
+                ;; insert a bash variable surrounded by double quotes
+              (buttons-insert-rec-template "\"${<>}\""))
      #+END_SRC
 
 ** ~buttons-defcmd (&rest BODY)~ (aka *cmd*)
