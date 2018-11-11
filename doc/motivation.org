@@ -59,7 +59,7 @@
      #+END_SRC
      - c++
      #+BEGIN_SRC c++
-     cout << "hello world" << end;
+     cout << "hello world" << endl;
      #+END_SRC
      - java
      #+BEGIN_SRC java
