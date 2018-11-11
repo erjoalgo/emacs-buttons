@@ -176,8 +176,8 @@ keymaps of commands and frequently-occurring code templates.
    > ...
    #+END_SRC
    - ~BODY~ is an implicit PROGN
-   - It also (WIP) defines an undo-boundary and handling of a custom tag
-     to make it easy to cancel the currently executing command atomically
+   - It also defines a tag that may be thrown to atomically abort the
+     currently executing command
 ** ~buttons-macrolet (MORE-MACROLET-DEFS &rest BODY)~
    Provides 3-letter aliases to frequently used functions and macros to
    make ~defbuttons~ forms more concise. Within a ~buttons-macrolet~ form, these
