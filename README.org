@@ -191,7 +191,12 @@ keymaps of commands and frequently-occurring code templates.
    | rec        | recursive-edit              |
    | idt        | indent-for-tab-command      |
 * Installing
-  wip
+  Add ~buttons.el~ to the load-path and require the feature:
+
+  #+BEGIN_SRC emacs-lisp
+  (push "/path/to/buttons/directory" load-path)
+  (require 'buttons)
+  #+END_SRC
 * Additional links
   - [[file:doc/motivation.org][Motivation]]
   - [[./doc/buttons/index.html][Auto-generated function/macro index]]
