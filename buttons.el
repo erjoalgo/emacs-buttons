@@ -39,19 +39,19 @@ It should be bound at compile-time via ‘let-when'")
 (defmacro buttons-make (&rest bindings)
   "Create a sparse keymap.
 
-BINDINGS... is a list of (KEY TARGET) pairs, where KEY
-should be suitable for use as the KEY argument in DEFINE-KEY,
-for example \"<s-f1>\".
+   BINDINGS... is a list of (KEY TARGET) pairs, where KEY
+   should be suitable for use as the KEY argument in DEFINE-KEY,
+   for example \"<s-f1>\".
 
-TARGET may be any value that could be passed to the DEF
-argument of DEFINE-KEY, including a command and a keymap,
-including an anonymous keymap created with BUTTONS-MAKE.
+   TARGET may be any value that could be passed to the DEF
+   argument of DEFINE-KEY, including a command and a keymap,
+   including an anonymous keymap created with BUTTONS-MAKE.
 
-*BUTTONS-MAKE-KEY-MAPPER*, if non-nil, specifiess
-a function to apply to the KEY of each binding
-before it is passed to DEFINE-KEY.
-As an example, it may be used to add a modifier to
-its input key to make the BINDINGS list more consice."
+   *BUTTONS-MAKE-KEY-MAPPER*, if non-nil, specifiess
+   a function to apply to the KEY of each binding
+   before it is passed to DEFINE-KEY.
+   As an example, it may be used to add a modifier to
+   its input key to make the BINDINGS list more consice."
 
   (let ((kmap-sym (cl-gentemp "kmap")))
     `(let ((,kmap-sym (make-sparse-keymap)))
@@ -83,13 +83,13 @@ its input key to make the BINDINGS list more consice."
 (defmacro defbuttons (kmap-sym ancestor-kmap load-after-keymap-syms keymap)
   "Define a keymap KMAP-SYM.
 
-ANCESTOR-KMAP, if non-nil,is merged recursively onto
-KMAP-SYM via DEFINE-KEYMAP-ONTO-KEYMAP.
+   ANCESTOR-KMAP, if non-nil,is merged recursively onto
+   KMAP-SYM via DEFINE-KEYMAP-ONTO-KEYMAP.
 
-LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
-onto which to define KMAP-SYM via AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
+   LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
+   onto which to define KMAP-SYM via AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
 
-KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
+   KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
@@ -109,12 +109,13 @@ KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
 
 (defun define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
   "Define bindings FROM-MAP onto TO-MAP, recursively.
-If a binding A in FROM-MAP doesn't exist on TO-MAP, define A onto TO-MAP.
-Otherwise, if a binding is a prefix key on both maps, merge recursively.
-Otherwise FROM-MAP's binding overwrites TO-MAP's binding
-only when NO-OVERWRITE-P is non-nil.
 
-The opptional argument FROM-SYM is used for visualization."
+   If a binding A in FROM-MAP doesn't exist on TO-MAP, define A onto TO-MAP.
+   Otherwise, if a binding is a prefix key on both maps, merge recursively.
+   Otherwise FROM-MAP's binding overwrites TO-MAP's binding
+   only when NO-OVERWRITE-P is non-nil.
+
+   The opptional argument FROM-SYM is used for visualization."
   (cl-labels ((merge (from-map to-map &optional path)
                      (map-keymap
                       (lambda (key cmd)
@@ -136,13 +137,15 @@ The opptional argument FROM-SYM is used for visualization."
 
 (defvar after-symbol-loaded-function-alist nil
   "An alist where each element has the form (SYMBOL . FUNCTION).
-FUNCTION takes no arguments and is evaluated after SYMBOL has been bound.
-If SYMBOL is currently bound, FUNCTION is called immediately.")
+
+   FUNCTION takes no arguments and is evaluated after SYMBOL has been bound.
+   If SYMBOL is currently bound, FUNCTION is called immediately.")
 
 (defun after-symbol-loaded (file-loaded)
   "Function invoked after new symbols may have been defined in FILE-LOADED.
-Iterates over list of pending items in ‘after-symbol-loaded-function-alist',
-evaluating and removing entries for symbols that have become bound."
+
+   Iterates over list of pending items in ‘after-symbol-loaded-function-alist',
+   evaluating and removing entries for symbols that have become bound."
   (setf after-symbol-loaded-function-alist
         (cl-loop for (sym . fun) in after-symbol-loaded-function-alist
               if (boundp sym) do
@@ -168,14 +171,15 @@ evaluating and removing entries for symbols that have become bound."
 
 (defun buttons-display (keymap &optional hide-command-names-p hide-command-use-count-p)
   "Visualize a keymap KEYMAP in a help buffer.
-Unlike the standard keymap bindings help, nested keymaps
-are visualized recurisvely.  This is suitable for visualizing
-BUTTONS-MAKE-defined nested keymaps.
 
-If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
+   Unlike the standard keymap bindings help, nested keymaps
+   are visualized recurisvely.  This is suitable for visualizing
+   BUTTONS-MAKE-defined nested keymaps.
 
-If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
-recorded command use-counts."
+   If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
+
+   If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
+   recorded command use-counts."
   (interactive (list (read-keymap)))
   (let (sym (sep "  "))
     (when (symbolp keymap)
