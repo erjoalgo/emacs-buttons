@@ -7,7 +7,7 @@
                              (newline-and-indent))))
 
 (let-when-compile
-     ((*buttons-make-key-mapper* 'buttons-modifier-add-super))
+     ((buttons-make-key-mapper 'buttons-modifier-add-super))
 
  (defbuttons programming-buttons nil nil
    (but
@@ -1013,7 +1013,7 @@
     ("5" 'sldb-invoke-restart-5)))
 
 (let-when-compile
-    ((*buttons-make-key-mapper* nil))
+    ((buttons-make-key-mapper nil))
 
  (defbuttons minibuffer-quick-yes-button
    nil

@@ -6,7 +6,7 @@
 ;; Maintainer: (concat "erjoalgo" "@" "gmail" ".com")
 ;; Keywords: keymap, template, snippet
 ;; Created: 16 Sep 2018
-;; Package-Requires: ((cl-lib))
+;; Package-Requires: ((cl-lib "0.3"))
 ;; URL: http://github.com/erjoalgo/emacs-buttons
 ;; Version: 0.0.1
 ;;
@@ -32,7 +32,7 @@
 
 (require 'cl-lib)
 
-(defvar *buttons-make-key-mapper* nil
+(defvar buttons-make-key-mapper nil
   "A function used to map key definitions within a buttons-make form.
 It should be bound at compile-time via ‘let-when'")
 
@@ -47,7 +47,7 @@ It should be bound at compile-time via ‘let-when'")
    argument of DEFINE-KEY, including a command and a keymap,
    including an anonymous keymap created with BUTTONS-MAKE.
 
-   *BUTTONS-MAKE-KEY-MAPPER*, if non-nil, specifiess
+   BUTTONS-MAKE-KEY-MAPPER, if non-nil, specifiess
    a function to apply to the KEY of each binding
    before it is passed to DEFINE-KEY.
    As an example, it may be used to add a modifier to
@@ -60,8 +60,8 @@ It should be bound at compile-time via ‘let-when'")
        ,@(cl-loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "Malformed key definition: %s %s" key-spec value)
-               as key = (if *buttons-make-key-mapper*
-                            (funcall *buttons-make-key-mapper* key-spec)
+               as key = (if buttons-make-key-mapper
+                            (funcall buttons-make-key-mapper key-spec)
                           key-spec)
                collect `(define-key ,kmap-sym ,key ,value))
        ,kmap-sym)))
@@ -71,7 +71,7 @@ It should be bound at compile-time via ‘let-when'")
 
   If KEY-SPEC is a string, then prefix it with the super modifier,
   otherwise leave it intact.
-  Suitable as the value of *BUTTONS-MAKE-KEY-MAPPER* in ‘buttons-make'"
+  Suitable as the value of BUTTONS-MAKE-KEY-MAPPER in ‘buttons-make'"
   (cl-typecase key-spec
     (string (kbd (format
                   (if (= (length key-spec) 1)
@@ -84,10 +84,10 @@ It should be bound at compile-time via ‘let-when'")
   "Define a keymap KMAP-SYM.
 
    ANCESTOR-KMAP, if non-nil,is merged recursively onto
-   KMAP-SYM via DEFINE-KEYMAP-ONTO-KEYMAP.
+   KMAP-SYM via BUTTONS-DEFINE-KEYMAP-ONTO-KEYMAP.
 
    LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
-   onto which to define KMAP-SYM via AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
+   onto which to define KMAP-SYM via BUTTONS-AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
 
    KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
   (let* ((sym-name (symbol-name kmap-sym)))
@@ -95,19 +95,19 @@ It should be bound at compile-time via ‘let-when'")
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
        (setf ,kmap-sym ,keymap)
        ,@(when ancestor-kmap
-           `((define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
+           `((buttons-define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
        ,@(cl-loop for orig in (if (and load-after-keymap-syms
                                     (atom load-after-keymap-syms))
                                (list load-after-keymap-syms)
                              load-after-keymap-syms)
-               as form = `(define-keymap-onto-keymap ,kmap-sym ,orig)
+               as form = `(buttons-define-keymap-onto-keymap ,kmap-sym ,orig)
                append
                (if (boundp orig)
                    `(,form)
                  `((push (cons ',orig (lambda () ,form))
-                         after-symbol-loaded-function-alist)))))))
+                         buttons-after-symbol-loaded-function-alist)))))))
 
-(defun define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
+(defun buttons-define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
   "Define bindings FROM-MAP onto TO-MAP, recursively.
 
    If a binding A in FROM-MAP doesn't exist on TO-MAP, define A onto TO-MAP.
@@ -135,19 +135,19 @@ It should be bound at compile-time via ‘let-when'")
                       from-map)))
     (merge from-map to-map)))
 
-(defvar after-symbol-loaded-function-alist nil
+(defvar buttons-after-symbol-loaded-function-alist nil
   "An alist where each element has the form (SYMBOL . FUNCTION).
 
    FUNCTION takes no arguments and is evaluated after SYMBOL has been bound.
    If SYMBOL is currently bound, FUNCTION is called immediately.")
 
-(defun after-symbol-loaded (file-loaded)
+(defun buttons-after-symbol-loaded (file-loaded)
   "Function invoked after new symbols may have been defined in FILE-LOADED.
 
-   Iterates over list of pending items in ‘after-symbol-loaded-function-alist',
+   Iterates over list of pending items in ‘buttons-after-symbol-loaded-function-alist',
    evaluating and removing entries for symbols that have become bound."
-  (setf after-symbol-loaded-function-alist
-        (cl-loop for (sym . fun) in after-symbol-loaded-function-alist
+  (setf buttons-after-symbol-loaded-function-alist
+        (cl-loop for (sym . fun) in buttons-after-symbol-loaded-function-alist
               if (boundp sym) do
               (progn
                 (message "calling hook for %s" (symbol-name sym))
@@ -157,9 +157,9 @@ It should be bound at compile-time via ‘let-when'")
                          sym fun err))))
               else collect (cons sym fun))))
 
-(add-hook 'after-load-functions 'after-symbol-loaded)
+(add-hook 'after-load-functions 'buttons-after-symbol-loaded)
 
-(defun read-keymap ()
+(defun buttons-read-keymap ()
   "Interactively read a keymap symbol.  Based on ‘help-fns+'."
   (intern
    (completing-read "Keymap: " obarray
@@ -180,7 +180,7 @@ It should be bound at compile-time via ‘let-when'")
 
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
    recorded command use-counts."
-  (interactive (list (read-keymap)))
+  (interactive (list (buttons-read-keymap)))
   (let (sym (sep "  "))
     (when (symbolp keymap)
       (setf sym keymap
