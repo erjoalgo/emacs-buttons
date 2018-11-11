@@ -246,7 +246,7 @@ It should be bound at compile-time via ‘let-when'")
 
     Any non-directive text is inserted literally.
 
-    *BUTTONS-INSERT-REC-TEMPLATE-DIRECTIVE-REGEXP* may be used to set the regexp
+    BUTTONS-INSERT-REC-TEMPLATE-DIRECTIVE-REGEXP may be used to set the regexp
     that defines directives to interpret.  The first capture group is used
     as the directive contents.  Note that this variable should be bonud
     via ‘let-when-compile' instead of ‘let' to make this binding available
@@ -274,8 +274,8 @@ It should be bound at compile-time via ‘let-when'")
         with tmpl = (apply 'concat templates)
         with rec-sym-alist = nil
         with directive-regexp =
-        (or (when (boundp '*buttons-insert-rec-template-directive-regexp*)
-              *buttons-insert-rec-template-directive-regexp*)
+        (or (when (boundp 'buttons-insert-rec-template-directive-regexp)
+              buttons-insert-rec-template-directive-regexp)
             "{\\(.*?\\)}")
 
         with recedit-record-form =
@@ -361,7 +361,7 @@ It should be bound at compile-time via ‘let-when'")
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd ()
              `(let-when-compile
-                  ((*buttons-insert-rec-template-directive-regexp* "<\\(.*?\\)>"))
+                  ((buttons-insert-rec-template-directive-regexp "<\\(.*?\\)>"))
                 ;; insert a code block with curly braces
                 (buttons-insert-rec-template
                  " {<(nli)><(idt)><><(nli)> }")))
