@@ -351,6 +351,7 @@ It should be bound at compile-time via ‘let-when'")
                 (delete-region ,point-original-sym (point)))))))))
 
 (defun buttons-abort-cmd ()
+  "Throw the tag required to abort the current buttons-defined command."
   (interactive)
   (message "aborting buttons command...")
   (throw 'buttons-abort nil))
