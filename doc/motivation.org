@@ -79,8 +79,8 @@
      | go         | "hello".ToUpper()       |
    - The same goes for other standard programming language constructs like iteration,
      conditionals, class declarations, etc. There is a lot of variation which requires mental effort to track.
-     In many cases the constructs are mostly semantically equivalent between lannguages and can be mapped to
-     a single button consistently.
+     In many cases the constructs are semantically equivalent between lannguages and can be mapped to
+     a single key-binding consistently.
  - Minimize typing:
 
    Some constructs can be verbose.
