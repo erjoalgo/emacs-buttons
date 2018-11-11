@@ -69,6 +69,14 @@
      #+BEGIN_SRC go
      fmt.Printf( "hello world\n" )
      #+END_SRC
+   - transforming a string to uppercase
+     | *lang*     | *form*                  |
+     | javascript | "hello".toUpperCase()   |
+     | emacs-lisp | (upcase "hello")        |
+     | CL         | (string-upcase "hello") |
+     | c++        | "hello".toupper()       |
+     | python     | "hello".upper()         |
+     | go         | "hello".ToUpper()       |
    - The same goes for other standard programming language constructs like iteration,
      conditionals, class declarations, etc. There is a lot of variation which requires mental effort to track.
      In many cases the constructs are mostly semantically equivalent between lannguages and can be mapped to
