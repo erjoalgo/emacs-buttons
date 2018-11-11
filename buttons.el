@@ -151,7 +151,6 @@ It should be bound at compile-time via ‘let-when'")
         (cl-loop for (sym . fun) in buttons-after-symbol-loaded-function-alist
               if (boundp sym) do
               (progn
-                (message "calling hook for %s" (symbol-name sym))
                 (condition-case err (funcall fun)
                   ('error
 	           (warn "WARNING: unable to load action %s for symbol %s: %s"
