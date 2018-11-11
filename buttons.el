@@ -286,8 +286,8 @@ recorded command use-counts."
         with tmpl = (apply 'concat templates)
         with rec-sym-alist = nil
         with directive-regexp =
-        (or (when (boundp 'buttons-insert-rec-template-directive-regexp)
-              buttons-insert-rec-template-directive-regexp)
+        (or (when (boundp '*buttons-insert-rec-template-directive-regexp*)
+              *buttons-insert-rec-template-directive-regexp*)
             "{\\(.*?\\)}")
 
         with recedit-record-form =
