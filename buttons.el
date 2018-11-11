@@ -25,7 +25,7 @@
 ;; GNU General Public License for more details.
 ;;
 ;; You should have received a copy of the GNU General Public License
-;; along with this program. If not, see <http://www.gnu.org/licenses/>.
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;
 ;;; Code:
 
@@ -33,7 +33,7 @@
 (require 'cl-lib)
 
 (defvar buttons-make-key-mapper nil
-  "A function used to map key definitions within a buttons-make form.
+  "A function used to map key definitions within a ‘buttons-make’ form.
 It should be bound at compile-time via ‘let-when'")
 
 (defmacro buttons-make (&rest bindings)
@@ -144,7 +144,8 @@ It should be bound at compile-time via ‘let-when'")
 (defun buttons-after-symbol-loaded (file-loaded)
   "Function invoked after new symbols may have been defined in FILE-LOADED.
 
-   Iterates over list of pending items in ‘buttons-after-symbol-loaded-function-alist',
+   Iterates over list of pending items in
+   ‘buttons-after-symbol-loaded-function-alist',
    evaluating and removing entries for symbols that have become bound."
   (setf buttons-after-symbol-loaded-function-alist
         (cl-loop for (sym . fun) in buttons-after-symbol-loaded-function-alist
