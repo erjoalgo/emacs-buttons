@@ -131,29 +131,22 @@ keymaps of commands and frequently-occurring code templates.
 
     ;; expands to:
 
-    (let
-            (rec-capture-0--1350)
-        (insert "for ( int ")
-        (setf rec-capture-0--1350
-                    (let
-                            ((old-point1349
-                                (point)))
-                        (recursive-edit)
-                        (buffer-substring-no-properties old-point1349
-                                                                                        (point))))
-        (insert " = 0; ")
-        (insert rec-capture-0--1350)
-        (insert " < ")
-        (recursive-edit)
-        (insert "; ")
-        (insert rec-capture-0--1350)
-        (insert "++ )")
-        (let*
-                ((expr-val1351
-                    (insert-code-block)))
-            (when
-                    (stringp expr-val1351)
-                (insert expr-val1351))))
+    (let (rec-capture-0--1350)
+      (insert "for ( int ")
+      (setf rec-capture-0--1350
+            (let ((old-point1349 (point)))
+              (recursive-edit)
+              (buffer-substring-no-properties old-point1349 (point))))
+      (insert " = 0; ")
+      (insert rec-capture-0--1350)
+      (insert " < ")
+      (recursive-edit)
+      (insert "; ")
+      (insert rec-capture-0--1350)
+      (insert "++ )")
+      (let* ((expr-val1351 (insert-code-block)))
+        (when (stringp expr-val1351)
+          (insert expr-val1351))))
     #+END_SRC
   - It is possible to change the directive regexp from matching ~{...}~
     to something else, like ~<...>~, by binding
