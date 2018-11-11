@@ -225,11 +225,6 @@ It should be bound at compile-time via ‘let-when'")
 (unless (lookup-key help-map "M")
   (define-key help-map "M" 'buttons-display))
 
-(defun buttons-recedit-record-text ()
-  (let ((old-point (point)))
-    (recursive-edit)
-    (buffer-substring-no-properties old-point (point))))
-
 (defmacro buttons-insert-rec-template (&rest templates)
   "Compile a string template into a progression of LISP commands.
 
