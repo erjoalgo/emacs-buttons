@@ -229,6 +229,16 @@ It should be bound at compile-time via ‘let-when'")
 (unless (lookup-key help-map "M")
   (define-key help-map "M" #'buttons-display))
 
+(defvar buttons-template-insert-directive-regexp
+  "{\\(.*?\\)}"
+  "Determines what buttons-template-insert interprets as a directive.
+
+   BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP may be used to set the regexp
+   that defines directives to interpret.  The first capture group is used
+   as the directive contents.  Note that this variable should be bonud
+   via ‘let-when-compile' instead of ‘let' to make this binding available
+   at macro-expansion time.")
+
 (defmacro buttons-template-insert (&rest templates)
   "Compile a string template into a progression of LISP commands.
 
@@ -278,11 +288,7 @@ It should be bound at compile-time via ‘let-when'")
         with forms = nil
         with tmpl = (apply 'concat templates)
         with rec-sym-alist = nil
-        with directive-regexp =
-        (or (when (boundp 'buttons-template-insert-directive-regexp)
-              buttons-template-insert-directive-regexp)
-            "{\\(.*?\\)}")
-
+        with directive-regexp = buttons-template-insert-directive-regexp
         with recedit-record-form =
         (let ((old-point-sym (gensym "old-point")))
           `(let ((,old-point-sym (point)))
