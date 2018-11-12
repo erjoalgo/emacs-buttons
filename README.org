@@ -10,8 +10,8 @@
 
 * Description
 
-~emacs-buttons~ is an emacs lisp utility to organize emacs-lisp commands
-and frequently-occurring code templates into a tree-like hierarchy
+~emacs-buttons~ is an emacs lisp mini-language to help organize
+emacs-lisp commands and frequently-occurring code templates into a tree-like hierarchy
 of keymaps, and to facilitate installing and visualizing these keymaps.
 
 * Features
