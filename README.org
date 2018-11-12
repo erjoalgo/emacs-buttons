@@ -92,11 +92,11 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
   With some differences:
    - ~(ins ...)~ is not plain ~insert~ but refers to a code-template-generating macro
       which interprets directives within ~{...}~ brackets
+     - other aliases within the scope of ~buttons-macrolet~ are ~but~, ~cmd~ and ~(nli)~
    - insalling the keymap ~emacs-lisp-buttons~ onto the specified destination keymaps:
      : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
      - is not done with ~make-composed-keymap~ but by recursive merging
      - is not done with ~add-hook~ but via ~after-load-functions~
-   - ~(nli)~ is aliased to ~(newline-and-indent)~ within the ~buttons-macrolet~ form
 
 * Installation
   Place ~buttons.el~ somewhere in the load-path and require the feature:
