@@ -1,6 +1,3 @@
-#+OPTIONS: toc:nil
-#+OPTIONS: ^:nil
-#+OPTIONS: num:nil
 #+TITLE: EMACS-BUTTONS
 
 #+BEGIN_CENTER
