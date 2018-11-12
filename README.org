@@ -249,7 +249,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    | cmd        | buttons-defcmd            |
    | ins        | buttons-template-insert   |
    | nli        | newline-and-indent        |
-   | cbd        | buttons-insert-code-block |
+   | cbd        | (anonymous macro to insert a c-style code block) |
    | rec        | recursive-edit            |
    | idt        | indent-for-tab-command    |
 * Additional links
