@@ -36,6 +36,9 @@
   "A function used to map key definitions within a ‘buttons-make’ form.
 It should be bound at compile-time via ‘let-when'")
 
+(defvar buttons-make-help-binding (kbd "s-?")
+  "Key where to install the help visualizer in a buttons-make-defined keymap.")
+
 (defmacro buttons-make (&rest bindings)
   "Create a sparse keymap.
 
@@ -55,8 +58,10 @@ It should be bound at compile-time via ‘let-when'")
 
   (let ((kmap-sym (cl-gentemp "kmap")))
     `(let ((,kmap-sym (make-sparse-keymap)))
-       (define-key ,kmap-sym (kbd "s-?") (lambda () (interactive)
-                                           (buttons-display ,kmap-sym)))
+       (when buttons-make-help-binding
+         (define-key ,kmap-sym buttons-make-help-binding
+           (lambda () (interactive)
+             (buttons-display ,kmap-sym))))
        ,@(cl-loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "Malformed key definition: %s %s" key-spec value)
