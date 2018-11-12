@@ -127,13 +127,6 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    #+BEGIN_SRC emacs-lisp
    (defbuttons c++-buttons c-buttons
       (c++-mode-map)
-      ; these macros introduced later...
-      ;(but
-      ; ("f"
-      ;  (but
-      ;   ("a" (cmd (ins "for(auto& {}: {}){(insert-code-block)}")))
-      ;   ("f" (cmd (ins "for ( int {0} = 0; {0} < {}; {0}++ ){(cbd)}")))
-      ;   ...)))
       (let ((kmap (make-sparse-keymap)))
                (define-key kmap (kbd "s-c") (lambda () (interactive) (message "hello world c++!")))
                kmap))
