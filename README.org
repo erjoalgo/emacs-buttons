@@ -57,7 +57,6 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
   (setq emacs-lisp-buttons
         (let ((kmap434 (make-sparse-keymap)))
-          (define-key kmap434 (kbd "s-?") (lambda () (interactive) (buttons-display kmap434)))
           (define-key kmap434 (kbd "s-a") (lambda () (interactive) (insert "(lambda ({}) {})")))
           (define-key kmap434 (kbd "s-z") (lambda () (interactive) (insert "(if {})")))
           (define-key kmap434 (kbd "s-x") (lambda () (interactive) (insert "(when {})")))
