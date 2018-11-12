@@ -168,12 +168,12 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
            ((kbd "s-o") "&optional ")))
          ...)
      #+END_SRC
-   - after binding ~*buttons-make-key-mapper*~ to a function that adds a super modifier,
+   - after binding ~buttons-make-key-mapper~ to a function that adds a super modifier,
      the above form is equivalent to:
 
     #+BEGIN_SRC emacs-lisp
     (let-when-compile
-        ((*buttons-make-key-mapper* 'modifier-add-super))
+        ((buttons-make-key-mapper 'modifier-add-super))
         (but
          ...
          ("E" 'eval-defun)
