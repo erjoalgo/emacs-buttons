@@ -341,11 +341,11 @@ It should be bound at compile-time via ‘let-when'")
               ,(apply 'concat (reverse (mapcar 'prin1-to-string forms)))
               (interactive)
               (cl-incf (get ',cmd-name 'use-count))
-              (block ,cmd-name
+              (cl-block ,cmd-name
 	      (let ((,point-original-sym (point)))
                 (catch 'buttons-abort
                   ,@(reverse forms)
-                  (return-from ,cmd-name))
+                  (cl-return-from ,cmd-name))
                 ;; aborted. undoing...
                 (undo-boundary)
                 (delete-region ,point-original-sym (point)))))))))
