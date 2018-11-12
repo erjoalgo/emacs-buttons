@@ -124,7 +124,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
    The following example defines a keymap ~c++buttons~
    using a previously-defined ~c-buttons~ as a base. The ~c++-buttons~
-   keymap bindings in are automatically installed to ~c++-mode-map~
+   keymap bindings are automatically installed to ~c++-mode-map~
    whenever that symbol is loaded in emacs.
 
    #+BEGIN_SRC emacs-lisp
