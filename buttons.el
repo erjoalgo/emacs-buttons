@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: t; -*-
 ;;; buttons.el --- emacs-buttons framework
 ;;
 ;; Copyright (C) 2018,  Ernesto Alfonso, all rights reserved.
