@@ -13,10 +13,9 @@
 
 * Description
 
-~emacs-buttons~ is an emacs lisp framework that provides a declarative,
-concise way to build, install, and visualize custom, deeply nested
-keymaps of commands and frequently-occurring code templates.
-
+~emacs-buttons~ is an emacs lisp utility to organize emacs-lisp commands
+and frequently-occurring code templates into a tree-like hierarchy
+of keymaps, and to facilitate installing and visualizing these keymaps.
 
 * Features
   - Inheritance
