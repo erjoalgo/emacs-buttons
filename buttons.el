@@ -126,7 +126,6 @@ It should be bound at compile-time via ‘let-when'")
                                (existing (lookup-key to-map keyvec)))
                           (cond
                            ((and (keymapp cmd) (keymapp existing))
-
                             (merge cmd existing (cons (key-description keyvec) path)))
                            ((or (not no-overwrite-p) (not existing))
                             (when (and existing (keymapp existing))
@@ -202,7 +201,10 @@ It should be bound at compile-time via ‘let-when'")
                                (when (and (commandp binding)
                                           (documentation binding))
                                  (princ sep)
-                                 (princ (replace-regexp-in-string "\n" "\\n" (documentation binding)))))
+                                 (princ (replace-regexp-in-string
+                                         "\n"
+                                         "\\\\n"
+                                         (documentation binding)))))
                 (print-keymap (keymap level)
                               (map-keymap (lambda (event binding)
                                             (princ level)
@@ -286,7 +288,6 @@ It should be bound at compile-time via ‘let-when'")
           `(let ((,old-point-sym (point)))
              (recursive-edit)
              (buffer-substring-no-properties ,old-point-sym (point))))
-
         as rec-capture-start = (string-match directive-regexp tmpl start)
         do (if rec-capture-start
                (progn
