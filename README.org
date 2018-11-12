@@ -244,14 +244,14 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    Provides 3-letter aliases to frequently used functions and macros to
    make ~defbuttons~ forms more concise. Within a ~buttons-macrolet~ form, these
    are default aliases:
-   | *shortcut* | *function/macro*            |
-   | but        | buttons-make                |
-   | cmd        | buttons-defcmd              |
+   | *shortcut* | *function/macro*          |
+   | but        | buttons-make              |
+   | cmd        | buttons-defcmd            |
    | ins        | buttons-template-insert   |
-   | nli        | newline-and-indent          |
-   | cbd        | buttons-insert-code-block   |
-   | rec        | recursive-edit              |
-   | idt        | indent-for-tab-command      |
+   | nli        | newline-and-indent        |
+   | cbd        | buttons-insert-code-block |
+   | rec        | recursive-edit            |
+   | idt        | indent-for-tab-command    |
 * Additional links
   - [[file:doc/motivation.org][Motivation and Benefits]]
   - [[./doc/buttons/index.html][Auto-generated function/macro index]]
