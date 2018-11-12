@@ -109,12 +109,18 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
   #+END_SRC
 
 * Overview
-** ~defbuttons(VAR ANCESTOR LOAD-AFTER-KEYMAPS KEYMAP)~
-   defvar-like wrapper that defines keymap ~KEYMAP~ as ~VAR~.
+** ~defbuttons(KEYMAP-VAR ANCESTOR LOAD-AFTER-KEYMAPS KEYMAP)~
+   defvar-like wrapper that defines keymap ~KEYMAP~ as ~KEYMAP-VAR~.
 
-   - ~defbuttons~ supports specifying an ~ANCESTOR~ keymap as a base from which to inhertit common bindings.
-
+   - ~ANCESTOR~ is a keymap that is to be used as a base from which to inhertit common bindings.
    - It also handles auto-installing the newly-defined bindings into specific mode maps (~LOAD-AFTER-KEYMAPS~) after they are loaded into emacs.
+     - Placing ~KEYMAP~ on top of ~ANCESTOR~, as well as placing the newly-defined
+       ~KEYMAP-VAR~ on top of each keymap in ~LOAD-AFTER-KEYMAPS~ as they become available,
+       is done by recursive merging of keymaps via the internal function
+       ~buttons-define-keymap-onto-keymap~, which differs from ~(set-keymap-parent ...)~
+       in that nested keymaps (or bindings for prefix keys) are merged instead of
+       one definition clobbering the other one.
+
 
    The following example defines a keymap ~c++buttons~
    using a previously-defined ~c-buttons~ as a base. The ~c++-buttons~
@@ -146,9 +152,6 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    It is installed to the keymaps
      : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
    as they become available.
-   - Unlike ~(set-keymap-parent ...)~, installation of keymaps does recursive merging, with the
-     child's keymap bindings taking precedence over its ~ANCESTOR~. In the future it may be
-     possible to specify multiple ancestors.
 
 ** ~buttons-make(&rest KEY-TARGET-PAIRS)~ (aka *but*)
    creates a sparse keymap of bindings specified as ~(KEY TARGET)~ pairs.
