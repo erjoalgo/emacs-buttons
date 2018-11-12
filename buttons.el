@@ -32,7 +32,7 @@
 
 (require 'cl-lib)
 
-(defvar buttons-make-key-mapper nil
+(defvar buttons-make-key-mapper #'identity
   "A function used to map key definitions within a ‘buttons-make’ form.
 It should be bound at compile-time via ‘let-when'")
 
@@ -60,9 +60,7 @@ It should be bound at compile-time via ‘let-when'")
        ,@(cl-loop with map = (make-sparse-keymap)
                for (key-spec value . rest) in bindings
                when rest do (error "Malformed key definition: %s %s" key-spec value)
-               as key = (if buttons-make-key-mapper
-                            (funcall buttons-make-key-mapper key-spec)
-                          key-spec)
+               as key = (funcall buttons-make-key-mapper key-spec)
                collect `(define-key ,kmap-sym ,key ,value))
        ,kmap-sym)))
 
