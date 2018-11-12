@@ -262,9 +262,9 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    are default aliases:
    | *shortcut* | *function/macro*            |
    | but        | buttons-make                |
-   | nli        | newline-and-indent          |
-   | ins        | buttons-insert-rec-template |
    | cmd        | buttons-defcmd              |
+   | ins        | buttons-insert-rec-template |
+   | nli        | newline-and-indent          |
    | cbd        | buttons-insert-code-block   |
    | rec        | recursive-edit              |
    | idt        | indent-for-tab-command      |
