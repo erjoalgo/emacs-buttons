@@ -14,7 +14,7 @@
 
 * Compact DLS for generating commands
 %%% buttons-macrolet
-%%% buttons-insert-rec-template
+%%% buttons-template-insert
 %%% buttons-defcmd
 
 * Visualization

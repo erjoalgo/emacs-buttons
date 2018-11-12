@@ -556,7 +556,7 @@
       ("u" "true")
       ("x" (cmd
             (let-when-compile
-                ;; ((buttons-insert-rec-template-directive-regexp "{{\\(.*\\)}}"))
+                ;; ((buttons-template-insert-directive-regexp "{{\\(.*\\)}}"))
                 ()
                   (ins
                    "
@@ -683,7 +683,7 @@
               (ins " in {}; do{(nli)}{}{(nli)}done")))
     ("H" (cmd
           (let-when-compile
-              ((buttons-insert-rec-template-directive-regexp "<\\(.*?\\)>"))
+              ((buttons-template-insert-directive-regexp "<\\(.*?\\)>"))
             (ins "<(upcase-last)>=${1} && shift")
             (ins "<(nli)>"))))
     ("g" "true")

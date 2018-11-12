@@ -171,7 +171,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
          ...))
      #+END_SRC
 
-** ~buttons-insert-rec-template~ (aka *ins*)
+** ~buttons-template-insert~ (aka *ins*)
     A macro to define a code template.
 
     It it roughly inspired by python's
@@ -189,7 +189,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
     - Example macroexpansion of a typical for-loop:
     #+BEGIN_SRC emacs-lisp
-    (macroexpand ' (buttons-insert-rec-template
+    (macroexpand ' (buttons-template-insert
                       "for ( int {0} = 0; {0} < {}; {0}++ ){(insert-code-block)}"))
 
     ;; expands to:
@@ -213,14 +213,14 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
     #+END_SRC
   - It is possible to change the directive regexp from matching ~{...}~
     to something else, like ~<...>~, by binding
-    ~BUTTONS-INSERT-REC-TEMPLATE-DIRECTIVE-REGEXP~ at compile-time
+    ~BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP~ at compile-time
      through ~let-when-compile~:
 
      #+BEGIN_SRC emacs-lisp
      (let-when-compile
-                ((buttons-insert-rec-template-directive-regexp "<\\(.*?\\)>"))
+                ((buttons-template-insert-directive-regexp "<\\(.*?\\)>"))
                 ;; insert a bash variable surrounded by double quotes
-              (buttons-insert-rec-template "\"${<>}\""))
+              (buttons-template-insert "\"${<>}\""))
      #+END_SRC
 
 ** ~buttons-defcmd (&rest BODY)~ (aka *cmd*)
@@ -247,7 +247,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    | *shortcut* | *function/macro*            |
    | but        | buttons-make                |
    | cmd        | buttons-defcmd              |
-   | ins        | buttons-insert-rec-template |
+   | ins        | buttons-template-insert   |
    | nli        | newline-and-indent          |
    | cbd        | buttons-insert-code-block   |
    | rec        | recursive-edit              |
