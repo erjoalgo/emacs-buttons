@@ -16,7 +16,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
 * Features
   - Inheritance
-    - Supports defining keymaps for a given mode by building on top of an existing keymap.
+    - Supports defining keymaps for a given mode by building on top of an existing keymap recursively.
   - Auto-loading
     - emacs-buttons handles auto-installing newly-defined bindings to well-known
       keymap symbols that may be unbound now and will be loaded in the future,
