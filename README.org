@@ -28,6 +28,78 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
     - Provides a simple but flexible template macro for defining code templates (also known as snippets
       or keyboard macros).
   - Visualization
+* Quickstart
+  - The following ~defbuttons~ form
+
+  #+BEGIN_SRC emacs-lisp
+  (buttons-macrolet
+   ()
+   (let-when-compile ((buttons-make-key-mapper 'buttons-modifier-add-super))
+
+     (defbuttons emacs-lisp-buttons nil
+       (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
+       (but
+        ("a" (cmd (ins "(lambda ({}) {})")))
+        ("z" (cmd (ins "(if {})")))
+        ("x" (cmd (ins "(when {})")))
+        ("c" (cmd (ins "(unless {})")))
+        ("v" (cmd (ins "(progn {})")))
+        ("d"
+         (but
+          ("v" (cmd (ins "(defvar {}){(nli)}")))
+          ("f" (cmd (ins "(defun {} ({}){(nli)}{})")))
+          ("m" (cmd (ins "(defmacro {} ({}){(nli)}{})")))
+          ("s" (cmd (ins "(defstruct {}{(nli)}{})")))
+          ("b" (cmd (ins "(destructuring-bind ({}){})")))))))))
+  #+END_SRC
+
+  is roughly equivalent to
+
+  #+BEGIN_SRC emacs-lisp
+  (defvar emacs-lisp-buttons nil "emacs-lisp-buttons buttons map")
+
+  (setq emacs-lisp-buttons
+        (let ((kmap434 (make-sparse-keymap)))
+          (define-key kmap434 (kbd "s-?") (lambda () (interactive) (buttons-display kmap434)))
+          (define-key kmap434 (kbd "s-a") (lambda () (interactive) (insert "(lambda ({}) {})")))
+          (define-key kmap434 (kbd "s-z") (lambda () (interactive) (insert "(if {})")))
+          (define-key kmap434 (kbd "s-x") (lambda () (interactive) (insert "(when {})")))
+          (define-key kmap434 (kbd "s-c") (lambda () (interactive) (insert "(unless {})")))
+          (define-key kmap434 (kbd "s-v") (lambda () (interactive) (insert "(progn {})")))
+          (define-key kmap434 (kbd "s-d")
+            (let
+                ((kmap435 (make-sparse-keymap)))
+              (define-key kmap435 (kbd "s-?") (lambda () (interactive) (buttons-display kmap435)))
+              (define-key kmap435 (kbd "s-v") (lambda () (interactive) (insert "(defvar {}){(nli)}")))
+              (define-key kmap435 (kbd "s-f") (lambda () (interactive) (insert "(defun {} ({}){(nli)}{})")))
+              (define-key kmap435 (kbd "s-m") (lambda () (interactive) (insert "(defmacro {} ({}){(nli)}{})")))
+              (define-key kmap435 (kbd "s-s") (lambda () (interactive) (insert "(defstruct {}{(nli)}{})")))
+              (define-key kmap435 (kbd "s-b") (lambda () (interactive) (insert "(destructuring-bind ({}){})")))
+              kmap435))
+          kmap434))
+
+  (add-hook 'emacs-lisp-mode-hook
+            (lambda () (setq emacs-lisp-mode-map
+                             (make-composed-keymap
+                              emacs-lisp-buttons emacs-lisp-mode-map))))
+
+  (add-hook 'inferior-emacs-lisp-mode-hook
+            (lambda () (setq inferior-emacs-lisp-mode-map
+                             (make-composed-keymap
+                              emacs-lisp-buttons inferior-emacs-lisp-mode-map))))
+
+  (setq read-expression-map
+        (make-composed-keymap
+         emacs-lisp-buttons read-expression-map))
+  #+END_SRC
+  With some differences:
+   - ~(ins ...)~ is not plain ~insert~ but refers to a code-template-generating macro
+      which interprets directives within ~{...}~ brackets
+   - insalling the keymap ~emacs-lisp-buttons~ onto the specified destination keymaps:
+     : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
+     - is not done with ~make-composed-keymap~ but by recursive merging
+     - is not done with ~add-hook~ but via ~after-load-functions~
+
 * Overview
 ** ~defbuttons(VAR ANCESTOR LOAD-AFTER-KEYMAPS KEYMAP)~
    defvar-like wrapper that defines keymap ~KEYMAP~ as ~VAR~.
