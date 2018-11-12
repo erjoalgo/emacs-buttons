@@ -157,7 +157,7 @@ It should be bound at compile-time via ‘let-when'")
                          sym fun err))))
               else collect (cons sym fun))))
 
-(add-hook 'after-load-functions 'buttons-after-symbol-loaded)
+(add-hook 'after-load-functions #'buttons-after-symbol-loaded)
 
 (defun buttons-read-keymap ()
   "Interactively read a keymap symbol.  Based on ‘help-fns+'."
@@ -222,7 +222,7 @@ It should be bound at compile-time via ‘let-when'")
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
-  (define-key help-map "M" 'buttons-display))
+  (define-key help-map "M" #'buttons-display))
 
 (defmacro buttons-template-insert (&rest templates)
   "Compile a string template into a progression of LISP commands.

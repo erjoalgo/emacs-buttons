@@ -31,7 +31,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
   #+BEGIN_SRC emacs-lisp
   (buttons-macrolet
    ((nli () `(newline-and-indent)))
-   (let-when-compile ((buttons-make-key-mapper 'buttons-modifier-add-super))
+   (let-when-compile ((buttons-make-key-mapper #'buttons-modifier-add-super))
 
      (defbuttons emacs-lisp-buttons nil
        (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
@@ -142,7 +142,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
      #+BEGIN_SRC emacs-lisp
      (but
      ...
-         ((kbd "s-E") 'eval-defun)
+         ((kbd "s-E") #'eval-defun)
          ((kbd "s-i") "(interactive)")
          ((kbd "s-7")
           (but
@@ -157,10 +157,10 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
     #+BEGIN_SRC emacs-lisp
     (let-when-compile
-        ((buttons-make-key-mapper 'modifier-add-super))
+        ((buttons-make-key-mapper #'modifier-add-super))
         (but
          ...
-         ("E" 'eval-defun)
+         ("E" #'eval-defun)
          ("i" "(interactive)")
          ("7"
           (but
@@ -234,7 +234,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    #+BEGIN_SRC emacs-lisp
    > (buttons-defcmd (message "hello world") (insert "goodbye"))
    > autogen-cmd5457
-   > (describe-function 'autogen-cmd5457)
+   > (describe-function #'autogen-cmd5457)
    > ...
    #+END_SRC
    - ~BODY~ is an implicit PROGN
