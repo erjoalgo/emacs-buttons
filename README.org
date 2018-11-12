@@ -110,7 +110,10 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    defvar-like wrapper that defines keymap ~KEYMAP~ as ~KEYMAP-VAR~.
 
    - ~ANCESTOR~ is a keymap that is to be used as a base from which to inhertit common bindings.
-   - It also handles auto-installing the newly-defined bindings into specific mode maps (~LOAD-AFTER-KEYMAPS~) after they are loaded into emacs.
+   - ~LOAD-AFTER-KEYMAPS~ spefies a list of keymap symbols onto which to install ~KEYMAP-VAR~
+      whenever those symbols become bound after a file load.
+
+   - A note on inheritance
      - Placing ~KEYMAP~ on top of ~ANCESTOR~, as well as placing the newly-defined
        ~KEYMAP-VAR~ on top of each keymap in ~LOAD-AFTER-KEYMAPS~ as they become available,
        is done by recursive merging of keymaps via the internal function
@@ -128,21 +131,9 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    (defbuttons c++-buttons c-buttons
       (c++-mode-map)
       (let ((kmap (make-sparse-keymap)))
-               (define-key kmap (kbd "s-c") (lambda () (interactive) (message "hello world c++!")))
+               (define-key kmap (kbd "s-m") (lambda () (interactive) (insert "#include ")))
                kmap))
    #+END_SRC
-   The following example creates a keymap ~emacs-lisp-buttons~ on top of the base
-   keymap ~programming-buttons~.
-
-   #+BEGIN_SRC emacs-lisp
-   (defbuttons emacs-lisp-buttons programming-buttons
-      (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
-      ...)
-   #+END_SRC
-   It is installed to the keymaps
-     : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
-   as they become available.
-
 ** ~buttons-make(&rest KEY-TARGET-PAIRS)~ (aka *but*)
    creates a sparse keymap of bindings specified as ~(KEY TARGET)~ pairs.
    - ~KEY~ is a key-binding
@@ -161,7 +152,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
            ((kbd "s-o") "&optional ")))
          ...)
      #+END_SRC
-   - after binding ~buttons-make-key-mapper~ to a function that adds a super modifier,
+   - if the variable ~buttons-make-key-mapper~ is bound to a function that adds a super modifier,
      the above form is equivalent to:
 
     #+BEGIN_SRC emacs-lisp
