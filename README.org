@@ -30,7 +30,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
   #+BEGIN_SRC emacs-lisp
   (buttons-macrolet
-   ()
+   ((nli () `(newline-and-indent)))
    (let-when-compile ((buttons-make-key-mapper 'buttons-modifier-add-super))
 
      (defbuttons emacs-lisp-buttons nil
