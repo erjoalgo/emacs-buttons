@@ -61,8 +61,8 @@ It should be bound at compile-time via ‘let-when'")
     `(let ((,kmap-sym (make-sparse-keymap)))
        (when buttons-make-help-binding
          (define-key ,kmap-sym buttons-make-help-binding
-           (lambda () (interactive)
-             (buttons-display ,kmap-sym))))
+           ',(lambda () (interactive)
+               (buttons-display (symbol-value kmap-sym)))))
        ,@(cl-loop
                for (key-spec value . rest) in bindings
                when rest do (error "Malformed key definition: %s %s" key-spec value)
