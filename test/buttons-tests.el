@@ -50,9 +50,9 @@
   (check (lookup-key lisp-mode-map (kbd "s-d s-c")))
   (check (not (lookup-key emacs-lisp-mode-map (kbd "s-d s-c"))))
 
-  (find-file "/tmp/buttons-test.el")
-  (should (eq major-mode 'emacs-lisp-mode))
-  (erase-buffer)
+  (with-temp-buffer
+    (emacs-lisp-mode)
+    (should (zerop (length (buffer-string))))
   (with-mock-recedit
    ((insert "buttons-test-fn-1")
     (insert "arg1")
@@ -61,12 +61,10 @@
    (should (equal (read (buffer-string))
                   '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
    (eval-buffer)
-   (should (= (buttons-test-fn-1 2) 3)))
+     (should (= (buttons-test-fn-1 2) 3))))
 
-  (find-file "/tmp/buttons-test.lisp")
-  (erase-buffer)
-  (should (eq major-mode 'lisp-mode))
-  (erase-buffer)
+  (with-temp-buffer
+    (lisp-mode)
   (with-mock-recedit
    ((insert "my-class")
     (insert "parent")
@@ -75,4 +73,4 @@
      (funcall (check (lookup-key lisp-mode-map (kbd "s-3"))))))
    (funcall (check (lookup-key lisp-mode-map (kbd "s-d s-c"))))
    (should (equal (read (buffer-string))
-                  '(defclass my-class (parent) ((my-slot :initarg 0)))))))
+                    '(defclass my-class (parent) ((my-slot :initarg 0))))))))
