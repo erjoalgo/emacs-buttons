@@ -53,24 +53,24 @@
   (with-temp-buffer
     (emacs-lisp-mode)
     (should (zerop (length (buffer-string))))
-  (with-mock-recedit
-   ((insert "buttons-test-fn-1")
-    (insert "arg1")
-    (insert "(1+ arg1)"))
-   (funcall (check (lookup-key emacs-lisp-mode-map (kbd "s-d s-f"))))
-   (should (equal (read (buffer-string))
-                  '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
-   (eval-buffer)
+    (with-mock-recedit
+     ((insert "buttons-test-fn-1")
+      (insert "arg1")
+      (insert "(1+ arg1)"))
+     (funcall (check (lookup-key emacs-lisp-mode-map (kbd "s-d s-f"))))
+     (should (equal (read (buffer-string))
+                    '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
+     (eval-buffer)
      (should (= (buttons-test-fn-1 2) 3))))
 
   (with-temp-buffer
     (lisp-mode)
-  (with-mock-recedit
-   ((insert "my-class")
-    (insert "parent")
     (with-mock-recedit
-     ((insert "my-slot :initarg 0"))
-     (funcall (check (lookup-key lisp-mode-map (kbd "s-3"))))))
-   (funcall (check (lookup-key lisp-mode-map (kbd "s-d s-c"))))
-   (should (equal (read (buffer-string))
+     ((insert "my-class")
+      (insert "parent")
+      (with-mock-recedit
+       ((insert "my-slot :initarg 0"))
+       (funcall (check (lookup-key lisp-mode-map (kbd "s-3"))))))
+     (funcall (check (lookup-key lisp-mode-map (kbd "s-d s-c"))))
+     (should (equal (read (buffer-string))
                     '(defclass my-class (parent) ((my-slot :initarg 0))))))))
