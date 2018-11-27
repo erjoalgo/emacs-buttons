@@ -1,7 +1,8 @@
-;;; buttons.el --- Define and visualise hierarchies of keymaps   -*- lexical-binding: t; -*-
-
+;;; -*- lexical-binding: t; -*-
+;;; buttons.el --- emacs-buttons framework
+;;
 ;; Copyright (C) 2018,  Ernesto Alfonso, all rights reserved.
-
+;;
 ;; Author: Ernesto Alfonso
 ;; Maintainer: (concat "erjoalgo" "@" "gmail" ".com")
 ;; Keywords: keymap, template, snippet
@@ -9,25 +10,26 @@
 ;; Package-Requires: ((cl-lib "0.3"))
 ;; URL: http://github.com/erjoalgo/emacs-buttons
 ;; Version: 0.0.1
-
+;;
+;;; Commentary:
+;; A library for conveniently defining deeply nested keymaps
+;;;
+;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
 ;; as published by the Free Software Foundation; either version 3
 ;; of the License, or (at your option) any later version.
-
+;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;; GNU General Public License for more details.
-
+;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-;;; Commentary:
-
-;; A library for conveniently defining deeply nested keymaps
-
+;;
 ;;; Code:
+
 
 (require 'cl-lib)
 
@@ -56,12 +58,13 @@ It should be bound at compile-time via ‘let-when'")
    its input key to make the BINDINGS list more consice."
 
   (let ((kmap-sym (cl-gentemp "kmap")))
-    `(let ((,kmap-sym (make-sparse-keymap)))
+    `(let ((,kmap-sym (make-sparse-keymap))
+           (display-kmap-command (lambda (kmap)
+                                   `(lambda () (interactive)
+                                      (buttons-display ',kmap)))))
        (when buttons-make-help-binding
          (define-key ,kmap-sym buttons-make-help-binding
-         ;; TODO ensure this is a closure
-           ',(lambda () (interactive)
-               (buttons-display (symbol-value kmap-sym)))))
+           (funcall display-kmap-command ,kmap-sym)))
        ,@(cl-loop
                for (key-spec value . rest) in bindings
                when rest do (error "Malformed key definition: %s %s" key-spec value)
