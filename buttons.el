@@ -93,7 +93,7 @@ It should be bound at compile-time via ‘let-when'")
    LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
    onto which to define KMAP-SYM via BUTTONS-AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
 
-   KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
+   KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE."
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
@@ -119,7 +119,7 @@ It should be bound at compile-time via ‘let-when'")
    Otherwise FROM-MAP's binding overwrites TO-MAP's binding
    only when NO-OVERWRITE-P is non-nil.
 
-   The opptional argument FROM-SYM is used for visualization."
+   The optional argument FROM-SYM is used for visualization."
   (cl-labels ((merge (from-map to-map &optional path)
                      (map-keymap
                       (lambda (key cmd)
@@ -236,7 +236,7 @@ It should be bound at compile-time via ‘let-when'")
 
    BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP may be used to set the regexp
    that defines directives to interpret.  The first capture group is used
-   as the directive contents.  Note that this variable should be bonud
+   as the directive contents.  Note that this variable should be bound
    via ‘let-when-compile' instead of ‘let' to make this binding available
    at macro-expansion time.")
 
@@ -370,7 +370,7 @@ It should be bound at compile-time via ‘let-when'")
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "Make 3-letter aliases of useful button-related forms available in BODY.
 
-   Provides a compact DLS for defining buttons.
+   Provides a compact DSL for defining buttons.
    MORE-MACROLET-DEFS specifies additional user-defined cl-macrolet forms."
   `(cl-macrolet
        ((but (&rest rest) `(buttons-make ,@rest))
