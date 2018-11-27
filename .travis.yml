@@ -130,13 +130,6 @@ install:
         sudo apt-get -qq install emacs-snapshot-el;
     fi
 
-before_script:
-  - if [ "$EMACS" = 'emacs-snapshot' ]; then
-        make downloads-latest;
-    else
-        make downloads;
-    fi
-
 ###
 ### the actual build/test command
 ###
@@ -145,7 +138,7 @@ before_script:
 ###
 
 script:
-  $EMACS --version && ( test "$EMACS" != 'emacs22' && make test EMACS="$EMACS" || make test-batch EMACS="$EMACS" )
+  $EMACS --version && ( test "$EMACS" != 'emacs22' && EMACS="$EMACS" ./test/test.sh )
 
 ###
 ### settings
