@@ -1,5 +1,7 @@
 #+TITLE: EMACS-BUTTONS
 
+[[https://travis-ci.org/erjoalgo/emacs-buttons.png]]
+
 #+BEGIN_CENTER
 “The power of emacs lisp at your fingertips”
 #+END_CENTER
