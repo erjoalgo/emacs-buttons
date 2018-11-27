@@ -378,11 +378,10 @@ It should be bound at compile-time via ‘let-when'")
         (ins (&rest text) `(buttons-template-insert ,@text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd ()
-             `(let-when-compile
-                  ((buttons-template-insert-directive-regexp "<\\(.*?\\)>"))
                 ;; insert a code block with curly braces
-                (buttons-template-insert
-                 " {<(nli)><><(nli)> }")))
+             `(progn (insert " {")
+                     (nli)
+                     (insert "}")))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
         ,@more-macrolet-defs)
