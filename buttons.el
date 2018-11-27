@@ -53,7 +53,7 @@ It should be bound at compile-time via ‘let-when'")
    a function to apply to the KEY of each binding
    before it is passed to DEFINE-KEY.
    As an example, it may be used to add a modifier to
-   its input key to make the BINDINGS list more consice."
+   its input key to make the BINDINGS list more concise."
 
   (let ((kmap-sym (cl-gentemp "kmap")))
     `(let ((,kmap-sym (make-sparse-keymap))
