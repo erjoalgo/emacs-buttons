@@ -56,12 +56,13 @@ It should be bound at compile-time via ‘let-when'")
    its input key to make the BINDINGS list more consice."
 
   (let ((kmap-sym (cl-gentemp "kmap")))
-    `(let ((,kmap-sym (make-sparse-keymap)))
+    `(let ((,kmap-sym (make-sparse-keymap))
+           (display-kmap-command (lambda (kmap)
+                                   `(lambda () (interactive)
+                                      (buttons-display ',kmap)))))
        (when buttons-make-help-binding
          (define-key ,kmap-sym buttons-make-help-binding
-         ;; TODO ensure this is a closure
-           ',(lambda () (interactive)
-               (buttons-display (symbol-value kmap-sym)))))
+           (funcall display-kmap-command ,kmap-sym)))
        ,@(cl-loop
                for (key-spec value . rest) in bindings
                when rest do (error "Malformed key definition: %s %s" key-spec value)
