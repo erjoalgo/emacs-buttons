@@ -74,3 +74,6 @@
      (funcall (check (lookup-key lisp-mode-map (kbd "s-d s-c"))))
      (should (equal (read (buffer-string))
                     '(defclass my-class (parent) ((my-slot :initarg 0))))))))
+
+(ert-deftest test-visualization-keybinding ()
+  (funcall (check (lookup-key emacs-lisp-mode-map (kbd "s-?")))))
