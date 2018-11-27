@@ -64,10 +64,10 @@ It should be bound at compile-time via ‘let-when'")
          (define-key ,kmap-sym buttons-make-help-binding
            (funcall display-kmap-command ,kmap-sym)))
        ,@(cl-loop
-               for (key-spec value . rest) in bindings
-               when rest do (error "Malformed key definition: %s %s" key-spec value)
-               as key = (funcall buttons-make-key-mapper key-spec)
-               collect `(define-key ,kmap-sym ,key ,value))
+          for (key-spec value . rest) in bindings
+          when rest do (error "Malformed key definition: %s %s" key-spec value)
+          as key = (funcall buttons-make-key-mapper key-spec)
+          collect `(define-key ,kmap-sym ,key ,value))
        ,kmap-sym)))
 
 (defun buttons-modifier-add-super (key-spec)
@@ -101,15 +101,15 @@ It should be bound at compile-time via ‘let-when'")
        ,@(when ancestor-kmap
            `((buttons-define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
        ,@(cl-loop for orig in (if (and load-after-keymap-syms
-                                    (atom load-after-keymap-syms))
-                               (list load-after-keymap-syms)
-                             load-after-keymap-syms)
-               as form = `(buttons-define-keymap-onto-keymap ,kmap-sym ,orig)
-               append
-               (if (boundp orig)
-                   `(,form)
-                 `((push (cons ',orig (lambda () ,form))
-                         buttons-after-symbol-loaded-function-alist)))))))
+                                       (atom load-after-keymap-syms))
+                                  (list load-after-keymap-syms)
+                                load-after-keymap-syms)
+                  as form = `(buttons-define-keymap-onto-keymap ,kmap-sym ,orig)
+                  append
+                  (if (boundp orig)
+                      `(,form)
+                    `((push (cons ',orig (lambda () ,form))
+                            buttons-after-symbol-loaded-function-alist)))))))
 
 (defun buttons-define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
   "Define bindings FROM-MAP onto TO-MAP, recursively.
@@ -152,13 +152,13 @@ It should be bound at compile-time via ‘let-when'")
    evaluating and removing entries for symbols that have become bound."
   (setf buttons-after-symbol-loaded-function-alist
         (cl-loop for (sym . fun) in buttons-after-symbol-loaded-function-alist
-              if (boundp sym) do
-              (progn
-                (condition-case err (funcall fun)
-                  ('error
-	           (warn "WARNING: unable to load action %s for symbol %s: %s"
-                         sym fun err))))
-              else collect (cons sym fun))))
+                 if (boundp sym) do
+                 (progn
+                   (condition-case err (funcall fun)
+                     ('error
+	              (warn "WARNING: unable to load action %s for symbol %s: %s"
+                            sym fun err))))
+                 else collect (cons sym fun))))
 
 (add-hook 'after-load-functions #'buttons-after-symbol-loaded)
 
@@ -286,46 +286,46 @@ It should be bound at compile-time via ‘let-when'")
         - expand into the form: (cbd), which denotes the name a function or a macro"
 
   (cl-loop with start = 0
-        with forms = nil
-        with tmpl = (apply 'concat templates)
-        with rec-sym-alist = nil
-        with directive-regexp = buttons-template-insert-directive-regexp
-        with recedit-record-form =
-        (let ((old-point-sym (gensym "old-point")))
-          `(let ((,old-point-sym (point)))
-             (recursive-edit)
-             (buffer-substring-no-properties ,old-point-sym (point))))
-        as rec-capture-start = (string-match directive-regexp tmpl start)
-        do (if rec-capture-start
-               (progn
-                 (unless (= start rec-capture-start)
-                   (push `(insert ,(cl-subseq tmpl start rec-capture-start)) forms))
-                 (let ((group-no-str (match-string 1 tmpl))
-                       (match-data (match-data)))
-                   (cond
-                    ((zerop (length group-no-str)) (push `(recursive-edit) forms))
-                    ((string-match "^[0-9]+$" group-no-str)
-                     (let* ((group-no (string-to-number group-no-str))
-                            (sym (cdr (assoc group-no rec-sym-alist))))
-                       (if sym
-                           (push `(insert ,sym) forms)
-                         (setf sym (gensym (format "rec-capture-%d--" group-no)))
-                         (push (cons group-no sym) rec-sym-alist)
-                         (push `(setf ,sym ,recedit-record-form) forms))))
-                    (t (push (let ((expr-val-sym (gensym "expr-val")))
-                               `(let* ((,expr-val-sym ,(read group-no-str)))
-                                  (when (stringp ,expr-val-sym)
-                                    (insert ,expr-val-sym))))
-                             forms)))
-                   (set-match-data match-data)
-                   (setf start (match-end 0))))
-             (progn (when (< start (length tmpl))
-                      (push `(insert ,(cl-subseq tmpl start)) forms))
-                    (setf start (length tmpl))))
-        while rec-capture-start
-        finally (return `(let ,(mapcar 'cdr rec-sym-alist)
-                           ;; (doc ,tmpl)
-                           ,@(reverse forms)))))
+           with forms = nil
+           with tmpl = (apply 'concat templates)
+           with rec-sym-alist = nil
+           with directive-regexp = buttons-template-insert-directive-regexp
+           with recedit-record-form =
+           (let ((old-point-sym (gensym "old-point")))
+             `(let ((,old-point-sym (point)))
+                (recursive-edit)
+                (buffer-substring-no-properties ,old-point-sym (point))))
+           as rec-capture-start = (string-match directive-regexp tmpl start)
+           do (if rec-capture-start
+                  (progn
+                    (unless (= start rec-capture-start)
+                      (push `(insert ,(cl-subseq tmpl start rec-capture-start)) forms))
+                    (let ((group-no-str (match-string 1 tmpl))
+                          (match-data (match-data)))
+                      (cond
+                       ((zerop (length group-no-str)) (push `(recursive-edit) forms))
+                       ((string-match "^[0-9]+$" group-no-str)
+                        (let* ((group-no (string-to-number group-no-str))
+                               (sym (cdr (assoc group-no rec-sym-alist))))
+                          (if sym
+                              (push `(insert ,sym) forms)
+                            (setf sym (gensym (format "rec-capture-%d--" group-no)))
+                            (push (cons group-no sym) rec-sym-alist)
+                            (push `(setf ,sym ,recedit-record-form) forms))))
+                       (t (push (let ((expr-val-sym (gensym "expr-val")))
+                                  `(let* ((,expr-val-sym ,(read group-no-str)))
+                                     (when (stringp ,expr-val-sym)
+                                       (insert ,expr-val-sym))))
+                                forms)))
+                      (set-match-data match-data)
+                      (setf start (match-end 0))))
+                (progn (when (< start (length tmpl))
+                         (push `(insert ,(cl-subseq tmpl start)) forms))
+                       (setf start (length tmpl))))
+           while rec-capture-start
+           finally (return `(let ,(mapcar 'cdr rec-sym-alist)
+                              ;; (doc ,tmpl)
+                              ,@(reverse forms)))))
 
 (defmacro buttons-defcmd (&rest body)
   "Define an anonymous command with body BODY.
@@ -336,30 +336,30 @@ It should be bound at compile-time via ‘let-when'")
    decisions about which bindings' key-sequence
    lengths are worth shortening."
   (cl-loop for form in body
-        with forms = nil
-        with doc = nil
-        with cmd-name = (cl-gentemp "autogen-cmd")
-        with point-original-sym = (gensym "point-original")
-        do (if (and (consp form)
-                    (eq (car form) 'doc))
-               (push (cadr form) doc)
-             (push form forms))
-        finally
-        (return
-         `(progn
-            (put ',cmd-name 'use-count (or (get ',cmd-name 'use-count) 0))
-            (defun ,cmd-name ()
-              ,(apply 'concat (reverse (mapcar 'prin1-to-string forms)))
-              (interactive)
-              (cl-incf (get ',cmd-name 'use-count))
-              (cl-block ,cmd-name
-	      (let ((,point-original-sym (point)))
-                (catch 'buttons-abort
-                  ,@(reverse forms)
-                  (cl-return-from ,cmd-name))
-                ;; aborted. undoing...
-                (undo-boundary)
-                (delete-region ,point-original-sym (point)))))))))
+           with forms = nil
+           with doc = nil
+           with cmd-name = (cl-gentemp "autogen-cmd")
+           with point-original-sym = (gensym "point-original")
+           do (if (and (consp form)
+                       (eq (car form) 'doc))
+                  (push (cadr form) doc)
+                (push form forms))
+           finally
+           (return
+            `(progn
+               (put ',cmd-name 'use-count (or (get ',cmd-name 'use-count) 0))
+               (defun ,cmd-name ()
+                 ,(apply 'concat (reverse (mapcar 'prin1-to-string forms)))
+                 (interactive)
+                 (cl-incf (get ',cmd-name 'use-count))
+                 (cl-block ,cmd-name
+	           (let ((,point-original-sym (point)))
+                     (catch 'buttons-abort
+                       ,@(reverse forms)
+                       (cl-return-from ,cmd-name))
+                     ;; aborted. undoing...
+                     (undo-boundary)
+                     (delete-region ,point-original-sym (point)))))))))
 
 (defun buttons-abort-cmd ()
   "Throw the tag required to abort the current buttons-defined command."
