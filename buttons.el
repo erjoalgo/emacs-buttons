@@ -144,7 +144,7 @@ It should be bound at compile-time via ‘let-when'")
    FUNCTION takes no arguments and is evaluated after SYMBOL has been bound.
    If SYMBOL is currently bound, FUNCTION is called immediately.")
 
-(defun buttons-after-symbol-loaded (file-loaded)
+(defun buttons-after-symbol-loaded (_file-loaded)
   "Function invoked after new symbols may have been defined in FILE-LOADED.
 
    Iterates over list of pending items in
