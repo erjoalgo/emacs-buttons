@@ -59,6 +59,7 @@ It should be bound at compile-time via ‘let-when'")
     `(let ((,kmap-sym (make-sparse-keymap)))
        (when buttons-make-help-binding
          (define-key ,kmap-sym buttons-make-help-binding
+         ;; TODO ensure this is a closure
            ',(lambda () (interactive)
                (buttons-display (symbol-value kmap-sym)))))
        ,@(cl-loop
