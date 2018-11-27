@@ -223,8 +223,7 @@ It should be bound at compile-time via ‘let-when'")
         (with-help-window buffer-name
           (with-current-buffer
               buffer-name
-            (let ((help-window (get-buffer-window buffer-name)))
-              (print-keymap keymap ""))
+            (print-keymap keymap "")
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
