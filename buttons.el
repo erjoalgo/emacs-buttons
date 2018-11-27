@@ -1,4 +1,4 @@
-;;; buttons.el --- Define and visualise hierarchies of keymaps   -*- lexical-binding: t; -*-
+;;; buttons.el --- Define and visualize hierarchies of keymaps   -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2018,  Ernesto Alfonso, all rights reserved.
 
@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; A library for conveniently defining deeply nested keymaps
+;; A library and template language to define and visualize hierarchies keymaps.
 
 ;;; Code:
 
