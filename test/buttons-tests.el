@@ -38,8 +38,8 @@
    (defbuttons test-buttons-common-lisp test-buttons-emacs-lisp
      lisp-mode-map;; ancestor
      (but ("d"
-           (but ("c"
-                 (cmd (ins "(defclass {} ({}){(nli)}({}))")))))))))
+           (but ("p"
+                 (cmd (ins "(defparameter {})")))))))))
 
 (ert-deftest test-buttons ()
 
@@ -47,8 +47,8 @@
   (check (lookup-key emacs-lisp-mode-map (kbd "s-d s-f")))
   (check (lookup-key lisp-mode-map (kbd "s-3")))
   (check (lookup-key lisp-mode-map (kbd "s-d s-f")))
-  (check (lookup-key lisp-mode-map (kbd "s-d s-c")))
-  (check (not (lookup-key emacs-lisp-mode-map (kbd "s-d s-c"))))
+  (check (lookup-key lisp-mode-map (kbd "s-d s-p")))
+  (check (not (lookup-key emacs-lisp-mode-map (kbd "s-d s-p"))))
 
   (with-temp-buffer
     (emacs-lisp-mode)
@@ -66,14 +66,10 @@
   (with-temp-buffer
     (lisp-mode)
     (with-mock-recedit
-     ((insert "my-class")
-      (insert "parent")
-      (with-mock-recedit
-       ((insert "my-slot :initarg 0"))
-       (funcall (check (lookup-key lisp-mode-map (kbd "s-3"))))))
-     (funcall (check (lookup-key lisp-mode-map (kbd "s-d s-c"))))
+     ((insert "my-var"))
+     (funcall (check (lookup-key lisp-mode-map (kbd "s-d s-p"))))
      (should (equal (read (buffer-string))
-                    '(defclass my-class (parent) ((my-slot :initarg 0))))))))
+                    '(defparameter my-var))))))
 
 (ert-deftest test-visualization-keybinding ()
   (funcall (check (lookup-key emacs-lisp-mode-map (kbd "s-?")))))
