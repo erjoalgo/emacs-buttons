@@ -156,7 +156,7 @@ It should be bound at compile-time via ‘let-when'")
                  (progn
                    (condition-case err (funcall fun)
                      ('error
-	              (warn "WARNING: unable to load action %s for symbol %s: %s"
+                      (warn "WARNING: unable to load action %s for symbol %s: %s"
                             sym fun err))))
                  else collect (cons sym fun))))
 
@@ -192,7 +192,11 @@ It should be bound at compile-time via ‘let-when'")
                            (princ (key-description (vector event))))
                 (print-command (binding)
                                (unless hide-command-names-p
-                                 (princ binding))
+                                 (insert-text-button
+                                  (prin1-to-string binding) :type 'help-function
+                                  'help-args (list binding)
+                                  'button '(t))
+                                 '(princ binding))
                                (unless (or hide-command-use-count-p
                                            (not (symbolp binding))
                                            (null (get binding 'use-count))
@@ -352,7 +356,7 @@ It should be bound at compile-time via ‘let-when'")
                  (interactive)
                  (cl-incf (get ',cmd-name 'use-count))
                  (cl-block ,cmd-name
-	           (let ((,point-original-sym (point)))
+                   (let ((,point-original-sym (point)))
                      (catch 'buttons-abort
                        ,@(reverse forms)
                        (cl-return-from ,cmd-name))
@@ -377,7 +381,7 @@ It should be bound at compile-time via ‘let-when'")
         (ins (&rest text) `(buttons-template-insert ,@text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd ()
-                ;; insert a code block with curly braces
+             ;; insert a code block with curly braces
              `(progn (insert " {")
                      (nli)
                      (insert "}")))
