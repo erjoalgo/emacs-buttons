@@ -190,10 +190,15 @@ It should be bound at compile-time via ‘let-when'")
                 (print-key (event)
                            (princ (event-to-string event)))
                 (spaces (len) (make-string len 32))
+                (remove-newlines (string)
+                                 (replace-regexp-in-string
+                                  "\n"
+                                  "\\\\n"
+                                  string))
                 (print-command (binding)
                                (unless hide-command-names-p
                                  (insert-text-button
-                                  (prin1-to-string binding) :type 'help-function
+                                  (remove-newlines (prin1-to-string binding)) :type 'help-function
                                   'help-args (list binding)
                                   'button '(t))
                                  '(princ binding))
@@ -206,10 +211,7 @@ It should be bound at compile-time via ‘let-when'")
                                (when (and (commandp binding)
                                           (documentation binding))
                                  (princ (spaces min-sep))
-                                 (princ (replace-regexp-in-string
-                                         "\n"
-                                         "\\\\n"
-                                         (documentation binding)))))
+                                 (princ (remove-newlines (documentation binding)))))
                 (print-keymap (keymap level sep)
                               (map-keymap (lambda (event binding)
                                             (princ (spaces (* level sep)))
