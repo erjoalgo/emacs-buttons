@@ -172,7 +172,7 @@ It should be bound at compile-time via ‘let-when'")
                       (symbol-name (symbol-at-point)))
                     'variable-name-history)))
 
-(defun buttons-display (keymap &optional hide-command-names-p hide-command-use-count-p)
+(defun buttons-display (&optional keymap hide-command-names-p hide-command-use-count-p)
   "Visualize a keymap KEYMAP in a help buffer.
 
    Unlike the standard keymap bindings help, nested keymaps
@@ -184,7 +184,7 @@ It should be bound at compile-time via ‘let-when'")
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
    recorded command use-counts."
   (interactive (list (buttons-read-keymap)))
-  (let (sym (min-sep 2) (max-command-name-length 30))
+  (let ((min-sep 2) (max-command-name-length 30))
     (cl-labels ((event-to-string (event)
                                  (key-description (vector event)))
                 (print-key (event)
@@ -248,15 +248,24 @@ It should be bound at compile-time via ‘let-when'")
                                                              (if (keymapp binding) (max-event-length binding) 0))))
                                                 keymap)
                                     max)))
-      (let ((buffer-name (format "%s help"
-                                 (or sym (find-keymap-symbol keymap))
-                                 "(anonymous keymap)"))
-            (max-event-length (max-event-length keymap))
-            (help-window-select t))
+      (let* ((name-kmaps
+              (cond
+               ((null keymap) (cons "(current-active-maps)" (current-active-maps)))
+               ((symbolp keymap) (cons (symbol-name keymap) (symbol-value keymap)))
+               (t (cons (or (find-keymap-symbol keymap)
+                            "(anonymous keymap)")
+                        (list keymap)))))
+             (name (car name-kmaps))
+             (kmaps (cdr name-kmaps))
+             (buffer-name (format "%s help" name))
+             (max-event-length (cl-loop for kmap in kmaps
+                                        maximize (max-event-length kmap)))
+             (help-window-select t))
         (with-help-window buffer-name
           (with-current-buffer
               buffer-name
-            (print-keymap keymap 0 (+ max-event-length min-sep))
+            (dolist (kmap kmaps)
+              (print-keymap kmap 0 (+ max-event-length min-sep)))
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
