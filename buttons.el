@@ -196,12 +196,13 @@ It should be bound at compile-time via ‘let-when'")
                                   "\\\\n"
                                   string))
                 (print-command (binding)
-                               (unless hide-command-names-p
-                                 (insert-text-button
-                                  (remove-newlines (prin1-to-string binding)) :type 'help-function
-                                  'help-args (list binding)
-                                  'button '(t))
-                                 '(princ binding))
+                               (if (symbolp binding)
+                                   (insert-text-button
+                                    (remove-newlines (prin1-to-string binding))
+                                    :type 'help-function
+                                    'help-args (list binding)
+                                    'button '(t))
+                                 (princ (remove-newlines (prin1-to-string binding))))
                                (unless (or hide-command-use-count-p
                                            (not (symbolp binding))
                                            (null (get binding 'use-count))
