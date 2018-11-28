@@ -27,6 +27,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
     - Provides a simple but flexible template macro for defining code templates (also known as snippets
       or keyboard macros).
   - Visualization
+    - Each keymap provides a keybinding to help describe itself
 * Quickstart
   - The following ~defbuttons~ form
 
