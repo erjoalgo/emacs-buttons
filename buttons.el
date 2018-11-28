@@ -196,10 +196,7 @@ It should be bound at compile-time via ‘let-when'")
                                   (assert (>= max 3))
                                   (concat (cl-subseq string 0 (- max 3)) "...")))
                 (remove-newlines (string)
-                                 (replace-regexp-in-string
-                                  "\n"
-                                  "\\\\n"
-                                  string))
+                                 (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
                                (if (symbolp binding)
                                    (insert-text-button
@@ -242,11 +239,13 @@ It should be bound at compile-time via ‘let-when'")
                                                     (return sym))))))
                 (max-event-length (keymap)
                                   (let ((max 0))
-                                    (map-keymap (lambda (event binding)
-                                                  (setf max
-                                                        (max max (length (event-to-string event))
-                                                             (if (keymapp binding) (max-event-length binding) 0))))
-                                                keymap)
+                                    (map-keymap
+                                     (lambda (event binding)
+                                       (setf max
+                                             (max max (length (event-to-string event))
+                                                  (if (keymapp binding)
+                                                      (max-event-length binding) 0))))
+                                     keymap)
                                     max)))
       (let* ((kmaps
               (cond
@@ -267,9 +266,7 @@ It should be bound at compile-time via ‘let-when'")
                                    '(face bold))
               (princ ":\n")
               (print-keymap kmap 0 (+ max-event-length min-sep))
-              (princ "\n")
-              (princ "\n")
-              (princ "\n"))
+              (princ "\n\n\n"))
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
