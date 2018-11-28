@@ -156,7 +156,7 @@ It should be bound at compile-time via ‘let-when'")
                  (progn
                    (condition-case err (funcall fun)
                      ('error
-	              (warn "WARNING: unable to load action %s for symbol %s: %s"
+                      (warn "WARNING: unable to load action %s for symbol %s: %s"
                             sym fun err))))
                  else collect (cons sym fun))))
 
@@ -172,7 +172,7 @@ It should be bound at compile-time via ‘let-when'")
                       (symbol-name (symbol-at-point)))
                     'variable-name-history)))
 
-(defun buttons-display (keymap &optional hide-command-names-p hide-command-use-count-p)
+(defun buttons-display (&optional keymap hide-command-names-p hide-command-use-count-p)
   "Visualize a keymap KEYMAP in a help buffer.
 
    Unlike the standard keymap bindings help, nested keymaps
@@ -184,15 +184,28 @@ It should be bound at compile-time via ‘let-when'")
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
    recorded command use-counts."
   (interactive (list (buttons-read-keymap)))
-  (let (sym (sep "  "))
-    (when (symbolp keymap)
-      (setf sym keymap
-            keymap (symbol-value keymap)))
-    (cl-labels ((print-key (event)
-                           (princ (key-description (vector event))))
+  (let ((min-sep 2) (max-command-name-length 30))
+    (cl-labels ((event-to-string (event)
+                                 (key-description (vector event)))
+                (print-key (event)
+                           (princ (event-to-string event)))
+                (spaces (len) (make-string len 32))
+                (maybe-truncate (string max)
+                                (if (>= max (length string))
+                                    string
+                                  (assert (>= max 3))
+                                  (concat (cl-subseq string 0 (- max 3)) "...")))
+                (remove-newlines (string)
+                                 (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
-                               (unless hide-command-names-p
-                                 (princ binding))
+                               (if (symbolp binding)
+                                   (insert-text-button
+                                    (maybe-truncate (remove-newlines (prin1-to-string binding))
+                                                    max-command-name-length)
+                                    :type 'help-function
+                                    'help-args (list binding)
+                                    'button '(t))
+                                 (princ (remove-newlines (prin1-to-string binding))))
                                (unless (or hide-command-use-count-p
                                            (not (symbolp binding))
                                            (null (get binding 'use-count))
@@ -201,29 +214,59 @@ It should be bound at compile-time via ‘let-when'")
 
                                (when (and (commandp binding)
                                           (documentation binding))
-                                 (princ sep)
-                                 (princ (replace-regexp-in-string
-                                         "\n"
-                                         "\\\\n"
-                                         (documentation binding)))))
-                (print-keymap (keymap level)
+                                 (princ (spaces min-sep))
+                                 (princ (remove-newlines (documentation binding)))))
+                (print-keymap (keymap level sep)
                               (map-keymap (lambda (event binding)
-                                            (princ level)
-                                            (print-key event)
-                                            (princ sep)
+                                            (princ (spaces (* level sep)))
+                                            (let ((event-desc (print-key event)))
+                                              (assert (> sep (length event-desc)))
+                                              (princ (spaces (- sep (length event-desc)))))
                                             (if (keymapp binding)
-                                                (progn (princ "(prefix)")
-                                                       (princ "\n")
-                                                       (print-keymap binding (concat level sep)))
-                                              (print-command binding))
-                                            (princ "\n"))
-                                          keymap)))
-      (let ((buffer-name (format "%s help" (or sym "unknown keymap")))
-            (help-window-select t))
+                                                (progn
+                                                  (princ "\n")
+                                                  (print-keymap binding (1+ level) sep))
+                                              (print-command binding)
+                                              (princ "\n")))
+                                          keymap))
+                (find-keymap-symbol (keymap)
+                                    (cl-block nil
+                                      (mapatoms (lambda (sym)
+                                                  (when (and
+                                                         (not (eq sym 'keymap))
+                                                         (boundp sym)
+                                                         (eq (symbol-value sym) keymap))
+                                                    (return sym))))))
+                (max-event-length (keymap)
+                                  (let ((max 0))
+                                    (map-keymap
+                                     (lambda (event binding)
+                                       (setf max
+                                             (max max (length (event-to-string event))
+                                                  (if (keymapp binding)
+                                                      (max-event-length binding) 0))))
+                                     keymap)
+                                    max)))
+      (let* ((kmaps
+              (cond
+               ((null keymap) (current-active-maps))
+               ((symbolp keymap) (list (symbol-value keymap)))
+               (t (list keymap))))
+             (max-event-length (cl-loop for kmap in kmaps
+                                        maximize (max-event-length kmap)))
+             (buffer-name "*keymap help*")
+             (help-window-select t))
         (with-help-window buffer-name
           (with-current-buffer
               buffer-name
-            (print-keymap keymap "")
+            (dolist (kmap kmaps)
+              (princ (or (find-keymap-symbol kmap) "(anonymous keymap)"))
+              (add-text-properties (line-beginning-position)
+                                   (line-end-position)
+                                   '(face bold))
+              (princ ":\n")
+              (print-keymap kmap 0 (+ max-event-length min-sep))
+              (princ "\n\n\n"))
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
@@ -352,7 +395,7 @@ It should be bound at compile-time via ‘let-when'")
                  (interactive)
                  (cl-incf (get ',cmd-name 'use-count))
                  (cl-block ,cmd-name
-	           (let ((,point-original-sym (point)))
+                   (let ((,point-original-sym (point)))
                      (catch 'buttons-abort
                        ,@(reverse forms)
                        (cl-return-from ,cmd-name))
@@ -377,7 +420,7 @@ It should be bound at compile-time via ‘let-when'")
         (ins (&rest text) `(buttons-template-insert ,@text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd ()
-                ;; insert a code block with curly braces
+             ;; insert a code block with curly braces
              `(progn (insert " {")
                      (nli)
                      (insert "}")))
