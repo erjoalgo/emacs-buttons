@@ -184,12 +184,17 @@ It should be bound at compile-time via ‘let-when'")
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
    recorded command use-counts."
   (interactive (list (buttons-read-keymap)))
-  (let (sym (min-sep 2))
+  (let (sym (min-sep 2) (max-command-name-length 30))
     (cl-labels ((event-to-string (event)
                                  (key-description (vector event)))
                 (print-key (event)
                            (princ (event-to-string event)))
                 (spaces (len) (make-string len 32))
+                (maybe-truncate (string max)
+                                (if (>= max (length string))
+                                    string
+                                  (assert (>= max 3))
+                                  (concat (cl-subseq string 0 (- max 3)) "...")))
                 (remove-newlines (string)
                                  (replace-regexp-in-string
                                   "\n"
@@ -198,7 +203,8 @@ It should be bound at compile-time via ‘let-when'")
                 (print-command (binding)
                                (if (symbolp binding)
                                    (insert-text-button
-                                    (remove-newlines (prin1-to-string binding))
+                                    (maybe-truncate (remove-newlines (prin1-to-string binding))
+                                                    max-command-name-length)
                                     :type 'help-function
                                     'help-args (list binding)
                                     'button '(t))
