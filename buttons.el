@@ -184,12 +184,12 @@ It should be bound at compile-time via ‘let-when'")
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
    recorded command use-counts."
   (interactive (list (buttons-read-keymap)))
-  (let (sym (sep "  "))
-    (when (symbolp keymap)
-      (setf sym keymap
-            keymap (symbol-value keymap)))
-    (cl-labels ((print-key (event)
-                           (princ (key-description (vector event))))
+  (let (sym (min-sep 2))
+    (cl-labels ((event-to-string (event)
+                                 (key-description (vector event)))
+                (print-key (event)
+                           (princ (event-to-string event)))
+                (spaces (len) (make-string len 32))
                 (print-command (binding)
                                (unless hide-command-names-p
                                  (insert-text-button
@@ -205,28 +205,39 @@ It should be bound at compile-time via ‘let-when'")
 
                                (when (and (commandp binding)
                                           (documentation binding))
-                                 (princ sep)
+                                 (princ (spaces min-sep))
                                  (princ (replace-regexp-in-string
                                          "\n"
                                          "\\\\n"
                                          (documentation binding)))))
-                (print-keymap (keymap level)
+                (print-keymap (keymap level sep)
                               (map-keymap (lambda (event binding)
-                                            (princ level)
-                                            (print-key event)
-                                            (princ sep)
+                                            (princ (spaces (* level sep)))
+                                            (let ((event-desc (print-key event)))
+                                              (assert (> sep (length event-desc)))
+                                              (princ (spaces (- sep (length event-desc)))))
                                             (if (keymapp binding)
-                                                (progn (princ "\n")
-                                                       (print-keymap binding (concat level sep)))
-                                              (print-command binding))
-                                            (princ "\n"))
-                                          keymap)))
+                                                (progn
+                                                  (princ "\n")
+                                                  (print-keymap binding (1+ level) sep))
+                                              (print-command binding)
+                                              (princ "\n")))
+                                          keymap))
+                (max-event-length (keymap)
+                                  (let ((max 0))
+                                    (map-keymap (lambda (event binding)
+                                                  (setf max
+                                                        (max max (length (event-to-string event))
+                                                             (if (keymapp binding) (max-event-length binding) 0))))
+                                                keymap)
+                                    max)))
       (let ((buffer-name (format "%s help" (or sym "unknown keymap")))
+            (max-event-length (max-event-length keymap))
             (help-window-select t))
         (with-help-window buffer-name
           (with-current-buffer
               buffer-name
-            (print-keymap keymap "")
+            (print-keymap keymap 0 (+ max-event-length min-sep))
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
