@@ -168,9 +168,8 @@ It should be bound at compile-time via ‘let-when'")
    (completing-read "Keymap: " obarray
                     (lambda (m) (and (boundp m)))
                     t
-                    (if (symbol-at-point)
-                        (symbol-name (symbol-at-point))
-                      "nil")
+                    (when (symbol-at-point)
+                      (symbol-name (symbol-at-point)))
                     'variable-name-history)))
 
 (defun buttons-display (&optional keymap hide-command-names-p hide-command-use-count-p)
@@ -251,15 +250,8 @@ It should be bound at compile-time via ‘let-when'")
                                     max)))
       (let* ((name-kmaps
               (cond
-               ((null keymap) (cons "(current-active-maps)"
-                                    (list
-                                     (reduce (lambda (cum nxt)
-                                               (buttons-define-keymap-onto-keymap
-                                                (copy-keymap nxt) cum)
-                                               cum)
-                                             (current-active-maps)
-                                             :initial-value (make-sparse-keymap)))))
-               ((symbolp keymap) (cons (symbol-name keymap) (list (symbol-value keymap))))
+               ((null keymap) (cons "(current-active-maps)" (current-active-maps)))
+               ((symbolp keymap) (cons (symbol-name keymap) (symbol-value keymap)))
                (t (cons (or (find-keymap-symbol keymap)
                             "(anonymous keymap)")
                         (list keymap)))))
