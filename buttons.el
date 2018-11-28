@@ -1,4 +1,4 @@
-;;; buttons.el --- Define and visualise hierarchies of keymaps   -*- lexical-binding: t; -*-
+;;; buttons.el --- Define and visualize hierarchies of keymaps   -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2018,  Ernesto Alfonso, all rights reserved.
 
@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; A library for conveniently defining deeply nested keymaps
+;; A library and template language to define and visualize hierarchies keymaps.
 
 ;;; Code:
 
@@ -53,7 +53,7 @@ It should be bound at compile-time via ‘let-when'")
    a function to apply to the KEY of each binding
    before it is passed to DEFINE-KEY.
    As an example, it may be used to add a modifier to
-   its input key to make the BINDINGS list more consice."
+   its input key to make the BINDINGS list more concise."
 
   (let ((kmap-sym (cl-gentemp "kmap")))
     `(let ((,kmap-sym (make-sparse-keymap))
@@ -93,7 +93,7 @@ It should be bound at compile-time via ‘let-when'")
    LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
    onto which to define KMAP-SYM via BUTTONS-AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
 
-   KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE"
+   KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE."
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
@@ -119,7 +119,7 @@ It should be bound at compile-time via ‘let-when'")
    Otherwise FROM-MAP's binding overwrites TO-MAP's binding
    only when NO-OVERWRITE-P is non-nil.
 
-   The opptional argument FROM-SYM is used for visualization."
+   The optional argument FROM-SYM is used for visualization."
   (cl-labels ((merge (from-map to-map &optional path)
                      (map-keymap
                       (lambda (key cmd)
@@ -144,7 +144,7 @@ It should be bound at compile-time via ‘let-when'")
    FUNCTION takes no arguments and is evaluated after SYMBOL has been bound.
    If SYMBOL is currently bound, FUNCTION is called immediately.")
 
-(defun buttons-after-symbol-loaded (file-loaded)
+(defun buttons-after-symbol-loaded (_file-loaded)
   "Function invoked after new symbols may have been defined in FILE-LOADED.
 
    Iterates over list of pending items in
@@ -223,8 +223,7 @@ It should be bound at compile-time via ‘let-when'")
         (with-help-window buffer-name
           (with-current-buffer
               buffer-name
-            (let ((help-window (get-buffer-window buffer-name)))
-              (print-keymap keymap ""))
+            (print-keymap keymap "")
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
@@ -236,7 +235,7 @@ It should be bound at compile-time via ‘let-when'")
 
    BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP may be used to set the regexp
    that defines directives to interpret.  The first capture group is used
-   as the directive contents.  Note that this variable should be bonud
+   as the directive contents.  Note that this variable should be bound
    via ‘let-when-compile' instead of ‘let' to make this binding available
    at macro-expansion time.")
 
@@ -370,7 +369,7 @@ It should be bound at compile-time via ‘let-when'")
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "Make 3-letter aliases of useful button-related forms available in BODY.
 
-   Provides a compact DLS for defining buttons.
+   Provides a compact DSL for defining buttons.
    MORE-MACROLET-DEFS specifies additional user-defined cl-macrolet forms."
   `(cl-macrolet
        ((but (&rest rest) `(buttons-make ,@rest))
@@ -378,11 +377,10 @@ It should be bound at compile-time via ‘let-when'")
         (ins (&rest text) `(buttons-template-insert ,@text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
         (cbd ()
-             `(let-when-compile
-                  ((buttons-template-insert-directive-regexp "<\\(.*?\\)>"))
                 ;; insert a code block with curly braces
-                (buttons-template-insert
-                 " {<(nli)><><(nli)> }")))
+             `(progn (insert " {")
+                     (nli)
+                     (insert "}")))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
         ,@more-macrolet-defs)
