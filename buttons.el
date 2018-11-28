@@ -248,24 +248,25 @@ It should be bound at compile-time via ‘let-when'")
                                                              (if (keymapp binding) (max-event-length binding) 0))))
                                                 keymap)
                                     max)))
-      (let* ((name-kmaps
+      (let* ((kmaps
               (cond
-               ((null keymap) (cons "(current-active-maps)" (current-active-maps)))
-               ((symbolp keymap) (cons (symbol-name keymap) (symbol-value keymap)))
-               (t (cons (or (find-keymap-symbol keymap)
-                            "(anonymous keymap)")
-                        (list keymap)))))
-             (name (car name-kmaps))
-             (kmaps (cdr name-kmaps))
-             (buffer-name (format "%s help" name))
+               ((null keymap) (current-active-maps))
+               ((symbolp keymap) (list (symbol-value keymap)))
+               (t (list keymap))))
              (max-event-length (cl-loop for kmap in kmaps
                                         maximize (max-event-length kmap)))
+             (buffer-name "*keymap help*")
              (help-window-select t))
         (with-help-window buffer-name
           (with-current-buffer
               buffer-name
             (dolist (kmap kmaps)
-              (print-keymap kmap 0 (+ max-event-length min-sep)))
+              (princ (or (find-keymap-symbol kmap) "(anonymous keymap)"))
+              (princ ":\n")
+              (print-keymap kmap 0 (+ max-event-length min-sep))
+              (princ "\n")
+              (princ "\n")
+              (princ "\n"))
             (toggle-truncate-lines t)))))))
 
 (unless (lookup-key help-map "M")
