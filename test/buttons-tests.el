@@ -73,3 +73,31 @@
 
 (ert-deftest test-visualization-keybinding ()
   (funcall (check (lookup-key emacs-lisp-mode-map (kbd "s-?")))))
+
+(defun press-button (keymap key)
+  (funcall (check (lookup-key keymap key))))
+
+(ert-deftest test-cbd ()
+  (let-when-compile
+      ((buttons-make-key-mapper #'buttons-modifier-add-super))
+    (buttons-macrolet
+     nil
+     (defbuttons test-cbd-buttons nil
+       (c++-mode-map)
+       (but
+        ("t" (cmd (ins "true")))
+        ("g" (cmd (ins "false")))
+        ("z" (cmd (ins "if ({}){(cbd)}")))
+        ("r" (cmd (ins "return {};")))))))
+
+  (with-temp-buffer
+    (c++-mode)
+    (with-mock-recedit
+     ((press-button test-cbd-buttons (kbd "s-t"))
+      (with-mock-recedit
+       ((press-button test-cbd-buttons (kbd "s-g")))
+       (press-button test-cbd-buttons (kbd "s-r"))))
+     (press-button test-cbd-buttons (kbd "s-z")))
+    (message "(buffer-string):\n%s" (buffer-string))
+    (should (string-match "if (true) +{\n +return false;\n *}"
+                          (buffer-string)))))
