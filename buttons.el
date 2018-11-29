@@ -206,7 +206,8 @@ It should be bound at compile-time via ‘let-when'")
                                  (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
                                (unless hide-command-names-p
-                                 (if (and (commandp binding)
+                                 (if (and (commandp binding);;not a keymap
+                                          (symbolp binding);;not an anonymous lambda
                                           binding)
                                      (insert-text-button
                                       (maybe-truncate (remove-newlines (prin1-to-string binding))
