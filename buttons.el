@@ -35,7 +35,7 @@
   "A function used to map key definitions within a ‘buttons-make’ form.
 It should be bound at compile-time via ‘let-when'")
 
-(defvar buttons-make-help-binding (kbd "s-?")
+(defvar buttons-make-self-help-binding (kbd "s-?")
   "Key where to install the help visualizer in a buttons-make-defined keymap.")
 
 (defmacro buttons-make (&rest bindings)
@@ -57,8 +57,8 @@ It should be bound at compile-time via ‘let-when'")
 
   (let ((kmap-sym (cl-gentemp "kmap-")))
     `(let ((,kmap-sym (make-sparse-keymap)))
-       (when buttons-make-help-binding
-         (define-key ,kmap-sym buttons-make-help-binding
+       (when buttons-make-self-help-binding
+         (define-key ,kmap-sym buttons-make-self-help-binding
            ((lambda (kmap-sym)
               (defalias (make-symbol "keymap-help")
                 `(lambda () (interactive) (buttons-display ',kmap-sym))
