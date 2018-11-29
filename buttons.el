@@ -200,7 +200,8 @@ It should be bound at compile-time via ‘let-when'")
                                  (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
                                (unless hide-command-names-p
-                                 (if (symbolp binding)
+                                 (if (and (commandp binding)
+                                          binding)
                                      (insert-text-button
                                       (maybe-truncate (remove-newlines (prin1-to-string binding))
                                                       max-command-name-length)
