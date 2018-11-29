@@ -55,14 +55,15 @@ It should be bound at compile-time via ‘let-when'")
    As an example, it may be used to add a modifier to
    its input key to make the BINDINGS list more concise."
 
-  (let ((kmap-sym (cl-gentemp "kmap")))
-    `(let ((,kmap-sym (make-sparse-keymap))
-           (display-kmap-command (lambda (kmap)
-                                   `(lambda () (interactive)
-                                      (buttons-display ',kmap)))))
+  (let ((kmap-sym (cl-gentemp "kmap-")))
+    `(let ((,kmap-sym (make-sparse-keymap)))
        (when buttons-make-help-binding
          (define-key ,kmap-sym buttons-make-help-binding
-           (funcall display-kmap-command ,kmap-sym)))
+           ((lambda (kmap-sym)
+              (defalias (make-symbol "keymap-help")
+                `(lambda () (interactive) (buttons-display ',kmap-sym))
+                "Keymap self-help."))
+            ,kmap-sym)))
        ,@(cl-loop
           for (key-spec value . rest) in bindings
           when rest do (error "Malformed key definition: %s %s" key-spec value)
