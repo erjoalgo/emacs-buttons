@@ -123,7 +123,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
        ~buttons-define-keymap-onto-keymap~, which differs from ~(set-keymap-parent ...)~
        in that nested keymaps (or bindings for prefix keys) are merged instead of
        one definition clobbering the other one.
-
+       - This allows a child keymap to both inherit and extend a parent's nested keymaps
 
    The following example defines a keymap ~c++buttons~
    using a previously-defined ~c-buttons~ as a base. The ~c++-buttons~
