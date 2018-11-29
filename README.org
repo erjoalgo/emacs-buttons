@@ -29,7 +29,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
       or keyboard macros).
   - Visualization
     - Each keymap provides a keybinding to help describe itself
-* Quickstart
+* Quick start
   - The following ~defbuttons~ form
 
   #+BEGIN_SRC emacs-lisp
@@ -95,7 +95,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    - ~(ins ...)~ is not plain ~insert~ but refers to a code-template-generating macro
       which interprets directives within ~{...}~ brackets
      - other aliases within the scope of ~buttons-macrolet~ are ~(but)~, ~(cmd)~ and ~(nli)~
-   - insalling the keymap ~emacs-lisp-buttons~ onto the specified destination keymaps:
+   - installing the keymap ~emacs-lisp-buttons~ onto the specified destination keymaps:
      : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
      - is not done with ~make-composed-keymap~ but by recursive merging
      - is not done with ~add-hook~ but via ~after-load-functions~
@@ -113,7 +113,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    defvar-like wrapper that defines keymap ~KEYMAP~ as ~KEYMAP-VAR~.
 
    - ~ANCESTOR~ is a keymap that is to be used as a base from which to inherit common bindings.
-   - ~LOAD-AFTER-KEYMAPS~ spefies a list of keymap symbols onto which to install ~KEYMAP-VAR~
+   - ~LOAD-AFTER-KEYMAPS~ specifies a list of keymap symbols onto which to install ~KEYMAP-VAR~
       whenever those symbols become bound after a file load.
 
    - A note on inheritance
@@ -182,7 +182,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
     syntax as a way to refer to a template variable several times. It does
     interpretation of the following directives within ~{...}~ braces:
 
-    - An empty ~{}~ enters a recurisve edit for the user to enter custom text,
+    - An empty ~{}~ enters a recursive edit for the user to enter custom text,
       for example a template variable.
     - ~{N}~ where ~N~ is a number, is similar to ~{}~ but also records text entered by
       the user into the label ~N~ the first time it is encountered, so that
@@ -227,7 +227,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
      #+END_SRC
 
 ** ~buttons-defcmd (&rest BODY)~ (aka *cmd*)
-   A convenience macro for defining an autodocumented, auto-named 0-ary
+   A convenience macro for defining an auto-documented, auto-named 0-ary
    command. Used to make frequent use of
    #+BEGIN_SRC emacs-lisp
    (lambda () (interactive) "documentation"...)
