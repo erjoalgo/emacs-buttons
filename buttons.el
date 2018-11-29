@@ -258,7 +258,8 @@ It should be bound at compile-time via ‘let-when'")
                (t (list keymap))))
              (max-event-length (cl-loop for kmap in kmaps
                                         maximize (max-event-length kmap)))
-             (buffer-name "*keymap help*")
+             (buffer-name (format "*%s help*"
+                                  (or (find-keymap-symbol (car kmaps)) "keymap")))
              (help-window-select t))
         (with-help-window buffer-name
           (with-current-buffer
