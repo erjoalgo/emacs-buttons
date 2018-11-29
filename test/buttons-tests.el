@@ -35,14 +35,14 @@
           ("d"
            (but
             ("f" (cmd (ins "(defun {} ({}){(nli)}{})")))))))
-   (defbuttons test-buttons-common-lisp test-buttons-emacs-lisp
-     lisp-mode-map;; ancestor
+   (defbuttons test-buttons-common-lisp
+     test-buttons-emacs-lisp
+     lisp-mode-map
      (but ("d"
            (but ("p"
                  (cmd (ins "(defparameter {})")))))))))
 
 (ert-deftest test-buttons ()
-
   (check (lookup-key emacs-lisp-mode-map (kbd "s-3")))
   (check (lookup-key emacs-lisp-mode-map (kbd "s-d s-f")))
   (check (lookup-key lisp-mode-map (kbd "s-3")))
