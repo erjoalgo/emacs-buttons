@@ -185,7 +185,7 @@ It should be bound at compile-time via ‘let-when'")
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
    recorded command use-counts."
   (interactive (list (buttons-read-keymap)))
-  (let ((min-sep 2) (max-command-name-length 30))
+  (let ((min-sep 2) (max-command-name-length 30) (use-count-padding 6))
     (cl-labels ((event-to-string (event)
                                  (key-description (vector event)))
                 (print-key (event)
@@ -209,12 +209,13 @@ It should be bound at compile-time via ‘let-when'")
                                       'help-args (list binding)
                                       'button '(t))
                                    (princ (remove-newlines (prin1-to-string binding)))))
-                               (unless (or hide-command-use-count-p
-                                           (not (symbolp binding))
-                                           (null (get binding 'use-count))
-                                           (zerop (get binding 'use-count)))
-                                 (princ (format "(%d)" (get binding 'use-count))))
-
+                               (unless hide-command-use-count-p
+                                 (let ((use-count-width
+                                        (and (symbolp binding)
+                                             (< 0 (or (get binding 'use-count) 0))
+                                             (length (princ
+                                                      (format "<%d>" (get binding 'use-count)))))))
+                                   (princ (spaces (- use-count-padding (or use-count-width 0))))))
                                (when (and (commandp binding)
                                           (documentation binding))
                                  (princ (spaces min-sep))
