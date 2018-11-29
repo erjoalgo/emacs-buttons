@@ -198,14 +198,15 @@ It should be bound at compile-time via ‘let-when'")
                 (remove-newlines (string)
                                  (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
-                               (if (symbolp binding)
-                                   (insert-text-button
-                                    (maybe-truncate (remove-newlines (prin1-to-string binding))
-                                                    max-command-name-length)
-                                    :type 'help-function
-                                    'help-args (list binding)
-                                    'button '(t))
-                                 (princ (remove-newlines (prin1-to-string binding))))
+                               (unless hide-command-names-p
+                                 (if (symbolp binding)
+                                     (insert-text-button
+                                      (maybe-truncate (remove-newlines (prin1-to-string binding))
+                                                      max-command-name-length)
+                                      :type 'help-function
+                                      'help-args (list binding)
+                                      'button '(t))
+                                   (princ (remove-newlines (prin1-to-string binding)))))
                                (unless (or hide-command-use-count-p
                                            (not (symbolp binding))
                                            (null (get binding 'use-count))
