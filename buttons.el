@@ -35,7 +35,7 @@
   "A function used to map key definitions within a ‘buttons-make’ form.
 It should be bound at compile-time via ‘let-when'")
 
-(defvar buttons-make-help-binding (kbd "s-?")
+(defvar buttons-make-self-help-binding (kbd "s-?")
   "Key where to install the help visualizer in a buttons-make-defined keymap.")
 
 (defmacro buttons-make (&rest bindings)
@@ -55,14 +55,17 @@ It should be bound at compile-time via ‘let-when'")
    As an example, it may be used to add a modifier to
    its input key to make the BINDINGS list more concise."
 
-  (let ((kmap-sym (cl-gentemp "kmap")))
-    `(let ((,kmap-sym (make-sparse-keymap))
-           (display-kmap-command (lambda (kmap)
-                                   `(lambda () (interactive)
-                                      (buttons-display ',kmap)))))
-       (when buttons-make-help-binding
-         (define-key ,kmap-sym buttons-make-help-binding
-           (funcall display-kmap-command ,kmap-sym)))
+  (let ((kmap-sym (cl-gentemp "kmap-")))
+    `(let ((,kmap-sym (make-sparse-keymap)))
+       (when buttons-make-self-help-binding
+         (define-key ,kmap-sym buttons-make-self-help-binding
+           ((lambda (kmap-sym)
+              (defalias (make-symbol "keymap-help")
+                `(lambda () (interactive)
+                   (buttons-display
+                    (unless current-prefix-arg ',kmap-sym)))
+                "Keymap self-help."))
+            ,kmap-sym)))
        ,@(cl-loop
           for (key-spec value . rest) in bindings
           when rest do (error "Malformed key definition: %s %s" key-spec value)
@@ -182,9 +185,13 @@ It should be bound at compile-time via ‘let-when'")
    If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
 
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
-   recorded command use-counts."
-  (interactive (list (buttons-read-keymap)))
-  (let ((min-sep 2) (max-command-name-length 30))
+   recorded command use-counts.
+
+   When called with a nil keymap, or interactively with a prefix argument,
+   all currently active keymaps are displayed."
+  (interactive (unless current-prefix-arg
+                 (list (buttons-read-keymap))))
+  (let ((min-sep 2) (max-command-name-length 30) (use-count-padding 6))
     (cl-labels ((event-to-string (event)
                                  (key-description (vector event)))
                 (print-key (event)
@@ -193,25 +200,29 @@ It should be bound at compile-time via ‘let-when'")
                 (maybe-truncate (string max)
                                 (if (>= max (length string))
                                     string
-                                  (assert (>= max 3))
+                                  (cl-assert (>= max 3))
                                   (concat (cl-subseq string 0 (- max 3)) "...")))
                 (remove-newlines (string)
                                  (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
-                               (if (symbolp binding)
-                                   (insert-text-button
-                                    (maybe-truncate (remove-newlines (prin1-to-string binding))
-                                                    max-command-name-length)
-                                    :type 'help-function
-                                    'help-args (list binding)
-                                    'button '(t))
-                                 (princ (remove-newlines (prin1-to-string binding))))
-                               (unless (or hide-command-use-count-p
-                                           (not (symbolp binding))
-                                           (null (get binding 'use-count))
-                                           (zerop (get binding 'use-count)))
-                                 (princ (format "(%d)" (get binding 'use-count))))
-
+                               (unless hide-command-names-p
+                                 (if (and (commandp binding);;not a keymap
+                                          (symbolp binding);;not an anonymous lambda
+                                          binding)
+                                     (insert-text-button
+                                      (maybe-truncate (remove-newlines (prin1-to-string binding))
+                                                      max-command-name-length)
+                                      :type 'help-function
+                                      'help-args (list binding)
+                                      'button '(t))
+                                   (princ (remove-newlines (prin1-to-string binding)))))
+                               (unless hide-command-use-count-p
+                                 (let ((use-count-width
+                                        (and (symbolp binding)
+                                             (< 0 (or (get binding 'use-count) 0))
+                                             (length (princ
+                                                      (format "<%d>" (get binding 'use-count)))))))
+                                   (princ (spaces (- use-count-padding (or use-count-width 0))))))
                                (when (and (commandp binding)
                                           (documentation binding))
                                  (princ (spaces min-sep))
@@ -220,7 +231,7 @@ It should be bound at compile-time via ‘let-when'")
                               (map-keymap (lambda (event binding)
                                             (princ (spaces (* level sep)))
                                             (let ((event-desc (print-key event)))
-                                              (assert (> sep (length event-desc)))
+                                              (cl-assert (> sep (length event-desc)))
                                               (princ (spaces (- sep (length event-desc)))))
                                             (if (keymapp binding)
                                                 (progn
@@ -236,7 +247,7 @@ It should be bound at compile-time via ‘let-when'")
                                                          (not (eq sym 'keymap))
                                                          (boundp sym)
                                                          (eq (symbol-value sym) keymap))
-                                                    (return sym))))))
+                                                    (cl-return sym))))))
                 (max-event-length (keymap)
                                   (let ((max 0))
                                     (map-keymap
@@ -247,27 +258,27 @@ It should be bound at compile-time via ‘let-when'")
                                                       (max-event-length binding) 0))))
                                      keymap)
                                     max)))
-      (let* ((kmaps
-              (cond
-               ((null keymap) (current-active-maps))
-               ((symbolp keymap) (list (symbol-value keymap)))
-               (t (list keymap))))
-             (max-event-length (cl-loop for kmap in kmaps
-                                        maximize (max-event-length kmap)))
-             (buffer-name "*keymap help*")
-             (help-window-select t))
-        (with-help-window buffer-name
-          (with-current-buffer
-              buffer-name
-            (dolist (kmap kmaps)
-              (princ (or (find-keymap-symbol kmap) "(anonymous keymap)"))
-              (add-text-properties (line-beginning-position)
-                                   (line-end-position)
-                                   '(face bold))
-              (princ ":\n")
-              (print-keymap kmap 0 (+ max-event-length min-sep))
-              (princ "\n\n\n"))
-            (toggle-truncate-lines t)))))))
+      (cl-destructuring-bind (name kmaps)
+          (cond
+           ((null keymap) (list "(current-active-maps)" (current-active-maps)))
+           ((symbolp keymap) (list (symbol-name keymap) (list (symbol-value keymap))))
+           (t (list (find-keymap-symbol keymap) (list keymap))))
+        (let ((max-event-length (cl-loop for kmap in kmaps
+                                         maximize (max-event-length kmap)))
+              (buffer-name (format "*%s help*" (or name "keymap")))
+              (help-window-select t))
+          (with-help-window buffer-name
+            (with-current-buffer
+                buffer-name
+              (dolist (kmap kmaps)
+                (princ (or (find-keymap-symbol kmap) "(anonymous keymap)"))
+                (add-text-properties (line-beginning-position)
+                                     (line-end-position)
+                                     '(face bold))
+                (princ ":\n")
+                (print-keymap kmap 0 (+ max-event-length min-sep))
+                (princ "\n\n\n"))
+              (toggle-truncate-lines t))))))))
 
 (unless (lookup-key help-map "M")
   (define-key help-map "M" #'buttons-display))
