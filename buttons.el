@@ -258,15 +258,14 @@ It should be bound at compile-time via ‘let-when'")
                                                       (max-event-length binding) 0))))
                                      keymap)
                                     max)))
-      (let* ((kmaps
+      (destructuring-bind (name . kmaps)
               (cond
-               ((null keymap) (current-active-maps))
-               ((symbolp keymap) (list (symbol-value keymap)))
-               (t (list keymap))))
-             (max-event-length (cl-loop for kmap in kmaps
+           ((null keymap) (cons "(current-active-maps)" (current-active-maps)))
+           ((symbolp keymap) (cons (symbol-name keymap) (list (symbol-value keymap))))
+           (t (cons (find-keymap-symbol keymap) (list keymap))))
+        (let ((max-event-length (cl-loop for kmap in kmaps
                                         maximize (max-event-length kmap)))
-             (buffer-name (format "*%s help*"
-                                  (or (find-keymap-symbol (car kmaps)) "keymap")))
+              (buffer-name (format "*%s help*" (or name "keymap")))
              (help-window-select t))
         (with-help-window buffer-name
           (with-current-buffer
@@ -279,7 +278,7 @@ It should be bound at compile-time via ‘let-when'")
               (princ ":\n")
               (print-keymap kmap 0 (+ max-event-length min-sep))
               (princ "\n\n\n"))
-            (toggle-truncate-lines t)))))))
+              (toggle-truncate-lines t))))))))
 
 (unless (lookup-key help-map "M")
   (define-key help-map "M" #'buttons-display))
