@@ -57,7 +57,7 @@
      ((insert "buttons-test-fn-1")
       (insert "arg1")
       (insert "(1+ arg1)"))
-     (funcall (check (lookup-key emacs-lisp-mode-map (kbd "s-d s-f"))))
+     (press-button emacs-lisp-mode-map (kbd "s-d s-f"))
      (should (equal (read (buffer-string))
                     '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
      (eval-buffer)
@@ -67,12 +67,12 @@
     (lisp-mode)
     (with-mock-recedit
      ((insert "my-var"))
-     (funcall (check (lookup-key lisp-mode-map (kbd "s-d s-p"))))
+     (press-button lisp-mode-map (kbd "s-d s-p"))
      (should (equal (read (buffer-string))
                     '(defparameter my-var))))))
 
 (ert-deftest test-visualization-keybinding ()
-  (funcall (check (lookup-key emacs-lisp-mode-map (kbd "s-?")))))
+  (press-button emacs-lisp-mode-map (kbd "s-?")))
 
 (defun press-button (keymap key)
   (funcall (check (lookup-key keymap key))))
