@@ -98,8 +98,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    - installing the keymap ~emacs-lisp-buttons~ onto the specified destination keymaps:
      : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
      - is not done with ~make-composed-keymap~ but by recursive merging
-     - is not done with ~add-hook~ but via ~after-load-functions~
-
+     - is not done with ~add-hook~ but once for each feature, via ~after-load-functions~
 * Installation
   Place ~buttons.el~ somewhere in the load-path and require the feature:
 
