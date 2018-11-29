@@ -106,6 +106,8 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
      : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
      - is not done with ~make-composed-keymap~ but by recursive merging
      - is not done with ~add-hook~ but once for each feature, via ~after-load-functions~
+* Sample visualization
+  [[./doc/img/sample-visualization.png]]
 * Installation
   Place ~buttons.el~ somewhere in the load-path and require the feature:
 
@@ -264,8 +266,6 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    Visualize a keymap. Automatically bound to ~buttons-make-self-help-binding~ on
    all ~buttons-make~-defined keymaps. With a prefix argument, all currently active
    keymaps are displayed.
-   - Sample visualization
-     [[./doc/img/sample-visualization.png]]
 * Additional links
   - [[file:doc/motivation.org][Motivation and Benefits]]
   - [[https://github.com/erjoalgo/dotemacs/blob/master/lisp/settings/buttons-data.el][Full Example]]
