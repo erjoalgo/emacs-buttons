@@ -112,21 +112,21 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 ** ~defbuttons(KEYMAP-VAR ANCESTOR LOAD-AFTER-KEYMAPS KEYMAP)~
    defvar-like wrapper that defines keymap ~KEYMAP~ as ~KEYMAP-VAR~.
 
-   - ~ANCESTOR~ is a keymap that is to be used as a base from which to inherit common bindings.
+   - ~ANCESTOR~ is a keymap used as a starting point from which to inherit common bindings.
    - ~LOAD-AFTER-KEYMAPS~ specifies a list of keymap symbols onto which to install ~KEYMAP-VAR~
-      whenever those symbols become bound after a file load.
+      whenever those symbols become bound in emacs after a file load.
 
-   - A note on inheritance
+   - How inheritance works
      - Placing ~KEYMAP~ on top of ~ANCESTOR~, as well as placing the newly-defined
        ~KEYMAP-VAR~ on top of each keymap in ~LOAD-AFTER-KEYMAPS~ as they become available,
        is done by recursive merging of keymaps via the internal function
        ~buttons-define-keymap-onto-keymap~, which differs from ~(set-keymap-parent ...)~
        in that nested keymaps (or bindings for prefix keys) are merged instead of
        one definition clobbering the other one.
-       - This allows a child keymap to both inherit and extend a parent's nested keymaps
+       This allows a child keymap to both inherit and extend a parent's nested keymaps
 
    The following example defines a keymap ~c++buttons~
-   using a previously-defined ~c-buttons~ as a base. The ~c++-buttons~
+   using a previously-defined ~c-buttons~ as a starting point. The ~c++-buttons~
    keymap bindings are automatically installed to ~c++-mode-map~
    whenever that symbol is loaded in emacs.
 
@@ -256,7 +256,8 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    | idt        | indent-for-tab-command            |
 ** ~buttons-display~
    Visualize a keymap. Automatically bound to ~buttons-make-self-help-binding~ on
-   all ~buttons-make~-defined keymaps.
+   all ~buttons-make~-defined keymaps. With a prefix argument, all currently active
+   keymaps are displayed.
    - Sample visualization
      [[./doc/img/sample-visualization.png]]
 * Additional links
