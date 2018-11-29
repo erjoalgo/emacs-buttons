@@ -33,18 +33,25 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
   - The following ~defbuttons~ form
 
   #+BEGIN_SRC emacs-lisp
-  (buttons-macrolet
-   ((nli () `(newline-and-indent)))
+  (buttons-macrolet ;; make 3-letter aliases available in body
+   ((nli () `(newline-and-indent)));; additional aliases
+   ;; add the super modifier to all keys in any (but ...) form within this compile-time let-binding
    (let-when-compile ((buttons-make-key-mapper #'buttons-modifier-add-super))
-     (defbuttons emacs-lisp-buttons nil
-       (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
-       (but
+     (defbuttons
+       emacs-lisp-buttons;;var name
+       nil;; starter keymap
+       (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map);; target keymaps
+       ;; lastly the actual keymap
+       (but;; (but (KEY DEF)...) defines an anonymous keymap
+        ;; (cmd ...) defines an anonymous command
         ("a" (cmd (ins "(lambda ({}) {})")))
+        ;; ins inserts a code template, interpreting {} as directives
         ("z" (cmd (ins "(if {})")))
         ("x" (cmd (ins "(when {})")))
         ("c" (cmd (ins "(unless {})")))
         ("v" (cmd (ins "(progn {})")))
         ("d"
+         ;; DEF may be a nested keymap
          (but
           ("v" (cmd (ins "(defvar {}){(nli)}")))
           ("f" (cmd (ins "(defun {} ({}){(nli)}{})")))
