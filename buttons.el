@@ -420,6 +420,16 @@ It should be bound at compile-time via ‘let-when'")
   (message "aborting buttons command...")
   (throw 'buttons-abort nil))
 
+(defun buttons-insert-c-style-code-block ()
+  "Insert a c-style code block with curly braces."
+  (interactive)
+  (insert " {")
+  (newline-and-indent)
+  (recursive-edit)
+  (newline)
+  (insert "}")
+  (indent-for-tab-command))
+
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "Make 3-letter aliases of useful button-related forms available in BODY.
 
@@ -430,12 +440,7 @@ It should be bound at compile-time via ‘let-when'")
         (nli () `(newline-and-indent))
         (ins (&rest text) `(buttons-template-insert ,@text))
         (cmd (&rest rest) `(buttons-defcmd ,@rest))
-        (cbd ()
-             ;; insert a code block with curly braces
-             `(progn (insert " {")
-                     (nli)
-                     (rec)
-                     (insert "}")))
+        (cbd () `(buttons-insert-c-style-code-block))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
         ,@more-macrolet-defs)
