@@ -61,7 +61,9 @@ It should be bound at compile-time via ‘let-when'")
          (define-key ,kmap-sym buttons-make-self-help-binding
            ((lambda (kmap-sym)
               (defalias (make-symbol "keymap-help")
-                `(lambda () (interactive) (buttons-display ',kmap-sym))
+                `(lambda () (interactive)
+                   (buttons-display
+                    (unless current-prefix-arg ',kmap-sym)))
                 "Keymap self-help."))
             ,kmap-sym)))
        ,@(cl-loop
@@ -183,8 +185,12 @@ It should be bound at compile-time via ‘let-when'")
    If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
 
    If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
-   recorded command use-counts."
-  (interactive (list (buttons-read-keymap)))
+   recorded command use-counts.
+
+   When called with a nil keymap, or interactively with a prefix argument,
+   all currently active keymaps are displayed."
+  (interactive (unless current-prefix-arg
+                 (list (buttons-read-keymap))))
   (let ((min-sep 2) (max-command-name-length 30) (use-count-padding 6))
     (cl-labels ((event-to-string (event)
                                  (key-description (vector event)))
