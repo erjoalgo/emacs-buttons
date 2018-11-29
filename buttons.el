@@ -259,25 +259,25 @@ It should be bound at compile-time via ‘let-when'")
                                      keymap)
                                     max)))
       (destructuring-bind (name . kmaps)
-              (cond
+          (cond
            ((null keymap) (cons "(current-active-maps)" (current-active-maps)))
            ((symbolp keymap) (cons (symbol-name keymap) (list (symbol-value keymap))))
            (t (cons (find-keymap-symbol keymap) (list keymap))))
         (let ((max-event-length (cl-loop for kmap in kmaps
-                                        maximize (max-event-length kmap)))
+                                         maximize (max-event-length kmap)))
               (buffer-name (format "*%s help*" (or name "keymap")))
-             (help-window-select t))
-        (with-help-window buffer-name
-          (with-current-buffer
-              buffer-name
-            (dolist (kmap kmaps)
-              (princ (or (find-keymap-symbol kmap) "(anonymous keymap)"))
-              (add-text-properties (line-beginning-position)
-                                   (line-end-position)
-                                   '(face bold))
-              (princ ":\n")
-              (print-keymap kmap 0 (+ max-event-length min-sep))
-              (princ "\n\n\n"))
+              (help-window-select t))
+          (with-help-window buffer-name
+            (with-current-buffer
+                buffer-name
+              (dolist (kmap kmaps)
+                (princ (or (find-keymap-symbol kmap) "(anonymous keymap)"))
+                (add-text-properties (line-beginning-position)
+                                     (line-end-position)
+                                     '(face bold))
+                (princ ":\n")
+                (print-keymap kmap 0 (+ max-event-length min-sep))
+                (princ "\n\n\n"))
               (toggle-truncate-lines t))))))))
 
 (unless (lookup-key help-map "M")
