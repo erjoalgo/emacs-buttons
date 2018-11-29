@@ -254,6 +254,11 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    | cbd        | buttons-insert-c-style-code-block |
    | rec        | recursive-edit                    |
    | idt        | indent-for-tab-command            |
+** ~buttons-display~
+   Visualize a keymap. Automatically bound to ~buttons-make-self-help-binding~ on
+   all ~buttons-make~-defined keymaps.
+   - Sample visualization
+     [[./doc/img/sample-visualization.png]]
 * Additional links
   - [[file:doc/motivation.org][Motivation and Benefits]]
   - [[./doc/buttons/index.html][Auto-generated function/macro index]]
