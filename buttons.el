@@ -344,7 +344,7 @@ It should be bound at compile-time via ‘let-when'")
            with rec-sym-alist = nil
            with directive-regexp = buttons-template-insert-directive-regexp
            with recedit-record-form =
-           (let ((old-point-sym (gensym "old-point")))
+           (let ((old-point-sym (gensym "old-point-")))
              `(let ((,old-point-sym (point)))
                 (recursive-edit)
                 (buffer-substring-no-properties ,old-point-sym (point))))
@@ -362,10 +362,10 @@ It should be bound at compile-time via ‘let-when'")
                                (sym (cdr (assoc group-no rec-sym-alist))))
                           (if sym
                               (push `(insert ,sym) forms)
-                            (setf sym (gensym (format "rec-capture-%d--" group-no)))
+                            (setf sym (gensym (format "rec-capture-%d-" group-no)))
                             (push (cons group-no sym) rec-sym-alist)
                             (push `(setf ,sym ,recedit-record-form) forms))))
-                       (t (push (let ((expr-val-sym (gensym "expr-val")))
+                       (t (push (let ((expr-val-sym (gensym "expr-val-")))
                                   `(let* ((,expr-val-sym ,(read group-no-str)))
                                      (when (stringp ,expr-val-sym)
                                        (insert ,expr-val-sym))))
@@ -391,8 +391,8 @@ It should be bound at compile-time via ‘let-when'")
   (cl-loop for form in body
            with forms = nil
            with doc = nil
-           with cmd-name = (cl-gentemp "autogen-cmd")
-           with point-original-sym = (gensym "point-original")
+           with cmd-name = (cl-gentemp "autogen-cmd-")
+           with point-original-sym = (gensym "point-original-")
            do (if (and (consp form)
                        (eq (car form) 'doc))
                   (push (cadr form) doc)
