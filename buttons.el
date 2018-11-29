@@ -49,7 +49,7 @@ It should be bound at compile-time via ‘let-when'")
    argument of DEFINE-KEY, including a command and a keymap,
    including an anonymous keymap created with BUTTONS-MAKE.
 
-   BUTTONS-MAKE-KEY-MAPPER, if non-nil, specifiess
+   BUTTONS-MAKE-KEY-MAPPER, if non-nil, specifies
    a function to apply to the KEY of each binding
    before it is passed to DEFINE-KEY.
    As an example, it may be used to add a modifier to
@@ -179,7 +179,7 @@ It should be bound at compile-time via ‘let-when'")
   "Visualize a keymap KEYMAP in a help buffer.
 
    Unlike the standard keymap bindings help, nested keymaps
-   are visualized recurisvely.  This is suitable for visualizing
+   are visualized recursively.  This is suitable for visualizing
    BUTTONS-MAKE-defined nested keymaps.
 
    If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
@@ -317,7 +317,7 @@ It should be bound at compile-time via ‘let-when'")
 
     BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP may be used to set the regexp
     that defines directives to interpret.  The first capture group is used
-    as the directive contents.  Note that this variable should be bonud
+    as the directive contents.  Note that this variable should be bound
     via ‘let-when-compile' instead of ‘let' to make this binding available
     at macro-expansion time.
 
@@ -330,7 +330,7 @@ It should be bound at compile-time via ‘let-when'")
         - insert 'for ( int '
         - enter recursive edit.  on exit, record the entered text as a string labeled '0'
         - insert ' = ; '
-        - insert the already-recoded string 0
+        - insert the already-recorded string 0
         - insert ' < '
         - enter recursive edit, no recording is done
         - enter '; '
