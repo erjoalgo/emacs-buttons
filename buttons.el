@@ -434,6 +434,7 @@ It should be bound at compile-time via ‘let-when'")
              ;; insert a code block with curly braces
              `(progn (insert " {")
                      (nli)
+                     (rec)
                      (insert "}")))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
