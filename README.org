@@ -18,24 +18,24 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
 * Features
   - Inheritance
-    - Supports defining keymaps for a given mode by building on top of an existing keymap recursively.
+    - Supports defining keymaps for a given mode by building on top of existing keymaps.
   - Auto-loading
     - emacs-buttons handles auto-installing newly-defined bindings to well-known
       keymap symbols that may be unbound now and will be loaded in the future,
-      avoiding the need to manually write custom hooks.
+      avoiding the need to manually write custom hook functions, eval-after-load,
+      and similar set up code.
   - Code templates
     - Provides a simple but flexible template macro for defining code templates (also known as snippets
       or keyboard macros).
   - Visualization
     - Each keymap provides a keybinding to help describe itself
-* Quickstart
+* Quick start
   - The following ~defbuttons~ form
 
   #+BEGIN_SRC emacs-lisp
   (buttons-macrolet
    ((nli () `(newline-and-indent)))
    (let-when-compile ((buttons-make-key-mapper #'buttons-modifier-add-super))
-
      (defbuttons emacs-lisp-buttons nil
        (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
        (but
@@ -95,7 +95,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    - ~(ins ...)~ is not plain ~insert~ but refers to a code-template-generating macro
       which interprets directives within ~{...}~ brackets
      - other aliases within the scope of ~buttons-macrolet~ are ~(but)~, ~(cmd)~ and ~(nli)~
-   - insalling the keymap ~emacs-lisp-buttons~ onto the specified destination keymaps:
+   - installing the keymap ~emacs-lisp-buttons~ onto the specified destination keymaps:
      : (emacs-lisp-mode-map read-expression-map inferior-emacs-lisp-mode-map)
      - is not done with ~make-composed-keymap~ but by recursive merging
      - is not done with ~add-hook~ but via ~after-load-functions~
@@ -112,8 +112,8 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 ** ~defbuttons(KEYMAP-VAR ANCESTOR LOAD-AFTER-KEYMAPS KEYMAP)~
    defvar-like wrapper that defines keymap ~KEYMAP~ as ~KEYMAP-VAR~.
 
-   - ~ANCESTOR~ is a keymap that is to be used as a base from which to inhertit common bindings.
-   - ~LOAD-AFTER-KEYMAPS~ spefies a list of keymap symbols onto which to install ~KEYMAP-VAR~
+   - ~ANCESTOR~ is a keymap that is to be used as a base from which to inherit common bindings.
+   - ~LOAD-AFTER-KEYMAPS~ specifies a list of keymap symbols onto which to install ~KEYMAP-VAR~
       whenever those symbols become bound after a file load.
 
    - A note on inheritance
@@ -123,7 +123,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
        ~buttons-define-keymap-onto-keymap~, which differs from ~(set-keymap-parent ...)~
        in that nested keymaps (or bindings for prefix keys) are merged instead of
        one definition clobbering the other one.
-
+       - This allows a child keymap to both inherit and extend a parent's nested keymaps
 
    The following example defines a keymap ~c++buttons~
    using a previously-defined ~c-buttons~ as a base. The ~c++-buttons~
@@ -182,7 +182,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
     syntax as a way to refer to a template variable several times. It does
     interpretation of the following directives within ~{...}~ braces:
 
-    - An empty ~{}~ enters a recurisve edit for the user to enter custom text,
+    - An empty ~{}~ enters a recursive edit for the user to enter custom text,
       for example a template variable.
     - ~{N}~ where ~N~ is a number, is similar to ~{}~ but also records text entered by
       the user into the label ~N~ the first time it is encountered, so that
@@ -227,12 +227,12 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
      #+END_SRC
 
 ** ~buttons-defcmd (&rest BODY)~ (aka *cmd*)
-   A convenience macro for defining an autodocumented, not-anonymous (but auto-named) 0-ary
-   command. This is mainly to make frequent use of
+   A convenience macro for defining an auto-documented, auto-named 0-ary
+   command. Used to make frequent use of
    #+BEGIN_SRC emacs-lisp
    (lambda () (interactive) "documentation"...)
    #+END_SRC
-   look more concise and provide automatic documentation:
+   look more concise and to provide automatic documentation:
 
    #+BEGIN_SRC emacs-lisp
    > (buttons-defcmd (message "hello world") (insert "goodbye"))
@@ -240,7 +240,6 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    > (describe-function #'autogen-cmd5457)
    > ...
    #+END_SRC
-   - ~BODY~ is an implicit PROGN
    - It also defines a tag that may be thrown to atomically abort the
      currently executing command. The command ~buttons-abort-cmd~ throws this tag.
 ** ~buttons-macrolet (MORE-MACROLET-DEFS &rest BODY)~
@@ -255,7 +254,11 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    | cbd        | buttons-insert-c-style-code-block |
    | rec        | recursive-edit                    |
    | idt        | indent-for-tab-command            |
+** ~buttons-display~
+   Visualize a keymap. Automatically bound to ~buttons-make-self-help-binding~ on
+   all ~buttons-make~-defined keymaps.
+   - Sample visualization
+     [[./doc/img/sample-visualization.png]]
 * Additional links
   - [[file:doc/motivation.org][Motivation and Benefits]]
-  - [[./doc/buttons/index.html][Auto-generated function/macro index]]
-  - [[./doc/buttons-data.el][Full Example]]
+  - [[https://github.com/erjoalgo/dotemacs/blob/master/lisp/settings/buttons-data.el][Full Example]]
