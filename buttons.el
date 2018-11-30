@@ -338,16 +338,20 @@ It should be bound at compile-time via ‘let-when'")
         - insert '++ )
         - expand into the form: (cbd), which denotes the name a function or a macro"
 
-  (cl-loop with start = 0
+  (cl-loop for tmpl in templates
            with forms = nil
-           with tmpl = (apply 'concat templates)
            with rec-sym-alist = nil
            with directive-regexp = buttons-template-insert-directive-regexp
-           with recedit-record-form =
-           (let ((old-point-sym (gensym "old-point-")))
-             `(let ((,old-point-sym (point)))
-                (recursive-edit)
-                (buffer-substring-no-properties ,old-point-sym (point))))
+           with insert-if-string =
+           (lambda (form)
+             (let ((expr-val-sym (gensym "expr-val-")))
+               `(let* ((,expr-val-sym ,form))
+                  (when (stringp ,expr-val-sym)
+                    (insert ,expr-val-sym)))))
+           do
+           (if (not (stringp tmpl))
+               (push (funcall insert-if-string tmpl) forms)
+             (cl-loop with start = 0
            as rec-capture-start = (string-match directive-regexp tmpl start)
            do (if rec-capture-start
                   (progn
@@ -356,7 +360,8 @@ It should be bound at compile-time via ‘let-when'")
                     (let ((group-no-str (match-string 1 tmpl))
                           (match-data (match-data)))
                       (cond
-                       ((zerop (length group-no-str)) (push `(recursive-edit) forms))
+                       ((zerop (length group-no-str))
+                        (push `(buttons-record-template-var) forms))
                        ((string-match "^[0-9]+$" group-no-str)
                         (let* ((group-no (string-to-number group-no-str))
                                (sym (cdr (assoc group-no rec-sym-alist))))
@@ -364,21 +369,39 @@ It should be bound at compile-time via ‘let-when'")
                               (push `(insert ,sym) forms)
                             (setf sym (gensym (format "rec-capture-%d-" group-no)))
                             (push (cons group-no sym) rec-sym-alist)
-                            (push `(setf ,sym ,recedit-record-form) forms))))
-                       (t (push (let ((expr-val-sym (gensym "expr-val-")))
-                                  `(let* ((,expr-val-sym ,(read group-no-str)))
-                                     (when (stringp ,expr-val-sym)
-                                       (insert ,expr-val-sym))))
+                                       (push `(setf ,sym (buttons-record-template-var)) forms))))
+                                  (t (push (funcall insert-if-string (read group-no-str))
                                 forms)))
                       (set-match-data match-data)
                       (setf start (match-end 0))))
                 (progn (when (< start (length tmpl))
                          (push `(insert ,(cl-subseq tmpl start)) forms))
                        (setf start (length tmpl))))
-           while rec-capture-start
+                      while rec-capture-start))
            finally (return `(let ,(mapcar 'cdr rec-sym-alist)
                               ;; (doc ,tmpl)
                               ,@(reverse forms)))))
+
+(defcustom buttons-record-template-var-method
+  'recedit
+  "Specifies how ‘buttons-record-template-var' should prompt for template variables."
+  :type 'symbol
+  :group 'emacs-buttons)
+
+(defun buttons-record-template-var ()
+  "Insert and record some text from the user.
+
+   If the value of ‘buttons-record-template-var' is
+
+   - 'recedit: enter a recursive edit and record any text entered there
+   - 'prompt: use a minibuffer prompt."
+
+  (cl-case buttons-record-template-var-method
+    ('recedit (let ((old-point (point)))
+                (recursive-edit)
+                (buffer-substring-no-properties old-point (point))))
+    ('prompt (insert (read-string "enter template variable: ")))
+    ((t) (error "Invalid value: %s" buttons-record-template-var-method))))
 
 (defmacro buttons-defcmd (&rest body)
   "Define an anonymous command with body BODY.
