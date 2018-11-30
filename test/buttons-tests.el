@@ -101,3 +101,51 @@
     (message "(buffer-string):\n%s" (buffer-string))
     (should (string-match "if (true) +{\n +return false;\n *}"
                           (buffer-string)))))
+
+(ert-deftest test-ins ()
+  (let-when-compile
+      ((buttons-make-key-mapper #'buttons-modifier-add-super))
+    (buttons-macrolet
+     ((buf () `(file-name-nondirectory (buffer-name))))
+     (defbuttons test-buttons-c nil
+       (c++-mode)
+       (but
+        ("f";; for-loops submap
+         (but
+          ;; ascending
+          ("a" (cmd-ins "for ( int {0} = 0; {0} < {}; {0}++ )" (cbd)))
+          ;; descending
+          ("d" (cmd-ins "for ( int {0} = {}; {0} >= 0; {0}--)" (cbd)))))
+
+        ;; log an expression for debugging
+        ("n" ;; print-expression submap
+         (but
+          ("v" ;; print value
+           (cmd-ins "cout << \"" (buf)
+                    ": value of {0}: \" << {0} << endl;"))))))))
+
+  (with-temp-buffer
+    (c++-mode)
+    (with-mock-recedit
+     (press-button test-buttons-c (kbd "s-f s-a"))
+     ((insert "i")
+      (insert "10")
+      (with-mock-recedit
+       (press-button test-buttons-c (kbd "s-f s-d"))
+       ((insert "ii")
+        (insert "5")
+        (with-mock-recedit
+         (press-button test-buttons-c (kbd "s-n s-v"))
+         ((insert "i*ii")))))))
+
+    (message "(buffer-string):\n%s" (buffer-string))
+
+    (should (equal
+             (concat "for ( int i = 0; i < 10; i++ )  {\n"
+                     "  for ( int ii = 5; ii >= 0; ii--)  {\n"
+                     "    cout << \""
+                     (file-name-nondirectory (buffer-name))
+                     ": value of i*ii: \" << i*ii << endl;\n"
+                     "  }\n"
+                     " }")
+             (buffer-string)))))
