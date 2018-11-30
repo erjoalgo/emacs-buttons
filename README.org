@@ -185,42 +185,43 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 ** ~buttons-template-insert~ (aka *ins*)
     A macro to define a code template.
 
-    It it roughly inspired by python's
-    : "To {0} or not to {0}, that is the {}".format(...)
-    syntax as a way to refer to a template variable several times. It does
-    interpretation of the following directives within ~{...}~ braces:
+    It it similar to python's format syntax in that it interprets directives
+    contained within ~{}~ braces.
 
-    - An empty ~{}~ enters a recursive edit for the user to enter custom text,
-      for example a template variable.
-    - ~{N}~ where ~N~ is a number, is similar to ~{}~ but also records text entered by
-      the user into the label ~N~ the first time it is encountered, so that
-      it may be referenced as a variable later in the template
-    - Any other content within the ~{...}~ directive regexp is interpreted
+    Directives are interpreted as follows:
+
+    - An empty ~{}~ prompts the user to enter custom text
+    - ~{N}~ where ~N~ is a number, prompts the user to enter custom text
+      and records it on the first occurrence, and on subsequent occurrences
+      the recorded text is entered without prompt.
+    - Anything else within the ~{...}~ directive regexp is interpreted
       as a lisp expression. If the expression evaluates to a string, it is inserted.
 
     - Example macroexpansion of a typical for-loop:
     #+BEGIN_SRC emacs-lisp
     (macroexpand ' (buttons-template-insert
-                      "for ( int {0} = 0; {0} < {}; {0}++ ){(insert-code-block)}"))
+                      "for ( int {0} = 0; {0} < {}; {0}++ )" (newline-and-indent)))
 
     ;; expands to:
 
-    (let (rec-capture-0--1350)
+    (let
+        (rec-capture-0-86054)
       (insert "for ( int ")
-      (setf rec-capture-0--1350
-            (let ((old-point1349 (point)))
-              (recursive-edit)
-              (buffer-substring-no-properties old-point1349 (point))))
+      (setf rec-capture-0-86054
+            (buttons-record-template-var))
       (insert " = 0; ")
-      (insert rec-capture-0--1350)
+      (insert rec-capture-0-86054)
       (insert " < ")
       (recursive-edit)
       (insert "; ")
-      (insert rec-capture-0--1350)
+      (insert rec-capture-0-86054)
       (insert "++ )")
-      (let* ((expr-val1351 (insert-code-block)))
-        (when (stringp expr-val1351)
-          (insert expr-val1351))))
+      (let*
+          ((expr-val-86055
+            (newline-and-indent)))
+        (when
+            (stringp expr-val-86055)
+          (insert expr-val-86055))))
     #+END_SRC
   - It is possible to change the directive regexp from matching ~{...}~
     to something else, like ~<...>~, by binding
