@@ -431,7 +431,7 @@ It should be bound at compile-time via ‘let-when'")
   (indent-for-tab-command))
 
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
-  "Make 3-letter aliases of useful button-related forms available in BODY.
+  "Make short aliases of useful button-related forms available within BODY.
 
    Provides a compact DSL for defining buttons.
    MORE-MACROLET-DEFS specifies additional user-defined cl-macrolet forms."

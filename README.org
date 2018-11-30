@@ -33,7 +33,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
   - The following ~defbuttons~ form
 
   #+BEGIN_SRC emacs-lisp
-  (buttons-macrolet ;; make 3-letter aliases available in body
+  (buttons-macrolet ;; make short aliases available within body
    ((nli () `(newline-and-indent)));; additional aliases
    ;; add the super modifier to all keys in any (but ...) form within this compile-time let-binding
    (let-when-compile ((buttons-make-key-mapper #'buttons-modifier-add-super))
@@ -251,7 +251,7 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    - It also defines a tag that may be thrown to atomically abort the
      currently executing command. The command ~buttons-abort-cmd~ throws this tag.
 ** ~buttons-macrolet (MORE-MACROLET-DEFS &rest BODY)~
-   Provides 3-letter aliases to frequently used functions and macros to
+   Provides short aliases to frequently used functions and macros to
    make ~defbuttons~ forms more concise. Within a ~buttons-macrolet~ form, these
    are default aliases:
    | *shortcut* | *function/macro*                  |
