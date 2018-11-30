@@ -448,7 +448,7 @@ It should be bound at compile-time via ‘let-when'")
 (defun buttons-insert-c-style-code-block ()
   "Insert a c-style code block with curly braces."
   (interactive)
-  (insert " {")
+  (insert "  {")
   (newline-and-indent)
   (recursive-edit)
   (newline)
