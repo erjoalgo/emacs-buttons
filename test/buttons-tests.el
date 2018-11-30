@@ -28,16 +28,16 @@
 (let-when-compile
     ((buttons-make-key-mapper #'buttons-modifier-add-super))
   (buttons-macrolet
-   nil;; ancestor
+   nil
    (defbuttons test-buttons-emacs-lisp nil
-     emacs-lisp-mode-map
+     (emacs-lisp-mode-map)
      (but ("3" (cmd (ins "({})")))
           ("d"
            (but
             ("f" (cmd (ins "(defun {} ({}){(nli)}{})")))))))
    (defbuttons test-buttons-common-lisp
      test-buttons-emacs-lisp
-     lisp-mode-map
+     (lisp-mode-map)
      (but ("d"
            (but ("p"
                  (cmd (ins "(defparameter {})")))))))))
@@ -82,7 +82,7 @@
       ((buttons-make-key-mapper #'buttons-modifier-add-super))
     (buttons-macrolet
      nil
-     (defbuttons test-cbd-buttons nil
+     (defbuttons test-buttons-cbd nil
        (c++-mode-map)
        (but
         ("t" (cmd (ins "true")))
