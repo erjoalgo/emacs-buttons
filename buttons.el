@@ -468,6 +468,8 @@ It should be bound at compile-time via ‘let-when'")
         (cbd () `(buttons-insert-c-style-code-block))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
+        (cmt (&rest rest) `(comint-send-input ,@rest))
+        (cmd-ins (&rest rest) `(cmd (ins ,@rest)))
         ,@more-macrolet-defs)
      ,@body))
 

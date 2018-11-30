@@ -263,6 +263,8 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
    | cbd        | buttons-insert-c-style-code-block |
    | rec        | recursive-edit                    |
    | idt        | indent-for-tab-command            |
+   | cmt        | comint-send-input                 |
+   | cmd-ins    | (cmd (ins ...))                   |
 ** ~buttons-display~
    Visualize a keymap. Automatically bound to ~buttons-make-self-help-binding~ on
    all ~buttons-make~-defined keymaps. With a prefix argument, all currently active
