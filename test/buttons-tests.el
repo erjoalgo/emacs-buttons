@@ -2,7 +2,7 @@
 (require 'cl-lib)
 (require 'buttons)
 
-(defmacro with-mock-recedit (recedit-forms &rest body)
+(defmacro with-mock-recedit (body recedit-forms)
   "Mock (length RECEDIT-FORMS) invocations of (recursive-edit) in BODY."
 
   (let ((count-sym (gensym "count-")))
@@ -16,7 +16,7 @@
                                collect `(,i ,form))
                          `((t (error "Recursive-edit called too many times")))))
                     (incf ,count-sym))))
-         ,@body))))
+         ,body))))
 
 (defmacro check (form)
   "Ensure FORM is non-nil."
@@ -54,22 +54,22 @@
     (emacs-lisp-mode)
     (should (zerop (length (buffer-string))))
     (with-mock-recedit
+     (press-button emacs-lisp-mode-map (kbd "s-d s-f"))
      ((insert "buttons-test-fn-1")
       (insert "arg1")
-      (insert "(1+ arg1)"))
-     (press-button emacs-lisp-mode-map (kbd "s-d s-f"))
+      (insert "(1+ arg1)")))
      (should (equal (read (buffer-string))
                     '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
      (eval-buffer)
-     (should (= (buttons-test-fn-1 2) 3))))
+     (should (= (buttons-test-fn-1 2) 3)))
 
   (with-temp-buffer
     (lisp-mode)
     (with-mock-recedit
-     ((insert "my-var"))
      (press-button lisp-mode-map (kbd "s-d s-p"))
+     ((insert "my-var")))
      (should (equal (read (buffer-string))
-                    '(defparameter my-var))))))
+                    '(defparameter my-var)))))
 
 (ert-deftest test-visualization-keybinding ()
   (press-button emacs-lisp-mode-map (kbd "s-?")))
@@ -93,11 +93,11 @@
   (with-temp-buffer
     (c++-mode)
     (with-mock-recedit
-     ((press-button test-cbd-buttons (kbd "s-t"))
+     (press-button test-buttons-cbd (kbd "s-z"))
+     ((press-button test-buttons-cbd (kbd "s-t"))
       (with-mock-recedit
-       ((press-button test-cbd-buttons (kbd "s-g")))
-       (press-button test-cbd-buttons (kbd "s-r"))))
-     (press-button test-cbd-buttons (kbd "s-z")))
+       (press-button test-buttons-cbd (kbd "s-r"))
+       ((press-button test-buttons-cbd (kbd "s-g"))))))
     (message "(buffer-string):\n%s" (buffer-string))
     (should (string-match "if (true) +{\n +return false;\n *}"
                           (buffer-string)))))
