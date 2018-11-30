@@ -2,7 +2,7 @@
 (require 'cl-lib)
 (require 'buttons)
 
-(defmacro with-mock-recedit (recedit-forms &rest body)
+(defmacro with-mock-recedit (body recedit-forms)
   "Mock (length RECEDIT-FORMS) invocations of (recursive-edit) in BODY."
 
   (let ((count-sym (gensym "count-")))
@@ -16,7 +16,7 @@
                                collect `(,i ,form))
                          `((t (error "Recursive-edit called too many times")))))
                     (incf ,count-sym))))
-         ,@body))))
+         ,body))))
 
 (defmacro check (form)
   "Ensure FORM is non-nil."
@@ -28,16 +28,16 @@
 (let-when-compile
     ((buttons-make-key-mapper #'buttons-modifier-add-super))
   (buttons-macrolet
-   nil;; ancestor
+   nil
    (defbuttons test-buttons-emacs-lisp nil
-     emacs-lisp-mode-map
+     (emacs-lisp-mode-map)
      (but ("3" (cmd (ins "({})")))
           ("d"
            (but
             ("f" (cmd (ins "(defun {} ({}){(nli)}{})")))))))
    (defbuttons test-buttons-common-lisp
      test-buttons-emacs-lisp
-     lisp-mode-map
+     (lisp-mode-map)
      (but ("d"
            (but ("p"
                  (cmd (ins "(defparameter {})")))))))))
@@ -54,22 +54,22 @@
     (emacs-lisp-mode)
     (should (zerop (length (buffer-string))))
     (with-mock-recedit
+     (press-button emacs-lisp-mode-map (kbd "s-d s-f"))
      ((insert "buttons-test-fn-1")
       (insert "arg1")
-      (insert "(1+ arg1)"))
-     (press-button emacs-lisp-mode-map (kbd "s-d s-f"))
+      (insert "(1+ arg1)")))
      (should (equal (read (buffer-string))
                     '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
      (eval-buffer)
-     (should (= (buttons-test-fn-1 2) 3))))
+     (should (= (buttons-test-fn-1 2) 3)))
 
   (with-temp-buffer
     (lisp-mode)
     (with-mock-recedit
-     ((insert "my-var"))
      (press-button lisp-mode-map (kbd "s-d s-p"))
+     ((insert "my-var")))
      (should (equal (read (buffer-string))
-                    '(defparameter my-var))))))
+                    '(defparameter my-var)))))
 
 (ert-deftest test-visualization-keybinding ()
   (press-button emacs-lisp-mode-map (kbd "s-?")))
@@ -82,7 +82,7 @@
       ((buttons-make-key-mapper #'buttons-modifier-add-super))
     (buttons-macrolet
      nil
-     (defbuttons test-cbd-buttons nil
+     (defbuttons test-buttons-cbd nil
        (c++-mode-map)
        (but
         ("t" (cmd (ins "true")))
@@ -93,11 +93,59 @@
   (with-temp-buffer
     (c++-mode)
     (with-mock-recedit
-     ((press-button test-cbd-buttons (kbd "s-t"))
+     (press-button test-buttons-cbd (kbd "s-z"))
+     ((press-button test-buttons-cbd (kbd "s-t"))
       (with-mock-recedit
-       ((press-button test-cbd-buttons (kbd "s-g")))
-       (press-button test-cbd-buttons (kbd "s-r"))))
-     (press-button test-cbd-buttons (kbd "s-z")))
+       (press-button test-buttons-cbd (kbd "s-r"))
+       ((press-button test-buttons-cbd (kbd "s-g"))))))
     (message "(buffer-string):\n%s" (buffer-string))
     (should (string-match "if (true) +{\n +return false;\n *}"
                           (buffer-string)))))
+
+(ert-deftest test-ins ()
+  (let-when-compile
+      ((buttons-make-key-mapper #'buttons-modifier-add-super))
+    (buttons-macrolet
+     ((buf () `(file-name-nondirectory (buffer-name))))
+     (defbuttons test-buttons-c nil
+       (c++-mode)
+       (but
+        ("f";; for-loops submap
+         (but
+          ;; ascending
+          ("a" (cmd-ins "for ( int {0} = 0; {0} < {}; {0}++ )" (cbd)))
+          ;; descending
+          ("d" (cmd-ins "for ( int {0} = {}; {0} >= 0; {0}--)" (cbd)))))
+
+        ;; log an expression for debugging
+        ("n" ;; print-expression submap
+         (but
+          ("v" ;; print value
+           (cmd-ins "cout << \"" (buf)
+                    ": value of {0}: \" << {0} << endl;"))))))))
+
+  (with-temp-buffer
+    (c++-mode)
+    (with-mock-recedit
+     (press-button test-buttons-c (kbd "s-f s-a"))
+     ((insert "i")
+      (insert "10")
+      (with-mock-recedit
+       (press-button test-buttons-c (kbd "s-f s-d"))
+       ((insert "ii")
+        (insert "5")
+        (with-mock-recedit
+         (press-button test-buttons-c (kbd "s-n s-v"))
+         ((insert "i*ii")))))))
+
+    (message "(buffer-string):\n%s" (buffer-string))
+
+    (should (equal
+             (concat "for ( int i = 0; i < 10; i++ )  {\n"
+                     "  for ( int ii = 5; ii >= 0; ii--)  {\n"
+                     "    cout << \""
+                     (file-name-nondirectory (buffer-name))
+                     ": value of i*ii: \" << i*ii << endl;\n"
+                     "  }\n"
+                     " }")
+             (buffer-string)))))

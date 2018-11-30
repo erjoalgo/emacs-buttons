@@ -296,30 +296,32 @@ It should be bound at compile-time via ‘let-when'")
 (defmacro buttons-template-insert (&rest templates)
   "Compile a string template into a progression of LISP commands.
 
-   The template may be split into
-   several arguments TEMPLATES, which are concatenated together.
+   The template may be split into several arguments TEMPLATES,
+   each of which is compiled.  If an argument is not a string,
+   it is used as a raw LISP expression.  Otherwise,
 
-   Any directive {DIRECTIVE} within curly brackets is interpreted:
+   Any directive {DIRECTIVE} within curly braces is interpreted:
 
-       If DIRECTIVE is the empty string, a recursive edit is
-           entered for the user to type any text.
+       If DIRECTIVE is the empty string, the function
+       ‘buttons-record-template-var'is invoked to allow the user to enter text.
 
-       If DIRECTIVE is a number K, and a string labeled K does not exist,
-           a recursive edit is entered for the user to type any text.
-           Upon exit,the substring in the current buffer between the markers
-           before and after the recursive edit are stored as a string labeled K.
-           If a string labeled K already exists, it is inserted.
+       If DIRECTIVE is a number K, the function ‘buttons-record-template-var'
+       is invoked to allow the user to enter text on the first occurrence
+       of the directive K in the template, and on subsequent occurrences
+       the recorded text is entered without prompt.
 
        Otherwise, DIRECTIVE is interpreted as a LISP expression.
        If the expression evaluates to a string, it is inserted.
 
-    Any non-directive text is inserted literally.
+    Any text outside directives is inserted literally.
 
-    BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP may be used to set the regexp
+    BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP may be used to change the regexp
     that defines directives to interpret.  The first capture group is used
     as the directive contents.  Note that this variable should be bound
     via ‘let-when-compile' instead of ‘let' to make this binding available
-    at macro-expansion time.
+    at macro-expansion time.  Also note that a substring is not considered
+    a directive if it does not match the directive regexp within a single
+    string.
 
     Example:
 
@@ -328,7 +330,7 @@ It should be bound at compile-time via ‘let-when'")
     Expands into:
 
         - insert 'for ( int '
-        - enter recursive edit.  on exit, record the entered text as a string labeled '0'
+        - enter recursive edit and record entered text as a string labeled '0'
         - insert ' = ; '
         - insert the already-recorded string 0
         - insert ' < '
@@ -336,49 +338,72 @@ It should be bound at compile-time via ‘let-when'")
         - enter '; '
         - insert the already-recorded string 0
         - insert '++ )
-        - expand into the form: (cbd), which denotes the name a function or a macro"
+        - expand into the form: (cbd), which should be a valid LISP expression"
 
-  (cl-loop with start = 0
+  (cl-loop for tmpl in templates
            with forms = nil
-           with tmpl = (apply 'concat templates)
            with rec-sym-alist = nil
            with directive-regexp = buttons-template-insert-directive-regexp
-           with recedit-record-form =
-           (let ((old-point-sym (gensym "old-point-")))
-             `(let ((,old-point-sym (point)))
-                (recursive-edit)
-                (buffer-substring-no-properties ,old-point-sym (point))))
-           as rec-capture-start = (string-match directive-regexp tmpl start)
-           do (if rec-capture-start
-                  (progn
-                    (unless (= start rec-capture-start)
-                      (push `(insert ,(cl-subseq tmpl start rec-capture-start)) forms))
-                    (let ((group-no-str (match-string 1 tmpl))
-                          (match-data (match-data)))
-                      (cond
-                       ((zerop (length group-no-str)) (push `(recursive-edit) forms))
-                       ((string-match "^[0-9]+$" group-no-str)
-                        (let* ((group-no (string-to-number group-no-str))
-                               (sym (cdr (assoc group-no rec-sym-alist))))
-                          (if sym
-                              (push `(insert ,sym) forms)
-                            (setf sym (gensym (format "rec-capture-%d-" group-no)))
-                            (push (cons group-no sym) rec-sym-alist)
-                            (push `(setf ,sym ,recedit-record-form) forms))))
-                       (t (push (let ((expr-val-sym (gensym "expr-val-")))
-                                  `(let* ((,expr-val-sym ,(read group-no-str)))
-                                     (when (stringp ,expr-val-sym)
-                                       (insert ,expr-val-sym))))
-                                forms)))
-                      (set-match-data match-data)
-                      (setf start (match-end 0))))
-                (progn (when (< start (length tmpl))
-                         (push `(insert ,(cl-subseq tmpl start)) forms))
-                       (setf start (length tmpl))))
-           while rec-capture-start
+           with insert-if-string =
+           (lambda (form)
+             (let ((expr-val-sym (gensym "expr-val-")))
+               `(let* ((,expr-val-sym ,form))
+                  (when (stringp ,expr-val-sym)
+                    (insert ,expr-val-sym)))))
+           do
+           (if (not (stringp tmpl))
+               (push (funcall insert-if-string tmpl) forms)
+             (cl-loop with start = 0
+                      as rec-capture-start = (string-match directive-regexp tmpl start)
+                      do (if rec-capture-start
+                             (progn
+                               (unless (= start rec-capture-start)
+                                 (push `(insert ,(cl-subseq tmpl start rec-capture-start)) forms))
+                               (let ((group-no-str (match-string 1 tmpl))
+                                     (match-data (match-data)))
+                                 (cond
+                                  ((zerop (length group-no-str))
+                                   (push `(buttons-record-template-var) forms))
+                                  ((string-match "^[0-9]+$" group-no-str)
+                                   (let* ((group-no (string-to-number group-no-str))
+                                          (sym (cdr (assoc group-no rec-sym-alist))))
+                                     (if sym
+                                         (push `(insert ,sym) forms)
+                                       (setf sym (gensym (format "rec-capture-%d-" group-no)))
+                                       (push (cons group-no sym) rec-sym-alist)
+                                       (push `(setf ,sym (buttons-record-template-var)) forms))))
+                                  (t (push (funcall insert-if-string (read group-no-str))
+                                           forms)))
+                                 (set-match-data match-data)
+                                 (setf start (match-end 0))))
+                           (progn (when (< start (length tmpl))
+                                    (push `(insert ,(cl-subseq tmpl start)) forms))
+                                  (setf start (length tmpl))))
+                      while rec-capture-start))
            finally (return `(let ,(mapcar 'cdr rec-sym-alist)
                               ;; (doc ,tmpl)
                               ,@(reverse forms)))))
+
+(defcustom buttons-record-template-var-method
+  'recedit
+  "Specifies how ‘buttons-record-template-var' should prompt for template variables."
+  :type 'symbol
+  :group 'emacs-buttons)
+
+(defun buttons-record-template-var ()
+  "Insert and record some text from the user.
+
+   If the value of ‘buttons-record-template-var' is
+
+   - 'recedit: enter a recursive edit and record any text entered there
+   - 'prompt: use a minibuffer prompt."
+
+  (cl-case buttons-record-template-var-method
+    ('recedit (let ((old-point (point)))
+                (recursive-edit)
+                (buffer-substring-no-properties old-point (point))))
+    ('prompt (insert (read-string "enter template variable: ")))
+    ((t) (error "Invalid value: %s" buttons-record-template-var-method))))
 
 (defmacro buttons-defcmd (&rest body)
   "Define an anonymous command with body BODY.
@@ -423,7 +448,7 @@ It should be bound at compile-time via ‘let-when'")
 (defun buttons-insert-c-style-code-block ()
   "Insert a c-style code block with curly braces."
   (interactive)
-  (insert " {")
+  (insert "  {")
   (newline-and-indent)
   (recursive-edit)
   (newline)
@@ -431,7 +456,7 @@ It should be bound at compile-time via ‘let-when'")
   (indent-for-tab-command))
 
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
-  "Make 3-letter aliases of useful button-related forms available in BODY.
+  "Make short aliases of useful button-related forms available within BODY.
 
    Provides a compact DSL for defining buttons.
    MORE-MACROLET-DEFS specifies additional user-defined cl-macrolet forms."
@@ -443,6 +468,8 @@ It should be bound at compile-time via ‘let-when'")
         (cbd () `(buttons-insert-c-style-code-block))
         (rec () `(recursive-edit))
         (idt () `(indent-for-tab-command))
+        (cmt (&rest rest) `(comint-send-input ,@rest))
+        (cmd-ins (&rest rest) `(cmd (ins ,@rest)))
         ,@more-macrolet-defs)
      ,@body))
 
