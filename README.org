@@ -109,6 +109,8 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 * Sample visualization
   [[./doc/img/sample-visualization.png]]
 * Installation
+  - ~M-x package-refresh-contents~ and ~M-x package-install RET buttons~
+  - Alternatively
   Place ~buttons.el~ somewhere in the load-path and require the feature:
 
   #+BEGIN_SRC emacs-lisp
