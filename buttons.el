@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; A library and template language to define and visualize hierarchies keymaps.
+;; A library and template language to define and visualize hierarchies of keymaps.
 
 ;;; Code:
 
@@ -87,13 +87,13 @@ It should be bound at compile-time via ‘let-when'")
                   key-spec)))
     (t key-spec)))
 
-(defmacro defbuttons (kmap-sym ancestor-kmap load-after-keymap-syms keymap)
+(defmacro defbuttons (kmap-sym ancestor-kmap target-keymap-syms keymap)
   "Define a keymap KMAP-SYM.
 
    ANCESTOR-KMAP, if non-nil,is merged recursively onto
    KMAP-SYM via BUTTONS-DEFINE-KEYMAP-ONTO-KEYMAP.
 
-   LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
+   TARGET-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
    onto which to define KMAP-SYM via BUTTONS-AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
 
    KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE."
@@ -103,10 +103,10 @@ It should be bound at compile-time via ‘let-when'")
        (setf ,kmap-sym ,keymap)
        ,@(when ancestor-kmap
            `((buttons-define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
-       ,@(cl-loop for orig in (if (and load-after-keymap-syms
-                                       (atom load-after-keymap-syms))
-                                  (list load-after-keymap-syms)
-                                load-after-keymap-syms)
+       ,@(cl-loop for orig in (if (and target-keymap-syms
+                                       (atom target-keymap-syms))
+                                  (list target-keymap-syms)
+                                target-keymap-syms)
                   as form = `(buttons-define-keymap-onto-keymap ,kmap-sym ,orig)
                   append
                   (if (boundp orig)
@@ -175,16 +175,16 @@ It should be bound at compile-time via ‘let-when'")
                       (symbol-name (symbol-at-point)))
                     'variable-name-history)))
 
-(defun buttons-display (&optional keymap hide-command-names-p hide-command-use-count-p)
+(defun buttons-display (&optional keymap hide-command-names hide-command-use-count)
   "Visualize a keymap KEYMAP in a help buffer.
 
    Unlike the standard keymap bindings help, nested keymaps
    are visualized recursively.  This is suitable for visualizing
    BUTTONS-MAKE-defined nested keymaps.
 
-   If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
+   If HIDE-COMMAND-NAMES is non-nil, command names are not displayed.
 
-   If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
+   If HIDE-COMMAND-USE-COUNT is non-nil, no attempt is made to display
    recorded command use-counts.
 
    When called with a nil keymap, or interactively with a prefix argument,
@@ -205,7 +205,7 @@ It should be bound at compile-time via ‘let-when'")
                 (remove-newlines (string)
                                  (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
-                               (unless hide-command-names-p
+                               (unless hide-command-names
                                  (if (and (commandp binding);;not a keymap
                                           (symbolp binding);;not an anonymous lambda
                                           binding)
@@ -216,7 +216,7 @@ It should be bound at compile-time via ‘let-when'")
                                       'help-args (list binding)
                                       'button '(t))
                                    (princ (remove-newlines (prin1-to-string binding)))))
-                               (unless hide-command-use-count-p
+                               (unless hide-command-use-count
                                  (let ((use-count-width
                                         (and (symbolp binding)
                                              (< 0 (or (get binding 'use-count) 0))
@@ -412,7 +412,7 @@ It should be bound at compile-time via ‘let-when'")
    as the USE-COUNT property of the function symbol.
    This may be useful for analysis and for making
    decisions about which bindings' key-sequence
-   lengths are worth shortening."
+   lengths are worth reducing."
   (cl-loop for form in body
            with forms = nil
            with doc = nil

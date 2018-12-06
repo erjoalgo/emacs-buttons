@@ -109,6 +109,8 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 * Sample visualization
   [[./doc/img/sample-visualization.png]]
 * Installation
+  - ~M-x package-refresh-contents~ and ~M-x package-install RET buttons~
+  - Alternatively
   Place ~buttons.el~ somewhere in the load-path and require the feature:
 
   #+BEGIN_SRC emacs-lisp
@@ -117,16 +119,16 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
   #+END_SRC
 
 * Overview
-** ~defbuttons(KEYMAP-VAR ANCESTOR LOAD-AFTER-KEYMAPS KEYMAP)~
+** ~defbuttons(KEYMAP-VAR ANCESTOR TARGET-KEYMAPS KEYMAP)~
    defvar-like wrapper that defines keymap ~KEYMAP~ as ~KEYMAP-VAR~.
 
-   - ~ANCESTOR~ is a keymap used as a starting point from which to inherit common bindings.
-   - ~LOAD-AFTER-KEYMAPS~ specifies a list of keymap symbols onto which to install ~KEYMAP-VAR~
+   - ~ANCESTOR~ is a keymap used as a starting point on top of which to add new key bindings.
+   - ~TARGET-KEYMAPS~ specifies a list of keymap symbols onto which to install ~KEYMAP-VAR~
       whenever those symbols become bound in emacs after a file load.
 
    - How inheritance works
      - Placing ~KEYMAP~ on top of ~ANCESTOR~, as well as placing the newly-defined
-       ~KEYMAP-VAR~ on top of each keymap in ~LOAD-AFTER-KEYMAPS~ as they become available,
+       ~KEYMAP-VAR~ on top of each keymap in ~TARGET-KEYMAPS~ as they become available,
        is done by recursive merging of keymaps via the internal function
        ~buttons-define-keymap-onto-keymap~, which differs from ~(set-keymap-parent ...)~
        in that nested keymaps (or bindings for prefix keys) are merged instead of
@@ -204,11 +206,9 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
 
     ;; expands to:
 
-    (let
-        (rec-capture-0-86054)
+    (let (rec-capture-0-86054)
       (insert "for ( int ")
-      (setf rec-capture-0-86054
-            (buttons-record-template-var))
+      (setf rec-capture-0-86054 (buttons-record-template-var))
       (insert " = 0; ")
       (insert rec-capture-0-86054)
       (insert " < ")
@@ -216,11 +216,8 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
       (insert "; ")
       (insert rec-capture-0-86054)
       (insert "++ )")
-      (let*
-          ((expr-val-86055
-            (newline-and-indent)))
-        (when
-            (stringp expr-val-86055)
+      (let* ((expr-val-86055 (newline-and-indent)))
+        (when (stringp expr-val-86055)
           (insert expr-val-86055))))
     #+END_SRC
   - It is possible to change the directive regexp from matching ~{...}~
@@ -229,11 +226,25 @@ of keymaps, and to facilitate installing and visualizing these keymaps.
      through ~let-when-compile~:
 
      #+BEGIN_SRC emacs-lisp
-     (let-when-compile
-                ((buttons-template-insert-directive-regexp "<\\(.*?\\)>"))
+     (let-when-compile ((buttons-template-insert-directive-regexp "<\\(.*?\\)>"))
                 ;; insert a bash variable surrounded by double quotes
               (buttons-template-insert "\"${<>}\""))
      #+END_SRC
+    - A simpler way to achieve the same result is to break up the directive
+      across multiple strings, since a valid directive must be fully contained
+      within one string:
+
+      #+BEGIN_SRC emacs-lisp
+      (macroexpand '(buttons-template-insert "\"${" "{}" "}\"")
+
+      =>
+
+      (let nil
+         (insert "\"${")
+         (buttons-record-template-var)
+         (insert "}\"")))
+      #+END_SRC
+
 
 ** ~buttons-defcmd (&rest BODY)~ (aka *cmd*)
    A convenience macro for defining an auto-documented, auto-named 0-ary
