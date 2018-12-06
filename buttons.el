@@ -175,16 +175,16 @@ It should be bound at compile-time via ‘let-when'")
                       (symbol-name (symbol-at-point)))
                     'variable-name-history)))
 
-(defun buttons-display (&optional keymap hide-command-names-p hide-command-use-count-p)
+(defun buttons-display (&optional keymap hide-command-names hide-command-use-count)
   "Visualize a keymap KEYMAP in a help buffer.
 
    Unlike the standard keymap bindings help, nested keymaps
    are visualized recursively.  This is suitable for visualizing
    BUTTONS-MAKE-defined nested keymaps.
 
-   If HIDE-COMMAND-NAMES-P is non-nil, command names are not displayed.
+   If HIDE-COMMAND-NAMES is non-nil, command names are not displayed.
 
-   If HIDE-COMMAND-USE-COUNT-P is non-nil, no attempt is made to display
+   If HIDE-COMMAND-USE-COUNT is non-nil, no attempt is made to display
    recorded command use-counts.
 
    When called with a nil keymap, or interactively with a prefix argument,
@@ -205,7 +205,7 @@ It should be bound at compile-time via ‘let-when'")
                 (remove-newlines (string)
                                  (replace-regexp-in-string "\n" "\\\\n" string))
                 (print-command (binding)
-                               (unless hide-command-names-p
+                               (unless hide-command-names
                                  (if (and (commandp binding);;not a keymap
                                           (symbolp binding);;not an anonymous lambda
                                           binding)
@@ -216,7 +216,7 @@ It should be bound at compile-time via ‘let-when'")
                                       'help-args (list binding)
                                       'button '(t))
                                    (princ (remove-newlines (prin1-to-string binding)))))
-                               (unless hide-command-use-count-p
+                               (unless hide-command-use-count
                                  (let ((use-count-width
                                         (and (symbolp binding)
                                              (< 0 (or (get binding 'use-count) 0))
