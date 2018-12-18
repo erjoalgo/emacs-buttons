@@ -16,7 +16,10 @@
                                collect `(,i ,form))
                          `((t (error "Recursive-edit called too many times")))))
                     (incf ,count-sym))))
-         ,body))))
+         ,body
+         (unless (eq ,(length recedit-forms) ,count-sym)
+           (error "Recursive-edit called %s times, not %s"
+                  ,count-sym ,(length recedit-forms)))))))
 
 (defmacro check (form)
   "Ensure FORM is non-nil."
