@@ -46,11 +46,13 @@
                  (cmd (ins "(defparameter {})")))))))))
 
 (ert-deftest test-buttons ()
-  (check (lookup-key emacs-lisp-mode-map (kbd "s-3")))
-  (check (lookup-key emacs-lisp-mode-map (kbd "s-d s-f")))
-  (check (lookup-key lisp-mode-map (kbd "s-3")))
-  (check (lookup-key lisp-mode-map (kbd "s-d s-f")))
+  (dolist (kmap (list emacs-lisp-mode-map lisp-mode-map))
+    (dolist (key (list (kbd "s-3") (kbd "s-d s-f")))
+      ;; both keymaps have the ancestor's bindings
+      (check (lookup-key kmap key))))
+
   (check (lookup-key lisp-mode-map (kbd "s-d s-p")))
+  ;; no defparameter in emacs-lisp
   (check (not (lookup-key emacs-lisp-mode-map (kbd "s-d s-p"))))
 
   (with-temp-buffer
