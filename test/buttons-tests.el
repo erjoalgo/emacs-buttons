@@ -63,18 +63,18 @@
      ((insert "buttons-test-fn-1")
       (insert "arg1")
       (insert "(1+ arg1)")))
-     (should (equal (read (buffer-string))
-                    '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
-     (eval-buffer)
-     (should (= (buttons-test-fn-1 2) 3)))
+    (should (equal (read (buffer-string))
+                   '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
+    (eval-buffer)
+    (should (= (buttons-test-fn-1 2) 3)))
 
   (with-temp-buffer
     (lisp-mode)
     (with-mock-recedit
      (press-button lisp-mode-map (kbd "s-d s-p"))
      ((insert "my-var")))
-     (should (equal (read (buffer-string))
-                    '(defparameter my-var)))))
+    (should (equal (read (buffer-string))
+                   '(defparameter my-var)))))
 
 (ert-deftest test-visualization-keybinding ()
   (press-button emacs-lisp-mode-map (kbd "s-?")))
