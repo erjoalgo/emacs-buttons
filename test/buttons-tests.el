@@ -154,3 +154,22 @@
                      "  }\n"
                      " }")
              (buffer-string)))))
+
+(defvar buttons--test-overriding-keymap-warning)
+
+(ert-deftest test-overriding-keymap-warning ()
+  (buttons-macrolet
+   ()
+   (setq buttons--test-overriding-keymap-warning
+         (but ([f1] (make-sparse-keymap))))
+   (lexical-let (warnings)
+     (cl-letf (((symbol-function 'warn)
+                (lambda (fmt &rest args)
+                  (push (apply #'format fmt args) warnings))))
+       (eval '(defbuttons child-overriding-to-keymap
+                nil
+                buttons--test-overriding-keymap-warning
+                (buttons-make ([f1] 'next-line))))
+       (should (eql 1 (length warnings)))
+       ;; expect sym name in warning string
+       (should (string-match-p "buttons--test-overriding-keymap-warning" (car warnings)))))))
