@@ -107,7 +107,7 @@ It should be bound at compile-time via ‘let-when'")
                                        (atom target-keymap-syms))
                                   (list target-keymap-syms)
                                 target-keymap-syms)
-                  as form = `(buttons-define-keymap-onto-keymap ,kmap-sym ,orig)
+                  as form = `(buttons-define-keymap-onto-keymap ,kmap-sym ,orig ',orig)
                   append
                   (if (boundp orig)
                       `(,form)
