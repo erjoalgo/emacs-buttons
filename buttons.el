@@ -133,10 +133,12 @@ It should be bound at compile-time via ‘let-when'")
                             (merge cmd existing (cons (key-description keyvec) path)))
                            ((or (not no-overwrite-p) (not existing))
                             (when (and existing (keymapp existing))
-                              (warn "%s overwrites nested keymap with plain command on %s %s"
-                                    (if from-sym (symbol-name from-sym) "child")
-                                    (key-description keyvec)
-                                    (or (reverse path) "")))
+                              (warn
+                               "non-keymap `%s' overwrites keymap in `%s' on %s %s "
+                               cmd
+                               (if from-sym (symbol-name from-sym) "child")
+                               (key-description keyvec)
+                               (or (reverse path) "")))
                             (define-key to-map keyvec cmd)))))
                       from-map)))
     (merge from-map to-map)))
