@@ -155,14 +155,13 @@
                      " }")
              (buffer-string)))))
 
-(defvar buttons--test-overriding-keymap-warning)
 
 (ert-deftest test-overriding-keymap-warning ()
   (buttons-macrolet
    ()
-   (setq buttons--test-overriding-keymap-warning
-         (but ([f1] (make-sparse-keymap))))
-   (lexical-let (warnings)
+   (let (warnings
+         (buttons--test-overriding-keymap-warning (but ([f1] (make-sparse-keymap)))))
+     (defvar buttons--test-overriding-keymap-warning)
      (cl-letf (((symbol-function 'warn)
                 (lambda (fmt &rest args)
                   (push (apply #'format fmt args) warnings))))
