@@ -16,7 +16,10 @@
                                collect `(,i ,form))
                          `((t (error "Recursive-edit called too many times")))))
                     (incf ,count-sym))))
-         ,body))))
+         ,body
+         (unless (eq ,(length recedit-forms) ,count-sym)
+           (error "Recursive-edit called %s times, not %s"
+                  ,count-sym ,(length recedit-forms)))))))
 
 (defmacro check (form)
   "Ensure FORM is non-nil."
@@ -43,11 +46,13 @@
                  (cmd (ins "(defparameter {})")))))))))
 
 (ert-deftest test-buttons ()
-  (check (lookup-key emacs-lisp-mode-map (kbd "s-3")))
-  (check (lookup-key emacs-lisp-mode-map (kbd "s-d s-f")))
-  (check (lookup-key lisp-mode-map (kbd "s-3")))
-  (check (lookup-key lisp-mode-map (kbd "s-d s-f")))
+  (dolist (kmap (list emacs-lisp-mode-map lisp-mode-map))
+    (dolist (key (list (kbd "s-3") (kbd "s-d s-f")))
+      ;; both keymaps have the ancestor's bindings
+      (check (lookup-key kmap key))))
+
   (check (lookup-key lisp-mode-map (kbd "s-d s-p")))
+  ;; no defparameter in emacs-lisp
   (check (not (lookup-key emacs-lisp-mode-map (kbd "s-d s-p"))))
 
   (with-temp-buffer
@@ -58,18 +63,18 @@
      ((insert "buttons-test-fn-1")
       (insert "arg1")
       (insert "(1+ arg1)")))
-     (should (equal (read (buffer-string))
-                    '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
-     (eval-buffer)
-     (should (= (buttons-test-fn-1 2) 3)))
+    (should (equal (read (buffer-string))
+                   '(defun buttons-test-fn-1 (arg1) (1+ arg1))))
+    (eval-buffer)
+    (should (= (buttons-test-fn-1 2) 3)))
 
   (with-temp-buffer
     (lisp-mode)
     (with-mock-recedit
      (press-button lisp-mode-map (kbd "s-d s-p"))
      ((insert "my-var")))
-     (should (equal (read (buffer-string))
-                    '(defparameter my-var)))))
+    (should (equal (read (buffer-string))
+                   '(defparameter my-var)))))
 
 (ert-deftest test-visualization-keybinding ()
   (press-button emacs-lisp-mode-map (kbd "s-?")))
@@ -149,3 +154,21 @@
                      "  }\n"
                      " }")
              (buffer-string)))))
+
+(ert-deftest test-overriding-keymap-warning ()
+  (buttons-macrolet
+   ()
+   (let (warnings
+         (buttons-tests--target-keymap (but ([f1] (make-sparse-keymap)))))
+     (defvar buttons-tests--target-keymap)
+     (cl-letf (((symbol-function 'warn)
+                (lambda (fmt &rest args)
+                  (push (apply #'format fmt args) warnings))))
+       (eval '(defbuttons overriding-keymap
+                nil
+                buttons-tests--target-keymap
+                (buttons-make ([f1] 'next-line))))
+       (should (eql 1 (length warnings)))
+       ;; expect sym name in warning string
+       (should (string-match-p "buttons-tests--target-keymap"
+                               (car warnings)))))))
