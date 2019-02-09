@@ -243,17 +243,20 @@ It should be bound at compile-time via ‘let-when'")
                                               (princ "\n")))
                                           keymap))
                 (find-keymap-descriptor (keymap)
-                                    (or
-                                     (cl-block nil
-                                      (mapatoms (lambda (sym)
-                                                  (when (and
-                                                         (not (eq sym 'keymap))
-                                                         (boundp sym)
-                                                         (eq (symbol-value sym) keymap))
-                                                    (cl-return sym)))))
-                                     (cl-loop for (minor-mode-sym . kmap) in minor-mode-map-alist
-                                              thereis (when (equal kmap keymap)
-                                                        (format "%s (minor-mode-map-alist)" minor-mode-sym)))))
+                                        (or
+                                         (cl-block nil
+                                           (mapatoms (lambda (sym)
+                                                       (when (and
+                                                              (not (eq sym 'keymap))
+                                                              (boundp sym)
+                                                              (eq (symbol-value sym) keymap))
+                                                         (cl-return sym)))))
+                                         (cl-loop for (minor-mode-sym . kmap)
+                                                  in minor-mode-map-alist
+                                                  thereis
+                                                  (when (equal kmap keymap)
+                                                    (format "%s (minor-mode-map-alist)"
+                                                            minor-mode-sym)))))
                 (max-event-length (keymap)
                                   (let ((max 0))
                                     (map-keymap
