@@ -97,6 +97,7 @@ It should be bound at compile-time via ‘let-when'")
    onto which to define KMAP-SYM via BUTTONS-AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
 
    KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE."
+  (declare (indent 3))
   (let* ((sym-name (symbol-name kmap-sym)))
     `(progn
        (defvar ,kmap-sym nil ,(format "%s buttons map" sym-name))
