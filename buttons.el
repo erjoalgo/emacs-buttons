@@ -141,7 +141,8 @@ It should be bound at compile-time via ‘let-when'")
                                (key-description keyvec)
                                (or (reverse path) "")))
                             (define-key to-map keyvec cmd)))))
-                      from-map)))
+                      from-map)
+                     to-map))
     (merge from-map to-map)))
 
 (defvar buttons-after-symbol-loaded-function-alist nil
