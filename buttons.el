@@ -134,28 +134,30 @@ It should be bound at compile-time via ‘let-when'")
    only when NO-OVERWRITE-P is non-nil.
 
    The optional argument FROM-SYM is used for visualization."
-  (cl-labels ((merge (from-map to-map &optional path)
-                     (map-keymap
-                      (lambda (key cmd)
-                        (let* ((keyvec (vector key))
-                               (existing (lookup-key to-map keyvec)))
-                          (cond
-                           ((and (keymapp cmd) (keymapp existing))
-                            (merge cmd existing (cons (key-description keyvec) path)))
-                           ((or (not no-overwrite-p) (not existing))
-                            (when (and existing (keymapp existing))
-                              (warn
+  (cl-labels
+      ((merge
+        (from-map to-map &optional path)
+        (map-keymap
+         (lambda (key cmd)
+           (let* ((keyvec (vector key))
+                  (existing (lookup-key to-map keyvec)))
+             (cond
+              ((and (keymapp cmd) (keymapp existing))
+               (merge cmd existing (cons (key-description keyvec) path)))
+              ((or (not no-overwrite-p) (not existing))
+               (when (and existing (keymapp existing))
+                 (warn
                   (concat "%s overwrites nested keymap with plain command "
                           "on %s %s in map %s: %s overwrites %s")
                   (or (symbol-name from-sym) "child")
-                               (key-description keyvec)
+                  (key-description keyvec)
                   (or (reverse path) "")
                   (keymap-symbol (list to-map))
                   cmd
                   existing))
-                            (define-key to-map keyvec cmd)))))
-                      from-map)
-                     to-map))
+               (define-key to-map keyvec cmd)))))
+         from-map)
+        to-map))
     (merge from-map to-map)))
 
 (defvar buttons-after-symbol-loaded-function-alist nil
