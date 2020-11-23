@@ -115,6 +115,16 @@ It should be bound at compile-time via ‘let-when'")
                     `((push (cons ',orig (lambda () ,form))
                             buttons-after-symbol-loaded-function-alist)))))))
 
+(defun keymap-symbol (keymaps)
+  "Return the symbol to which any keymap in KEYMAPS is bound."
+  (let (syms)
+    (mapatoms (lambda (sym)
+                (and (not (eq sym 'keymap))
+                     (boundp sym)
+                     (find (symbol-value sym) keymaps)
+                     (push sym syms))))
+    syms))
+
 (defun buttons-define-keymap-onto-keymap (from-map to-map &optional from-sym no-overwrite-p)
   "Define bindings FROM-MAP onto TO-MAP, recursively.
 
@@ -135,11 +145,14 @@ It should be bound at compile-time via ‘let-when'")
                            ((or (not no-overwrite-p) (not existing))
                             (when (and existing (keymapp existing))
                               (warn
-                               "non-keymap `%s' overwrites keymap in `%s' on %s %s "
-                               cmd
-                               (if from-sym (symbol-name from-sym) "child")
+                  (concat "%s overwrites nested keymap with plain command "
+                          "on %s %s in map %s: %s overwrites %s")
+                  (or (symbol-name from-sym) "child")
                                (key-description keyvec)
-                               (or (reverse path) "")))
+                  (or (reverse path) "")
+                  (keymap-symbol (list to-map))
+                  cmd
+                  existing))
                             (define-key to-map keyvec cmd)))))
                       from-map)
                      to-map))
