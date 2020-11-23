@@ -87,13 +87,13 @@ It should be bound at compile-time via ‘let-when'")
                   key-spec)))
     (t key-spec)))
 
-(defmacro defbuttons (kmap-sym ancestor-kmap load-after-keymap-syms keymap)
+(defmacro defbuttons (kmap-sym ancestor-kmap target-keymap-syms keymap)
   "Define a keymap KMAP-SYM.
 
    ANCESTOR-KMAP, if non-nil,is merged recursively onto
    KMAP-SYM via BUTTONS-DEFINE-KEYMAP-ONTO-KEYMAP.
 
-   LOAD-AFTER-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
+   TARGET-KEYMAP-SYMS is a list of keymap symbols, bound or unbound,
    onto which to define KMAP-SYM via BUTTONS-AFTER-SYMBOL-LOADED-FUNCTION-ALIST.
 
    KEYMAP is the keymap, for example, one defined via BUTTONS-MAKE."
@@ -104,10 +104,10 @@ It should be bound at compile-time via ‘let-when'")
        (setf ,kmap-sym ,keymap)
        ,@(when ancestor-kmap
            `((buttons-define-keymap-onto-keymap ,ancestor-kmap ,kmap-sym ',kmap-sym t)))
-       ,@(cl-loop for orig in (if (and load-after-keymap-syms
-                                       (atom load-after-keymap-syms))
-                                  (list load-after-keymap-syms)
-                                load-after-keymap-syms)
+       ,@(cl-loop for orig in (if (and target-keymap-syms
+                                       (atom target-keymap-syms))
+                                  (list target-keymap-syms)
+                                target-keymap-syms)
                   as form = `(buttons-define-keymap-onto-keymap ,kmap-sym ,orig ',orig)
                   append
                   (if (boundp orig)
