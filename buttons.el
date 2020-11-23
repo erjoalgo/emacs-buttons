@@ -438,7 +438,7 @@ It should be bound at compile-time via ‘let-when'")
    as the USE-COUNT property of the function symbol.
    This may be useful for analysis and for making
    decisions about which bindings' key-sequence
-   lengths are worth reducing."
+   lengths are worth shortening."
   (cl-loop for form in body
            with forms = nil
            with doc = nil
