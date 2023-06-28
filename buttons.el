@@ -481,6 +481,13 @@ It should be bound at compile-time via ‘let-when'")
   (insert "}")
   (indent-for-tab-command))
 
+(defmacro buttons-transform-region (current-text-sym &rest body)
+  "Replace the current region text CURRENT-TEXT-SYM with the value BODY."
+  `(save-excursion
+     (let ((,current-text-sym (buffer-substring (region-beginning) (region-end))))
+       (delete-region (region-beginning) (region-end))
+       (insert (progn ,@body)))))
+
 (defmacro buttons-macrolet (more-macrolet-defs &rest body)
   "Make short aliases of useful button-related forms available within BODY.
 
