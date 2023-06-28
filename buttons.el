@@ -486,6 +486,7 @@ It should be bound at compile-time via ‘let-when'")
 
    Provides a compact DSL for defining buttons.
    MORE-MACROLET-DEFS specifies additional user-defined cl-macrolet forms."
+  (declare (indent 1))
   `(cl-macrolet
        ((but (&rest rest) `(buttons-make ,@rest))
         (nli () `(newline-and-indent))
