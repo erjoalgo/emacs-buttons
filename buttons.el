@@ -311,7 +311,7 @@ It should be bound at compile-time via ‘let-when'")
 
 (defvar buttons-template-insert-directive-regexp
   "{\\(.*?\\)}"
-  "Determines what buttons-template-insert interprets as a directive.
+  "Determines what `buttons-template-insert' interprets as a directive.
 
    BUTTONS-TEMPLATE-INSERT-DIRECTIVE-REGEXP may be used to set the regexp
    that defines directives to interpret.  The first capture group is used
