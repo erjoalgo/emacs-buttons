@@ -4,9 +4,9 @@
 
 ;; Author: Ernesto Alfonso
 ;; Maintainer: (concat "erjoalgo" "@" "gmail" ".com")
-;; Keywords: keymap, template, snippet
+;; Keywords: lisp extensions convenience tools
 ;; Created: 16 Sep 2018
-;; Package-Requires: ((cl-lib "0.3"))
+;; Package-Requires: ((emacs "24.1") (cl-lib "0.3"))
 ;; URL: http://github.com/erjoalgo/emacs-buttons
 ;; Version: 0.0.1
 
