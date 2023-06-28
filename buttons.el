@@ -121,7 +121,7 @@ It should be bound at compile-time via ‘let-when'")
     (mapatoms (lambda (sym)
                 (and (not (eq sym 'keymap))
                      (boundp sym)
-                     (find (symbol-value sym) keymaps)
+                     (cl-find (symbol-value sym) keymaps)
                      (push sym syms))))
     syms))
 
