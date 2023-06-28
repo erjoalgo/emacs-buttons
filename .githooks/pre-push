@@ -1,0 +1,21 @@
+#!/bin/bash -x
+
+set -euo pipefail
+#
+# Run various tests before push
+
+# test with package-install, check warnings
+# run .el ERT tests
+# byte-compile, check warnings
+# run flycheck, check warnings TODO
+# check that lexical binding header is present
+
+# TODO: checkdoc, flycheck, package-lint, melpa sandbox make
+
+emacs -Q --batch \
+      --eval '(byte-compile-file "buttons.el")' \
+      --eval '(with-current-buffer (get-buffer-create "*Compile-Log*") (when (string-match ":Warning:" (buffer-string)) (princ (buffer-string)) (kill-emacs 1)))'
+
+# Local Variables:
+# mode: sh-mode
+# End:
