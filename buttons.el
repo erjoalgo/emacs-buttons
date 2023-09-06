@@ -412,7 +412,8 @@ It should be bound at compile-time via ‘let-when'")
 
 (defcustom buttons-record-template-var-method
   'recedit
-  "Specifies how ‘buttons-record-template-var' should prompt for template variables."
+  "Specifies how ‘buttons-record-template-var' should prompt for template
+   variables."
   :type 'symbol
   :group 'emacs-buttons)
 
