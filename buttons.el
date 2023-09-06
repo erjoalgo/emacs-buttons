@@ -8,7 +8,7 @@
 ;; Created: 16 Sep 2018
 ;; Package-Requires: ((emacs "24.1") (cl-lib "0.3"))
 ;; URL: http://github.com/erjoalgo/emacs-buttons
-;; Version: 0.0.3
+;; Version: 0.0.4
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
